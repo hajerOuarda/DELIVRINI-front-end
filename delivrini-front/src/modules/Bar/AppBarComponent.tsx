@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Log in", "Sign up"];
+const pages = ["Sing in", "Sign up"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AppBarComponent = () => {
@@ -42,6 +42,7 @@ const AppBarComponent = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          
           <Typography
             variant="h6"
             noWrap

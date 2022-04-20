@@ -1,18 +1,18 @@
 import { ElementPage } from "../../pages/ElementPage";
 import { HomePage } from "../../pages/HomePage";
-import { LoginPage } from "../../pages/LoginPage";
-import { MealPage } from "../../pages/Meal";
+ import { MealPage } from "../../pages/Meal";
 import { MealCategoryPage } from "../../pages/MealCategory";
 import { RestaurantPage } from "../../pages/RestaurantPage";
 import { SignupPage } from "../../pages/SingupPage";
 import { UserPage } from "../../pages/UserPage";
 import { RestaurantCategoryPage } from "../../pages/RestaurantCategory";
+import SignInPage from "../../pages/SigninPage";
 
 
 export enum paths {
   home = "/",
   user = "user",
-  login = "login",
+  signin = "signin",
   signup = "signup",
   restaurant = "restaurant",
   restaurant_category = "restaurantCategory",
@@ -24,7 +24,7 @@ export enum paths {
 export const routes = [
   { path: paths.home, element: HomePage },
   { path: paths.user, element: UserPage },
-  { path: paths.login, element: LoginPage },
+  { path: paths.signin, element: SignInPage },
   { path: paths.signup, element: SignupPage },
   { path: paths.restaurant, element: RestaurantPage },
   { path: paths.restaurant_category, element: RestaurantCategoryPage },
