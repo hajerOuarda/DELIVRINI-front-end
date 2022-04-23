@@ -1,4 +1,3 @@
-import React, { useRef } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -12,12 +11,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { login } from "../utils/services/authentication";
 import * as Yup from "yup";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { sendLoginAction } from "../store/actions";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { paths } from "../utils/enums/routes";
-
 function Copyright(props: any) {
   return (
     <Typography
@@ -39,19 +38,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignInPage() {
-  const inputEmail = useRef(null);
   const navigate = useNavigate();
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const email = data.get("email")?.toString;
-    const password = data.get("password")?.toString;
-  };
-
+  const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
+  const dispatch = useAppDispatch();
   const initialValues: {
-    email: string;
-    password: string;
+    email: "";
+    password: "";
   } = {
     email: "",
     password: "",
@@ -63,10 +55,12 @@ export default function SignInPage() {
     password: Yup.string().required("This field is required!"),
   });
   const handleLogin = (formValue: { email: string; password: string }) => {
-    const { email, password } = formValue;
-    login(email, password).then(_res => {
-      if (_res) navigate(paths.home)
-    })
+    dispatch(sendLoginAction(formValue));
+ 
+    
+    if (isLoggedIn) navigate(paths.profile, { replace: true });
+    
+    else navigate(paths.signin, { replace: true });
   };
 
   return (
@@ -104,7 +98,12 @@ export default function SignInPage() {
                   name="email"
                   autoComplete="email"
                   autoFocus
-                  error={touched.email && errors.email}
+                  error={errors.email && touched.email}
+                />
+                <ErrorMessage
+                  name="username"
+                  component="div"
+                  className="alert alert-danger"
                 />
                 <Field
                   as={TextField}
@@ -151,3 +150,8 @@ export default function SignInPage() {
     </Formik>
   );
 }
+
+// const { email, password } = formValue;
+// authenticationService.sendLogin(email, password).then((_res) => {
+//   if (_res) navigate(paths.home);
+// });

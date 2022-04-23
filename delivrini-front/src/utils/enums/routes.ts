@@ -7,6 +7,7 @@ import { SignupPage } from "../../pages/SingupPage";
 import { UserPage } from "../../pages/UserPage";
 import { RestaurantCategoryPage } from "../../pages/RestaurantCategory";
 import SignInPage from "../../pages/SigninPage";
+import { ProfilePage } from "../../pages/profilePage";
 
 
 export enum paths {
@@ -19,6 +20,7 @@ export enum paths {
   meal = "meal",
   meal_category = "mealCategory",
   element = "element",
+  profile="profile"
 }
 
 export const routes = [
@@ -31,4 +33,5 @@ export const routes = [
   { path: paths.meal, element: MealPage },
   { path: paths.meal_category, element: MealCategoryPage },
   { path: paths.element, element: ElementPage },
+  { path: paths.profile, element: ProfilePage },
 ];

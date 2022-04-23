@@ -1,7 +1,7 @@
 import axios from "axios";
-import { URLS } from "../enums/axiosAPI";
- 
-export const login = (email: string, password: string): Promise<any> => {
+import { URLS } from "../../utils/enums/axiosAPI";
+
+const sendLogin = (email: string, password: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     axios
       .post(URLS.login, {
@@ -18,7 +18,16 @@ export const login = (email: string, password: string): Promise<any> => {
       })
       .catch((error) => {
         console.log("error :", error.message);
-        reject(error);
+        reject(error.message);
       });
   });
+};
+
+const sendLogout = () => {
+  localStorage.removeItem("user");
+};
+
+export const authenticationService = {
+  sendLogin,
+  sendLogout
 };
