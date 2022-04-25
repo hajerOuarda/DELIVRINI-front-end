@@ -22,19 +22,18 @@ import {
   RamenDining,
   Storefront,
 } from "@mui/icons-material";
+import HomeIcon from "@mui/icons-material/Home";
 import { paths } from "../../utils/enums/routes";
-import { HomePage } from "../../pages/HomePage";
 
 export default function MenuComponent(props: any) {
   let navigate = useNavigate();
   const [state, setState] = React.useState({
     isOpen: false,
   });
-  // const home = { name: "Home ", path: routes.user, icon: "home" }
   const mylist = [
-    { name: "Home ", path: paths.home, icon: <HomePage /> },
+    { name: "Home ", path: paths.home, icon: <HomeIcon /> },
     { name: "Sign Up", path: paths.signup, icon: <HowToReg /> },
-    { name: "Log In", path: paths.login, icon: <LoginRounded /> },
+    { name: "Sign In", path: paths.signin, icon: <LoginRounded /> },
     { name: "Restaurant", path: paths.restaurant, icon: <LocalDining /> },
     {
       name: "Restaurant Category",
@@ -103,15 +102,3 @@ export default function MenuComponent(props: any) {
     </div>
   );
 }
-
-// <ListItem
-//   button
-//   onClick={() => {
-//     navigate("/login");
-//   }}
-// >
-//   <ListItemIcon>
-//     <FoodBank />
-//   </ListItemIcon>
-//   <ListItemText primary="login" />
-// </ListItem>;

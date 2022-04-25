@@ -3,7 +3,7 @@ import { routes } from "../utils/enums/routes";
 export default function App() {
   return (
     <div>
-      <Routes>
+      <Routes >
         {routes.map((route) => (
           <Route path={route.path} element={<route.element />} />
         ))}
