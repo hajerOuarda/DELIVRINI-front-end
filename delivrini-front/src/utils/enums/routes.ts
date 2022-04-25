@@ -3,7 +3,7 @@ import { HomePage } from "../../pages/HomePage";
 import { MealPage } from "../../pages/Meal";
 import { MealCategoryPage } from "../../pages/MealCategory";
 import { RestaurantPage } from "../../pages/RestaurantPage";
-import SignUpPage from "../../pages/SignupPage";
+import SignUpPage from "../../pages/SignUpPage";
 import { UserPage } from "../../pages/UserPage";
 import { RestaurantCategoryPage } from "../../pages/RestaurantCategory";
 import SignInPage from "../../pages/SigninPage";
