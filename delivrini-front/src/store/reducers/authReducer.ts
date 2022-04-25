@@ -15,7 +15,7 @@ const initialState: LoginState = user
   ? { isLoggedIn: true, error: "", userInfo: JSON.parse(user || "{}") }
   : {
       isLoggedIn: false,
-      error: "",
+      error: " ",
       userInfo: null,
     };
 
@@ -44,7 +44,7 @@ export default function authReducer(state = initialState, action: any) {
         ...state,
         isLoggedIn: false,
         user: null,
-        error: action.error,
+        error: "FAIL TO LOG IN",
       };
     case userActions.LOGOUT:
       return {

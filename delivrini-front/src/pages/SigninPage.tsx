@@ -56,13 +56,11 @@ export default function SignInPage() {
   });
   const handleLogin = (formValue: { email: string; password: string }) => {
     dispatch(sendLoginAction(formValue));
- 
-    
-    if (isLoggedIn) navigate(paths.profile, { replace: true });
-    
-    else navigate(paths.signin, { replace: true });
-  };
 
+    if (isLoggedIn) navigate(paths.profile);
+    else navigate(paths.signin);
+  };
+  
   return (
     <Formik
       initialValues={initialValues}
