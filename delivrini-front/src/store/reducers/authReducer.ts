@@ -1,23 +1,25 @@
 import { userActions } from "../actions/types";
 
 interface LoginState {
-  error: string;
   isLoggedIn: boolean;
-  userInfo: null;
+  userInfo: any;
 }
+const initialState: LoginState = {
+  isLoggedIn: false,
+  userInfo: {},
+};
 
-// interface Action {
-//   type:string
-//   payload?:any
-// }
-const user = localStorage.getItem("user");
-const initialState: LoginState = user
-  ? { isLoggedIn: true, error: "", userInfo: JSON.parse(user || "{}") }
-  : {
-      isLoggedIn: false,
-      error: " ",
-      userInfo: null,
-    };
+// const user = JSON.parse(localStorage.getItem("user") || "{}");
+// console.log("test user", user);
+
+// const initialState: LoginState = user
+//   ? { isLoggedIn: true,  userInfo: user }
+//   : {
+//       isLoggedIn: false,
+//       userInfo: null,
+//     };
+
+// console.log("test userInfo", initialState.userInfo);
 
 export default function authReducer(state = initialState, action: any) {
   const { type, payload } = action;
@@ -31,7 +33,7 @@ export default function authReducer(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: false,
-        error: action.error,
+        // error: "FAIL_TO_REGISTER",
       };
     case userActions.LOGIN_SUCCESS:
       return {
@@ -43,8 +45,8 @@ export default function authReducer(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
-        error: "FAIL TO LOG IN",
+        userInfo: null,
+
       };
     case userActions.LOGOUT:
       return {

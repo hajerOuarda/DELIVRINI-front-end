@@ -7,10 +7,9 @@ interface Props {
 }
 const Layout: React.FC<Props> = (props) => {
   const { children } = props;
-  console.log(children);
   return (
     <>
-      <AppBarComponent   />
+      <AppBarComponent />
       <MenuComponent children={children} />
     </>
   );

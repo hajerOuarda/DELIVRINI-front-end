@@ -21,6 +21,7 @@ import {
   MenuBook,
   RamenDining,
   Storefront,
+   
 } from "@mui/icons-material";
 import HomeIcon from "@mui/icons-material/Home";
 import { paths } from "../../utils/enums/routes";
@@ -43,6 +44,7 @@ export default function MenuComponent(props: any) {
     { name: "Meal", path: paths.meal, icon: <RamenDining /> },
     { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
     { name: "Element", path: paths.element, icon: <FoodBank /> },
+    { name: "Profile", path: paths.profile, icon: <FoodBank /> },
   ];
 
   const toggleDrawer =
@@ -66,8 +68,9 @@ export default function MenuComponent(props: any) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {mylist.map((element) => (
+        {mylist.map((element, idx) => (
           <ListItem
+            key={idx}
             button
             onClick={() => {
               navigate(element.path);
@@ -81,7 +84,6 @@ export default function MenuComponent(props: any) {
         ))}
       </List>
       <Divider />
-      <List></List>
     </Box>
   );
 
