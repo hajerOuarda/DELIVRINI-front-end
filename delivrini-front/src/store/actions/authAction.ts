@@ -1,26 +1,22 @@
-import { AnyAction, Dispatch } from "redux";
-import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { authenticationService } from "../services";
-import { RootState } from "../store";
 import { userActions } from "./types";
 
+//
+
 const sendLoginAction =
-  (formValue: {
-    email: string;
-    password: string;
-  }): ThunkAction<Promise<void>, RootState, unknown, AnyAction> =>
-  (dispatch: ThunkDispatch<RootState, unknown, AnyAction>):Promise<void>=> {
-    return authenticationService
-      .sendLogin(formValue.email, formValue.password)
-      .then(
-        (data) => {
+  (formValue: { email: string; password: string }) =>
+    (dispatch: any): Promise<void> => {
+      return authenticationService
+        .sendLogin(formValue.email, formValue.password)
+        .then((data) => {
           dispatch({
             type: userActions.LOGIN_SUCCESS,
             payload: data,
           });
-          return Promise.resolve();
-        },
-        (error) => {
+
+          return data;
+        })
+        .catch((error) => {
           const message =
             (error.response &&
               error.response.data &&
@@ -32,26 +28,15 @@ const sendLoginAction =
             payload: message,
           });
 
-          return Promise.reject();
-        }
-      );
-  };
+          return;
+        });
+    };
 
-// function success(user: any) {
-//   return { type: userActions.LOGIN_SUCCESS, user: user };
-// }
-// function failure(error: any) {
-//   return { type: userActions.LOGIN_FAIL, error };
-// }
-
-const sendLogoutAction = () => (dispatch: Dispatch) => {
+const sendLogoutAction = () => (dispatch: any) => {
   authenticationService.sendLogout();
   dispatch({
     type: userActions.LOGOUT,
   });
 };
 
-export {
-  sendLoginAction,
-  sendLogoutAction
-}
+export { sendLoginAction, sendLogoutAction };

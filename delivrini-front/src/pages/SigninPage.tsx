@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { sendLoginAction } from "../store/actions";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { paths } from "../utils/enums/routes";
+import { useEffect, useState } from "react";
+
 function Copyright(props: any) {
   return (
     <Typography
@@ -38,9 +40,12 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignInPage() {
+  const [loginErr, setLoginErr] = useState(false);
+
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const dispatch = useAppDispatch();
+
   const initialValues: {
     email: "";
     password: "";
@@ -55,12 +60,19 @@ export default function SignInPage() {
     password: Yup.string().required("This field is required!"),
   });
   const handleLogin = (formValue: { email: string; password: string }) => {
-    dispatch(sendLoginAction(formValue));
-
-    if (isLoggedIn) navigate(paths.profile);
-    else navigate(paths.signin);
-  };
+    // const res =  sendLoginAction(formValue)(dispatch);
   
+    const res = dispatch<any>(sendLoginAction(formValue));
+   };
+
+  useEffect(() => {
+    console.log("logged ? ", isLoggedIn);
+
+    if (isLoggedIn) {
+      navigate(paths.profile);
+    } 
+  }, [isLoggedIn, navigate]);
+
   return (
     <Formik
       initialValues={initialValues}

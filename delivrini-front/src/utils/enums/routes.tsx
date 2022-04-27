@@ -9,6 +9,7 @@ import { RestaurantCategoryPage } from "../../pages/RestaurantCategory";
 import SignInPage from "../../pages/SigninPage";
 import { ProfilePage } from "../../pages/profilePage";
 import { AuthenticatedRoute } from "../../routes/protectedRoutes";
+import { NotAuthorizedPage } from "../../pages/NotAuthorizedPage";
 
 export enum paths {
   home = "/",
@@ -21,21 +22,29 @@ export enum paths {
   meal_category = "/mealCategory",
   element = "/element",
   profile = "/profile",
+  not_authorized = "/not_authorized",
 }
-// export const authRoutes = [
-//   { path: paths.signup, element: SignUpPage },
-//   { path: paths.signin, element: SignInPage },
-// ];
 
 export const routes = [
-  { path: paths.home, elemen: <HomePage /> },
+  { path: paths.home, element: <HomePage /> },
   { path: paths.user, element: <UserPage /> },
   { path: paths.restaurant, element: <RestaurantPage /> },
   { path: paths.restaurant_category, element: <RestaurantCategoryPage /> },
-  { path: paths.meal, element: <MealPage /> },
+  {
+    path: paths.meal,
+    element: <MealPage />,
+  },
   { path: paths.meal_category, element: <MealCategoryPage /> },
   { path: paths.element, element: <ElementPage /> },
-  { path: paths.profile, element: <ProfilePage /> },
+  {
+    path: paths.profile,
+    element: (
+      <AuthenticatedRoute>
+        <ProfilePage />
+      </AuthenticatedRoute>
+    ),
+  },
   { path: paths.signup, element: <SignUpPage /> },
   { path: paths.signin, element: <SignInPage /> },
+  { path: paths.not_authorized, element: <NotAuthorizedPage /> },
 ];
