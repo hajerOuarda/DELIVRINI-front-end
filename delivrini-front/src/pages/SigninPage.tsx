@@ -61,16 +61,18 @@ export default function SignInPage() {
   });
   const handleLogin = (formValue: { email: string; password: string }) => {
     // const res =  sendLoginAction(formValue)(dispatch);
-  
-    const res = dispatch<any>(sendLoginAction(formValue));
-   };
+
+    dispatch<any>(sendLoginAction(formValue));
+    // if (!isLoggedIn)
+    // navigate(0)
+  };
 
   useEffect(() => {
     console.log("logged ? ", isLoggedIn);
 
     if (isLoggedIn) {
       navigate(paths.profile);
-    } 
+    }
   }, [isLoggedIn, navigate]);
 
   return (
