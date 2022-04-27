@@ -14,6 +14,7 @@ import {
 import TocIcon from "@mui/icons-material/Toc";
 import { useNavigate } from "react-router-dom";
 import {
+  AccountBox,
   FoodBank,
   HowToReg,
   LocalDining,
@@ -21,7 +22,6 @@ import {
   MenuBook,
   RamenDining,
   Storefront,
-   
 } from "@mui/icons-material";
 import HomeIcon from "@mui/icons-material/Home";
 import { paths } from "../../utils/enums/routes";
@@ -33,8 +33,6 @@ export default function MenuComponent(props: any) {
   });
   const mylist = [
     { name: "Home ", path: paths.home, icon: <HomeIcon /> },
-    { name: "Sign Up", path: paths.signup, icon: <HowToReg /> },
-    { name: "Sign In", path: paths.signin, icon: <LoginRounded /> },
     { name: "Restaurant", path: paths.restaurant, icon: <LocalDining /> },
     {
       name: "Restaurant Category",
@@ -44,7 +42,7 @@ export default function MenuComponent(props: any) {
     { name: "Meal", path: paths.meal, icon: <RamenDining /> },
     { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
     { name: "Element", path: paths.element, icon: <FoodBank /> },
-    { name: "Profile", path: paths.profile, icon: <FoodBank /> },
+    { name: "Profile", path: paths.profile, icon: <AccountBox /> },
   ];
 
   const toggleDrawer =

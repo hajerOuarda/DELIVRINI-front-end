@@ -44,7 +44,8 @@ export const routes = [
       </AuthenticatedRoute>
     ),
   },
-  { path: paths.signup, element: <SignUpPage /> },
-  { path: paths.signin, element: <SignInPage /> },
+
   { path: paths.not_authorized, element: <NotAuthorizedPage /> },
 ];
+//  { path: paths.signup, element: <SignUpPage /> },
+//   { path: paths.signin, element: <SignInPage /> },

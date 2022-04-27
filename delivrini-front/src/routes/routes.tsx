@@ -1,11 +1,26 @@
 import { Route, Routes } from "react-router-dom";
-import { routes } from "../utils/enums/routes";
- export default function App() {
+import Layout from "../layouts/layout";
+import SignInPage from "../pages/SigninPage";
+import SignUpPage from "../pages/SignUpPage";
+import { routes, paths } from "../utils/enums/routes";
+import { AuthenticatedRoute } from "./protectedRoutes";
+
+export default function App() {
   return (
     <div>
       <Routes>
-        {routes.map(({ path, element },index) => (
-           <Route key={index} path={path} element={ element } />
+        <Route path={paths.signin} element={<SignInPage />} />
+        <Route path={paths.signup} element={<SignUpPage />} />
+        {routes.map(({ path, element }, index) => (
+          <Route
+            key={index}
+            path={path}
+            element={
+              <Layout>
+                <AuthenticatedRoute> {element} </AuthenticatedRoute>
+              </Layout>
+            }
+          />
         ))}
 
         <Route

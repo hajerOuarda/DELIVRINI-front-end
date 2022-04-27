@@ -1,6 +1,5 @@
-import { Children } from "react";
-import { Navigate, Outlet, Route } from "react-router-dom";
-import { NotAuthorizedPage } from "../pages/NotAuthorizedPage";
+import { Navigate, useNavigate } from "react-router-dom";
+
 import { paths } from "../utils/enums/routes";
 
 export const AuthenticatedRoute = ({ children }: any) => {
@@ -8,5 +7,5 @@ export const AuthenticatedRoute = ({ children }: any) => {
   console.log("token :", isAuthenticated);
 
   if (isAuthenticated) return children;
-  else return <Navigate to={paths.not_authorized} />;
+  else return <Navigate to={paths.signin} />;
 };
