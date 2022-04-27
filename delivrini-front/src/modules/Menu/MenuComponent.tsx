@@ -66,8 +66,9 @@ export default function MenuComponent(props: any) {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {mylist.map((element) => (
+        {mylist.map((element, idx) => (
           <ListItem
+            key={idx}
             button
             onClick={() => {
               navigate(element.path);
@@ -81,7 +82,6 @@ export default function MenuComponent(props: any) {
         ))}
       </List>
       <Divider />
-      <List></List>
     </Box>
   );
 
