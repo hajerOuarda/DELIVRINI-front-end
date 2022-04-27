@@ -12,7 +12,7 @@ const sendLogin = (email: string, password: string): Promise<any> => {
         if (response.data.accessToken) {
           // console.log("data:", response.data);
 
-          // localStorage.setItem("user", JSON.stringify(response.data));
+          localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("token", response.data.accessToken);
         }
         resolve(response.data);

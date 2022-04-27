@@ -40,8 +40,6 @@ function Copyright(props: any) {
 const theme = createTheme();
 
 export default function SignInPage() {
-  const [loginErr, setLoginErr] = useState(false);
-
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
   const dispatch = useAppDispatch();
@@ -63,8 +61,6 @@ export default function SignInPage() {
     // const res =  sendLoginAction(formValue)(dispatch);
 
     dispatch<any>(sendLoginAction(formValue));
-    // if (!isLoggedIn)
-    // navigate(0)
   };
 
   useEffect(() => {

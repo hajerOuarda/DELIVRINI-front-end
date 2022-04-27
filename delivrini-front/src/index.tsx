@@ -1,17 +1,16 @@
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import Layout from "./layouts/layout";
-import App from "./routes/routes";
+ import App from "./routes/routes";
 import {  store } from "./store/store";
  
 ReactDOM.render(
   <Provider store={store}>
      
       <BrowserRouter>
-        <Layout>
+        {/* <Layout> */}
           <App />
-        </Layout>
+        {/* </Layout> */}
       </BrowserRouter>
      
   </Provider>,
