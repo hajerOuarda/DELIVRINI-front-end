@@ -13,7 +13,6 @@ const sendLoginAction =
             type: userActions.LOGIN_SUCCESS,
             payload: data,
           });
-
           return data;
         })
         .catch((error) => {
@@ -32,6 +31,31 @@ const sendLoginAction =
         });
     };
 
+const sendRegisterAction =
+  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, email: string, password: string, role: string }) =>
+    (dispatch: any): Promise<void> => {
+      return authenticationService
+        .sendRegister(formValue.firstName, formValue.lastName, formValue.address, formValue.phone, formValue.zipCode, formValue.email, formValue.password, formValue.role)
+        .then((data) => {
+          dispatch({
+            type: userActions.REGISTER_SUCCESS,
+            payload: data,
+          });
+          return data;
+        })
+        .catch((error) => {
+          const message =
+            error.message ||
+            error.toString();
+          dispatch({
+            type: userActions.REGISTER_FAIL,
+            payload: message,
+          });
+
+          return;
+        });
+    };
+
 const sendLogoutAction = () => (dispatch: any) => {
   authenticationService.sendLogout();
   dispatch({
@@ -39,4 +63,4 @@ const sendLogoutAction = () => (dispatch: any) => {
   });
 };
 
-export { sendLoginAction, sendLogoutAction };
+export { sendLoginAction, sendLogoutAction, sendRegisterAction };

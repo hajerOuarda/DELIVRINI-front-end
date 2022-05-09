@@ -21,6 +21,7 @@ export enum paths {
   element = "/element",
   profile = "/profile",
   not_authorized = "/not_authorized",
+  registered = "/registered"
 }
 
 export const routes = [
@@ -42,7 +43,6 @@ export const routes = [
       </AuthenticatedRoute>
     ),
   },
-
   { path: paths.not_authorized, element: <NotAuthorizedPage /> },
 ];
 //  { path: paths.signup, element: <SignUpPage /> },
