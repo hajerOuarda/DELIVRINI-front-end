@@ -21,7 +21,7 @@ export enum paths {
   element = "/element",
   profile = "/profile",
   not_authorized = "/not_authorized",
-  registered = "/registered"
+  resetPassword = "/resetPassword"
 }
 
 export const routes = [

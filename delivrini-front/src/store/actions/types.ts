@@ -5,6 +5,8 @@ export enum userActions {
   LOGIN_REQUEST = "LOGIN_REQUEST",
   LOGIN_FAIL = "LOGIN_FAIL",
   LOGOUT = "LOGOUT",
+  RESET_SUCCESS = "RESET_SUCCESS",
+  RESET_FAIL = "RESET_FAIL",
 }
 
 export const TOKEN = "Token"

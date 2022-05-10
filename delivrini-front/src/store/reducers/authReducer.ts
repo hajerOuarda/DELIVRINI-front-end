@@ -39,8 +39,17 @@ export default function authReducer(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: false,
-        userInfo: null,
-
+        userInfo: payload,
+      };
+    case userActions.RESET_SUCCESS:
+      return {
+        ...state,
+        userInfo: payload
+      };
+    case userActions.RESET_FAIL:
+      return {
+        ...state,
+        userInfo: payload
       };
     case userActions.LOGOUT:
       return {

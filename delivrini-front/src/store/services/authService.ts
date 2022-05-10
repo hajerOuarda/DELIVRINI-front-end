@@ -23,7 +23,7 @@ const sendLogin = (email: string, password: string): Promise<any> => {
   });
 };
 
-const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, email: string, password: string, role: string): Promise<any> => {
+const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string): Promise<any> => {
   return new Promise((resolve, reject) => {
 
     axios.post(URLS.register, {
@@ -32,6 +32,7 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
       phone: phone,
       address: address,
       zipCode: zipCode,
+      street: street,
       email: email,
       password: password,
       fk_role: role
@@ -39,10 +40,31 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
       .then((response) => {
         resolve(response.data.message);
         console.log("response.data ", response.data);
+        console.log("role", role)
       })
       .catch((error) => {
         console.log("error :", error.response.data.code);
+        console.log("error2 :", error.response);
+        console.log("role", role)
         reject(error.response.data.code);
+      });
+  });
+};
+
+const sendResetPassword = (email: string): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(URLS.resetPassword, {
+        email: email,
+      })
+      .then((response) => {
+        resolve(response);
+        console.log(response.status);
+
+      })
+      .catch((error) => {
+        console.log("error :", error.message);
+        reject(error.message);
       });
   });
 };
@@ -54,5 +76,6 @@ const sendLogout = () => {
 export const authenticationService = {
   sendLogin,
   sendLogout,
-  sendRegister
+  sendRegister,
+  sendResetPassword
 };
