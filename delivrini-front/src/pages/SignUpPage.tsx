@@ -15,11 +15,12 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "../utils/enums/routes";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { sendRegisterAction } from "../store/actions";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, useField } from "formik";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { FormHelperText } from "@mui/material";
+import { Alert, FormHelperText } from "@mui/material";
+
 
 
 function Copyright(props: any) {
@@ -43,9 +44,11 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
+
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [role, setRole] = useState('Client');
+  const [errorMessage, setErrorMessage] = useState('This field is required!')
   const isRegistered = useAppSelector((state) => state.authReducer.isRegistered);
   const isMailUsed = useAppSelector((state) => state.authReducer.userInfo);
   const dispatch = useAppDispatch();
@@ -75,13 +78,22 @@ export default function SignUpPage() {
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("invalid email")
-      .required("This field is required!").typeError('hihii')
-    // .test('emailCondition', "MAIL IS ALREADY USED ", (value) => {
+      .required("This field is required!")
+    // .test({
+    //   name: 'validator-custom-name',
+    //   // eslint-disable-next-line object-shorthand
+    //   test: function (value) {
+    //     // You can add any logic here to generate a dynamic message
 
-    //   if (isMailUsed == "490")
-    //     return true
-    //   return false
+    //     return isSubmitted
+    //       ? this.createError({
+    //         message: `Custom Message here ${value}`,
+    //         path: 'email', // Fieldname
+    //       })
+    //       : true;
+    //   },
     // })
+
     ,
     password: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required("This field is required!"),
     firstName: Yup.string().required("This field is required!"),
@@ -104,6 +116,9 @@ export default function SignUpPage() {
   }) => {
     dispatch<any>(sendRegisterAction(formValue))
 
+
+    if (isMailUsed === '409')
+      setErrorMessage('already taken')
   }
 
   useEffect(() => {
@@ -277,6 +292,7 @@ export default function SignUpPage() {
                       displayEmpty
                       onChange={(e: any) => setRole(e.target.value)}
                     >
+
                       {roles.map((role, index) => (
                         <MenuItem value={role} key={index}> {role}</MenuItem>
                       ))}
@@ -294,17 +310,26 @@ export default function SignUpPage() {
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link href="#" variant="body2" onClick={
+                    <Link onClick={
                       () => { navigate(paths.signin) }
                     }>
                       Already have an account? Sign in
                     </Link>
                   </Grid>
                 </Grid>
+                <Grid container>
+                  <Grid item xs>
+                    {isMailUsed == "409" ?
+                      <Alert severity="error" color="error">
+                        Email already used !
+                      </Alert> : false}
+                  </Grid>
+                </Grid>
               </Form>
             </Box>
             <Copyright sx={{ mt: 5 }} />
           </Container>
+
         </ThemeProvider>
       )}
     </Formik>

@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../layouts/layout";
+import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignInPage from "../pages/SigninPage";
 import SignUpPage from "../pages/SignUpPage";
-import { SuccessfulRegisterPage } from "../pages/SuccessfulRegister";
 import { routes, paths } from "../utils/enums/routes";
 import { AuthenticatedRoute } from "./protectedRoutes";
 
@@ -12,7 +12,7 @@ export default function App() {
       <Routes>
         <Route path={paths.signin} element={<SignInPage />} />
         <Route path={paths.signup} element={<SignUpPage />} />
-        <Route path={paths.registered} element={<SuccessfulRegisterPage />} />
+        <Route path={paths.resetPassword} element={<ResetPasswordPage />} />
 
         {routes.map(({ path, element }, index) => (
           <Route

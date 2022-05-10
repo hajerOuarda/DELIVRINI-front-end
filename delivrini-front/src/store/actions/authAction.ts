@@ -17,9 +17,6 @@ const sendLoginAction =
         })
         .catch((error) => {
           const message =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
             error.message ||
             error.toString();
           dispatch({
@@ -32,10 +29,10 @@ const sendLoginAction =
     };
 
 const sendRegisterAction =
-  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, email: string, password: string, role: string }) =>
+  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string }) =>
     (dispatch: any): Promise<void> => {
       return authenticationService
-        .sendRegister(formValue.firstName, formValue.lastName, formValue.address, formValue.phone, formValue.zipCode, formValue.email, formValue.password, formValue.role)
+        .sendRegister(formValue.firstName, formValue.lastName, formValue.address, formValue.phone, formValue.zipCode, formValue.street, formValue.email, formValue.password, formValue.role)
         .then((data) => {
           dispatch({
             type: userActions.REGISTER_SUCCESS,
@@ -51,10 +48,35 @@ const sendRegisterAction =
             type: userActions.REGISTER_FAIL,
             payload: message,
           });
-
           return;
         });
     };
+
+const sendResetPasswordAction =
+  (formValue: { email: string }) =>
+    (dispatch: any): Promise<void> => {
+      return authenticationService
+        .sendResetPassword(formValue.email)
+        .then((data) => {
+          dispatch({
+            type: userActions.RESET_SUCCESS,
+            payload: data,
+          });
+          return data;
+        })
+        .catch((error) => {
+          const message =
+            (error.response) ||
+            error.message ||
+            error.toString();
+          dispatch({
+            type: userActions.RESET_FAIL,
+            payload: message,
+          });
+          return;
+        });
+    };
+
 
 const sendLogoutAction = () => (dispatch: any) => {
   authenticationService.sendLogout();
@@ -63,4 +85,4 @@ const sendLogoutAction = () => (dispatch: any) => {
   });
 };
 
-export { sendLoginAction, sendLogoutAction, sendRegisterAction };
+export { sendLoginAction, sendLogoutAction, sendRegisterAction, sendResetPasswordAction };
