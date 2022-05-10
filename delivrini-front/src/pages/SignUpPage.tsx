@@ -78,23 +78,7 @@ export default function SignUpPage() {
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("invalid email")
-      .required("This field is required!")
-    // .test({
-    //   name: 'validator-custom-name',
-    //   // eslint-disable-next-line object-shorthand
-    //   test: function (value) {
-    //     // You can add any logic here to generate a dynamic message
-
-    //     return isSubmitted
-    //       ? this.createError({
-    //         message: `Custom Message here ${value}`,
-    //         path: 'email', // Fieldname
-    //       })
-    //       : true;
-    //   },
-    // })
-
-    ,
+      .required("This field is required!"),
     password: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required("This field is required!"),
     firstName: Yup.string().required("This field is required!"),
     lastName: Yup.string().required("This field is required!"),
@@ -122,12 +106,10 @@ export default function SignUpPage() {
   }
 
   useEffect(() => {
-    console.log("registered? ", isRegistered);
     if (isRegistered) {
       navigate(paths.signin);
     }
   }, [isRegistered, navigate]);
-
 
   return (
     <Formik

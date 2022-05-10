@@ -175,7 +175,3 @@ export default function SignInPage() {
   );
 }
 
-// const { email, password } = formValue;
-// authenticationService.sendLogin(email, password).then((_res) => {
-//   if (_res) navigate(paths.home);
-// });

@@ -58,12 +58,8 @@ export default function ResetPasswordPage() {
     });
 
     const handleResetPassword = (formValue: { email: string }) => {
-
         dispatch<any>(sendResetPasswordAction(formValue));
-        console.log("user response ? ", userInfo);
     };
-
-
     return (
         <Formik
             initialValues={initialValues}
