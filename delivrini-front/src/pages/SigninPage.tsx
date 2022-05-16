@@ -17,7 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { sendLoginAction } from "../store/actions";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { paths } from "../utils/enums/routes";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Alert } from "@mui/material";
 
 function Copyright(props: any) {
   return (
@@ -42,6 +43,7 @@ const theme = createTheme();
 export default function SignInPage() {
   const navigate = useNavigate();
   const isLoggedIn = useAppSelector((state) => state.authReducer.isLoggedIn);
+  const userInfo = useAppSelector((state) => state.authReducer.userInfo);
   const dispatch = useAppDispatch();
 
   const initialValues: {
@@ -59,7 +61,6 @@ export default function SignInPage() {
   });
   const handleLogin = (formValue: { email: string; password: string }) => {
     // const res =  sendLoginAction(formValue)(dispatch);
-
     dispatch<any>(sendLoginAction(formValue));
   };
 
@@ -139,14 +140,29 @@ export default function SignInPage() {
                 </Button>
                 <Grid container>
                   <Grid item xs>
-                    <Link href="#" variant="body2">
+                    <Link href="#" variant="body2" onClick={
+                      () => { navigate(paths.resetPassword) }
+                    }>
                       Forgot password?
                     </Link>
                   </Grid>
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="#" variant="body2" onClick={
+                      () => { navigate(paths.signup) }
+                    }>
                       {"Don't have an account? Sign Up"}
                     </Link>
+                  </Grid>
+                </Grid>
+                <Grid container >
+                  <Grid item xs  >
+                    {userInfo === "Request failed with status code 404" ?
+                      <Alert severity="error" color="error">
+                        No user with this email
+                      </Alert> : userInfo === "Request failed with status code 401" ?
+                        <Alert severity="error" color="error">
+                          wrong password
+                        </Alert> : false}
                   </Grid>
                 </Grid>
               </Form>
@@ -159,7 +175,3 @@ export default function SignInPage() {
   );
 }
 
-// const { email, password } = formValue;
-// authenticationService.sendLogin(email, password).then((_res) => {
-//   if (_res) navigate(paths.home);
-// });

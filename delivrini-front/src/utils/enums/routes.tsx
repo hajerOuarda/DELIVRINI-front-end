@@ -3,10 +3,8 @@ import { HomePage } from "../../pages/HomePage";
 import { MealPage } from "../../pages/Meal";
 import { MealCategoryPage } from "../../pages/MealCategory";
 import { RestaurantPage } from "../../pages/RestaurantPage";
-import SignUpPage from "../../pages/SignUpPage";
 import { UserPage } from "../../pages/UserPage";
 import { RestaurantCategoryPage } from "../../pages/RestaurantCategory";
-import SignInPage from "../../pages/SigninPage";
 import { ProfilePage } from "../../pages/profilePage";
 import { AuthenticatedRoute } from "../../routes/protectedRoutes";
 import { NotAuthorizedPage } from "../../pages/NotAuthorizedPage";
@@ -23,6 +21,7 @@ export enum paths {
   element = "/element",
   profile = "/profile",
   not_authorized = "/not_authorized",
+  resetPassword = "/resetPassword"
 }
 
 export const routes = [
@@ -44,7 +43,6 @@ export const routes = [
       </AuthenticatedRoute>
     ),
   },
-
   { path: paths.not_authorized, element: <NotAuthorizedPage /> },
 ];
 //  { path: paths.signup, element: <SignUpPage /> },
