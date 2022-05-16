@@ -29,10 +29,10 @@ const sendLoginAction =
     };
 
 const sendRegisterAction =
-  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string }) =>
+  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string }, role: string) =>
     (dispatch: any): Promise<void> => {
       return authenticationService
-        .sendRegister(formValue.firstName, formValue.lastName, formValue.address, formValue.phone, formValue.zipCode, formValue.street, formValue.email, formValue.password, formValue.role)
+        .sendRegister(formValue.firstName, formValue.lastName, formValue.address, formValue.phone, formValue.zipCode, formValue.street, formValue.email, formValue.password, role)
         .then((data) => {
           dispatch({
             type: userActions.REGISTER_SUCCESS,

@@ -35,7 +35,7 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
       street: street,
       email: email,
       password: password,
-      fk_role: role
+      role: role
     })
       .then((response) => {
         resolve(response.data.message);

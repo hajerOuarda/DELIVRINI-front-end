@@ -15,11 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { paths } from "../utils/enums/routes";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { sendRegisterAction } from "../store/actions";
-import { ErrorMessage, Field, Form, Formik, useField } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { Alert, FormHelperText } from "@mui/material";
+import { Alert } from "@mui/material";
 
 
 
@@ -48,11 +48,12 @@ const theme = createTheme();
 export default function SignUpPage() {
   const navigate = useNavigate();
   const [role, setRole] = useState('Client');
-  const [errorMessage, setErrorMessage] = useState('This field is required!')
   const isRegistered = useAppSelector((state) => state.authReducer.isRegistered);
   const isMailUsed = useAppSelector((state) => state.authReducer.userInfo);
   const dispatch = useAppDispatch();
   const roles = ["Client", "DeliveryMan", "Chef"];
+
+
 
   const initialValues: {
     firstName: "";
@@ -74,7 +75,8 @@ export default function SignUpPage() {
     email: "",
     password: "",
     role: ""
-  };
+  }
+
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .email("invalid email")
@@ -86,6 +88,10 @@ export default function SignUpPage() {
     phone: Yup.string().required("This field is required!"),
   });
 
+  const handleChange = (e: any) => {
+    const selectedRole = e.target.value;
+    setRole(selectedRole);
+  }
 
   const handleRegister = (formValue: {
     firstName: string;
@@ -96,13 +102,8 @@ export default function SignUpPage() {
     street: string;
     email: string;
     password: string;
-    role: string
   }) => {
-    dispatch<any>(sendRegisterAction(formValue))
-
-
-    if (isMailUsed === '409')
-      setErrorMessage('already taken')
+    dispatch<any>(sendRegisterAction({ ...formValue }, role))
   }
 
   useEffect(() => {
@@ -268,17 +269,17 @@ export default function SignUpPage() {
                       labelId="demo-simple-select-label"
                       id="role"
                       required
-                      value={role}
+                      name="role"
                       label="Role"
                       autoWidth
                       displayEmpty
-                      onChange={(e: any) => setRole(e.target.value)}
+                      onChange={handleChange
+                      }
+                      value={role}
                     >
-
                       {roles.map((role, index) => (
                         <MenuItem value={role} key={index}> {role}</MenuItem>
                       ))}
-
                     </Select>
                   </Grid>
                 </Grid>
@@ -292,7 +293,7 @@ export default function SignUpPage() {
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link onClick={
+                    <Link href="#" variant="body2" onClick={
                       () => { navigate(paths.signin) }
                     }>
                       Already have an account? Sign in
@@ -301,7 +302,7 @@ export default function SignUpPage() {
                 </Grid>
                 <Grid container>
                   <Grid item xs>
-                    {isMailUsed == "409" ?
+                    {isMailUsed === "409" ?
                       <Alert severity="error" color="error">
                         Email already used !
                       </Alert> : false}
