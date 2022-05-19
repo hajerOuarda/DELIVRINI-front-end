@@ -7,4 +7,5 @@ export enum URLS {
   users = "http://localhost:9002/apiDelivrini/user/admin/all/:limit/:page",
   oneUser = "http://localhost:9002/apiDelivrini/user/admin/",
   restaurantCategory = "restaurantCategory/all?size=1&page=1",
+  restaurantsList = "http://localhost:9002/apiDelivrini/restaurants/all?size=3&page=1"
 }

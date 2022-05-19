@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
- 
+
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AppBarComponent = () => {
@@ -42,7 +42,6 @@ const AppBarComponent = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          
           <Typography
             variant="h6"
             noWrap
@@ -81,7 +80,6 @@ const AppBarComponent = () => {
                 display: { xs: "block", md: "none" },
               }}
             >
-              
             </Menu>
           </Box>
           <Typography
@@ -93,7 +91,7 @@ const AppBarComponent = () => {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-         
+
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -119,6 +117,7 @@ const AppBarComponent = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
+
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
