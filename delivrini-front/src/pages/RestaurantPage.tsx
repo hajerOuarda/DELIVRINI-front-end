@@ -20,6 +20,7 @@ import { deleteRestaurantAction, listRestaurantAction } from '../store/actions/r
 import { TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
+import { DeleteDialog } from '../modules/Dialog/DeleteDialog';
 
 
 interface TablePaginationActionsProps {
@@ -91,6 +92,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 
 export default function RestaurantPage() {
   const [open, setOpen] = React.useState(false);
+  const [actionType, setActionType] = React.useState("");
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -130,15 +132,40 @@ export default function RestaurantPage() {
   const handleDeleteResto = (id: number) => {
 
     dispatch<any>(deleteRestaurantAction(id))
+
   };
   // *** edit restaurant ***
   const handleEditResto = (id: any): any => {
+    console.log(("dit test"));
 
   };
   const handleCreateResto = (): any => {
     console.log("create");
 
   };
+
+  const handleClick = (id: number) => {
+    if (actionType === "delete") { handleDeleteResto(id) }
+    else {
+      if (actionType === "edit") { handleEditResto(id) }
+      else { handleCreateResto() }
+    }
+  }
+  const handleBodyContent = (name: string) => {
+    if (actionType === "delete") {
+      return <DeleteDialog name={name} />
+    }
+    else {
+      return;
+    }
+  }
+  const handleTitle = () => {
+    if (actionType === "delete") { return "Delete Confirmation " }
+    else {
+      if (actionType === "edit") { return "Edit Confirmation " }
+      else { return "Create Restaurant " }
+    }
+  }
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
@@ -175,17 +202,17 @@ export default function RestaurantPage() {
               </TableCell>
               <TableCell align="left">
                 <div className='button-container'>
-                  <button onClick={() => (handleEditResto(row.id))}> <Edit /></button>
-                  <button onClick={() => (setOpen(true))}> <Delete /></button>
-                  <button onClick={() => setOpen(true)}> <Add /></button>
+                  <button onClick={() => { setOpen(true); setActionType("edit"); }}> <Edit /></button>
+                  <button onClick={() => { setOpen(true); setActionType("delete") }}> <Delete /></button>
+                  <button onClick={() => { setOpen(true); setActionType("create") }}> <Add /></button>
                 </div>
               </TableCell>
               <GenericDialog
+                title={handleTitle()}
                 open={open}
-                action={() => {
-                  handleDeleteResto(row.id)
-                }}
+                action={() => handleClick(row.id)}
                 onClose={() => setOpen(false)}
+                body={handleBodyContent(row.name)}
               />
             </TableRow>
           ))}
@@ -193,7 +220,6 @@ export default function RestaurantPage() {
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={6} />
-
             </TableRow>
           )}
         </TableBody>
@@ -201,7 +227,6 @@ export default function RestaurantPage() {
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
-              //colSpan={3}
               count={7}
               rowsPerPage={rowsPerPage}
               page={page}

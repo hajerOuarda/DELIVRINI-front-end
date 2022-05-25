@@ -8,29 +8,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
-import RadioGroup from '@mui/material/RadioGroup';
-import Radio from '@mui/material/Radio';
-import FormControlLabel from '@mui/material/FormControlLabel';
 
-const options = [
-    'None',
-    'Atria',
-    'Callisto',
-    'Dione',
-    'Ganymede',
-    'Hangouts Call',
-    'Luna',
-    'Oberon',
-    'Phobos',
-    'Pyxis',
-    'Sedna',
-    'Titania',
-    'Triton',
-    'Umbriel',
-];
+
 
 export interface ConfirmationDialogRawProps {
-   
+
     title?: string;
     open: boolean;
     onClose: (value?: string) => void;
@@ -39,22 +21,16 @@ export interface ConfirmationDialogRawProps {
 }
 
 export default function GenericDialog(props: ConfirmationDialogRawProps) {
-    const { onClose, title: valueProp, open, action = () => { }, body = null, ...other } = props;
-    const [value, setValue] = React.useState(valueProp);
+    const { onClose, title, open, action = () => { }, body = null, ...other } = props;
+    const [value, setValue] = React.useState(title);
     const radioGroupRef = React.useRef<HTMLElement>(null);
-    console.log("idbody", body);
 
     React.useEffect(() => {
         if (!open) {
-            setValue(valueProp);
+            setValue(title);
         }
-    }, [valueProp, open]);
+    }, [title, open]);
 
-    const handleEntering = () => {
-        if (radioGroupRef.current != null) {
-            radioGroupRef.current.focus();
-        }
-    };
 
     const handleCancel = () => {
         onClose();
@@ -73,12 +49,12 @@ export default function GenericDialog(props: ConfirmationDialogRawProps) {
         <Dialog
             sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
             maxWidth="xs"
-            TransitionProps={{ onEntering: handleEntering }}
+
             open={open}
             onClose={handleCancel}
             {...other}
         >
-            <DialogTitle>Phone Ringtone</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
 
             <DialogContent>
                 {body}

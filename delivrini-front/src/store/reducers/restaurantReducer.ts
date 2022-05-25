@@ -46,6 +46,7 @@ export default function RestaurantReducer(state = initialState, action: any) {
         case restaurantActions.DELETE_RESTAURANT_FAILED:
             return {
                 ...state,
+                isLoading: false,
                 error: payload
             };
         case restaurantActions.CREATE_RESTAURANT_SUCCESS:
