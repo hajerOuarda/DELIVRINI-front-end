@@ -20,7 +20,8 @@ import { deleteRestaurantAction, listRestaurantAction } from '../store/actions/r
 import { TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
-import { DeleteDialog } from '../modules/Dialog/DeleteDialog';
+import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
+
 
 
 interface TablePaginationActionsProps {
@@ -153,7 +154,7 @@ export default function RestaurantPage() {
   }
   const handleBodyContent = (name: string) => {
     if (actionType === "delete") {
-      return <DeleteDialog name={name} />
+      return <DeleteRestaurantDialog name={name} />
     }
     else {
       return;
