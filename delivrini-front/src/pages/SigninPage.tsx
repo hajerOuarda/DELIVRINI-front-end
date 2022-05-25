@@ -130,6 +130,17 @@ export default function SignInPage() {
                   control={<Checkbox value="remember" color="primary" />}
                   label="Remember me"
                 />
+                <Grid container >
+                  <Grid item xs  >
+                    {userInfo === "Request failed with status code 404" ?
+                      <Alert severity="error" color="error">
+                        No user with this email
+                      </Alert> : userInfo === "Request failed with status code 401" ?
+                        <Alert severity="error" color="error">
+                          wrong password
+                        </Alert> : false}
+                  </Grid>
+                </Grid>
                 <Button
                   type="submit"
                   fullWidth
@@ -154,17 +165,7 @@ export default function SignInPage() {
                     </Link>
                   </Grid>
                 </Grid>
-                <Grid container >
-                  <Grid item xs  >
-                    {userInfo === "Request failed with status code 404" ?
-                      <Alert severity="error" color="error">
-                        No user with this email
-                      </Alert> : userInfo === "Request failed with status code 401" ?
-                        <Alert severity="error" color="error">
-                          wrong password
-                        </Alert> : false}
-                  </Grid>
-                </Grid>
+
               </Form>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
