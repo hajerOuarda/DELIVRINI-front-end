@@ -12,7 +12,7 @@ const listRestaurantAction =
                         type: restaurantActions.LIST_RESTAURANT_SUCCESS,
                         payload: data,
                     });
-                    console.log("list data", data);
+                    // console.log("list data", data);
 
                     return data;
                 })
@@ -24,7 +24,7 @@ const listRestaurantAction =
                         type: restaurantActions.LIST_RESTAURANT_FAILED,
                         payload: message,
                     });
-                    console.log("list data", message);
+                    console.log("list data error ", message);
                     return;
                 });
         };
@@ -57,16 +57,16 @@ const deleteRestaurantAction =
         };
 
 const createRestaurantAction =
-    (name: string, phone: string, email: string, address: string, zipCode: string, street: string) =>
+    (formValue: { restaurantName: string, phone: string, email: string, address: string, zipCode: string, street: string }) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
-                .createRestaurant(name, phone, email, address, zipCode, street)
+                .createRestaurant(formValue.restaurantName, formValue.phone, formValue.email, formValue.address, formValue.zipCode, formValue.street)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS ,
+                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
                         payload: data,
                     });
-                    console.log("list data", data);
+                    console.log("list data deletion", data);
                     return data;
                 })
                 .catch((error) => {

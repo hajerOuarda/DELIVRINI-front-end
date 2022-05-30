@@ -10,9 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
 import * as Yup from "yup";
 import React from 'react';
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { InputLabel, MenuItem, Select } from '@mui/material';
-import { DiningOutlined, FoodBankOutlined } from '@mui/icons-material';
+import { FoodBankOutlined } from '@mui/icons-material';
 
 const theme = createTheme();
 
@@ -20,7 +18,7 @@ export default function CreateRestaurantDialog() {
     const [values, setValues] = React.useState({});
 
     const initialValues = {
-        RestaurantName: "",
+        restaurantName: "",
         address: "",
         phone: "",
         zipCode: "",
@@ -39,26 +37,34 @@ export default function CreateRestaurantDialog() {
         phone: Yup.string().required("This field is required!"),
     });
 
-    const handleChange = (event: any) => {
-        setValues(prevValues => ({
-            ...prevValues,
-            // we use the name to tell Formik which key of `values` to update
-            [event.target.name]: event.target.value
+    // const handleChange = (event: any) => {
+    //     setValues(prevValues => ({
+    //         ...prevValues,
+    //         // we use the name to tell Formik which key of `values` to update
+    //         [event.target.name]: event.target.value
 
-        }))
-    }
-    // const handleSubmit = (restaurantName: string,    address: string,    phone: string,    zipCode: string,  street: string,    email: string) => {
-    // call createrestoAction
-    const handleSubmit = (values: any) => {
-        console.log("values", values);
+
+    //     }))
+    //     console.log("handlechange");
+    // }
+
+    const handleSubmit = (formValue: { restaurantName: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
+        console.log("test");
+        // createRestaurantAction(formValue)
 
     }
-    { console.log("phone", values) }
+    const sayHi = () => {
+        console.log("test");
+    }
+
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+            onSubmit={() => {
+                console.log("helloo");
+            }
+            }
         >
             {({ errors, touched }) => (
                 <ThemeProvider theme={theme}>
@@ -81,18 +87,17 @@ export default function CreateRestaurantDialog() {
                                     <Grid item xs={12} sm={6}>
                                         <Field
                                             as={TextField}
-                                            autoComplete="RestaurantName"
-                                            name="RestaurantName"
+                                            autoComplete="restaurantName"
+                                            name="restaurantName"
                                             required
                                             fullWidth
-                                            id="RestaurantName"
+                                            id="restaurantName"
                                             label="Restaurant Name"
                                             autoFocus
-
-                                            error={errors.RestaurantName && touched.RestaurantName}
+                                            error={errors.restaurantName && touched.restaurantName}
                                         />
                                         <ErrorMessage
-                                            name="RestaurantName"
+                                            name="restaurantName"
                                             component="div"
                                             className="alert alert-danger"
                                         />
@@ -107,7 +112,6 @@ export default function CreateRestaurantDialog() {
                                             label="Phone"
                                             name="phone"
                                             autoComplete="phone"
-
                                             error={errors.phone && touched.phone}
                                         />
 
@@ -125,7 +129,6 @@ export default function CreateRestaurantDialog() {
                                             label="Zip Code"
                                             name="zipCode"
                                             autoComplete="zipCode"
-
                                             error={errors.zipCode && touched.zipCode}
                                         />
                                     </Grid>
@@ -137,7 +140,6 @@ export default function CreateRestaurantDialog() {
                                             label="Street"
                                             name="street"
                                             autoComplete="street"
-
                                             error={errors.street && touched.street}
                                         />
 
@@ -151,7 +153,6 @@ export default function CreateRestaurantDialog() {
                                             label="address"
                                             name="address"
                                             autoComplete="address"
-
                                             error={errors.address && touched.address}
                                         />
                                         <ErrorMessage
@@ -188,16 +189,12 @@ export default function CreateRestaurantDialog() {
                                 </Button>
 
                             </Form>
-                        </Box>
+                         </Box>
 
-                    </Container>
+                    </Container>  
 
                 </ThemeProvider>
             )}
         </Formik>
     )
 }
-// export function CreateRestaurantDialog() {
-
-//     return (<label> are you sure you want to delete this item  </label>)
-// }

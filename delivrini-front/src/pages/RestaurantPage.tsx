@@ -138,19 +138,20 @@ export default function RestaurantPage() {
   };
   // *** edit restaurant ***
   const handleEditResto = (id: any): any => {
-    console.log(("dit test"));
+    console.log(("edit test"));
 
   };
-  const handleCreateResto = (): any => {
-    console.log("create");
+  // const handleCreateResto = (): any => {
+  //   console.log("create");
 
-  };
+  // };
 
   const handleClick = (id: number) => {
     if (actionType === "delete") { handleDeleteResto(id) }
     else {
       if (actionType === "edit") { handleEditResto(id) }
-      else { handleCreateResto() }
+
+      else { return <CreateRestaurantDialog /> }
     }
   }
   const handleBodyContent = (name: string) => {
@@ -159,6 +160,7 @@ export default function RestaurantPage() {
     }
     else {
       if (actionType === "edit") { return; }
+
       else { return <CreateRestaurantDialog /> }
     }
   }
