@@ -17,10 +17,11 @@ import LastPageIcon from '@mui/icons-material/LastPage';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useEffect } from "react";
 import { deleteRestaurantAction, listRestaurantAction } from '../store/actions/restaurantAction';
-import { TableHead } from '@mui/material';
+import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
+import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
 
 
 
@@ -157,7 +158,8 @@ export default function RestaurantPage() {
       return <DeleteRestaurantDialog name={name} />
     }
     else {
-      return;
+      if (actionType === "edit") { return; }
+      else { return <CreateRestaurantDialog /> }
     }
   }
   const handleTitle = () => {
@@ -203,9 +205,8 @@ export default function RestaurantPage() {
               </TableCell>
               <TableCell align="left">
                 <div className='button-container'>
-                  <button onClick={() => { setOpen(true); setActionType("edit"); }}> <Edit /></button>
-                  <button onClick={() => { setOpen(true); setActionType("delete") }}> <Delete /></button>
-                  <button onClick={() => { setOpen(true); setActionType("create") }}> <Add /></button>
+                  <Button onClick={() => { setOpen(true); setActionType("edit"); }}> <Edit /></Button>
+                  <Button onClick={() => { setOpen(true); setActionType("delete") }}> <Delete /></Button>
                 </div>
               </TableCell>
               <GenericDialog
@@ -223,6 +224,7 @@ export default function RestaurantPage() {
               <TableCell colSpan={6} />
             </TableRow>
           )}
+          <Button onClick={() => { setOpen(true); setActionType("create") }}   > <Add /></Button>
         </TableBody>
         <TableFooter>
           <TableRow>

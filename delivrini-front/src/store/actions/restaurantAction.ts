@@ -56,5 +56,30 @@ const deleteRestaurantAction =
                 });
         };
 
+const createRestaurantAction =
+    (name: string, phone: string, email: string, address: string, zipCode: string, street: string) =>
+        (dispatch: any): Promise<void> => {
+            return restaurantService
+                .createRestaurant(name, phone, email, address, zipCode, street)
+                .then((data) => {
+                    dispatch({
+                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS ,
+                        payload: data,
+                    });
+                    console.log("list data", data);
+                    return data;
+                })
+                .catch((error) => {
+                    const message =
+                        error.message ||
+                        error.toString();
+                    dispatch({
+                        type: restaurantActions.CREATE_RESTAURANT_FAILED,
+                        payload: message,
+                    });
+                    return;
+                });
+        };
 
-export { listRestaurantAction, deleteRestaurantAction }
+
+export { listRestaurantAction, deleteRestaurantAction, createRestaurantAction }

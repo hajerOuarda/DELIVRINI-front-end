@@ -53,8 +53,6 @@ export default function SignUpPage() {
   const dispatch = useAppDispatch();
   const roles = ["Client", "DeliveryMan", "Chef"];
 
-
-
   const initialValues: {
     firstName: "";
     lastName: "";
@@ -213,7 +211,7 @@ export default function SignUpPage() {
                       error={errors.address && touched.address}
                     />
                     <ErrorMessage
-                      name="adsress"
+                      name="address"
                       component="div"
                       className="alert alert-danger"
                     />

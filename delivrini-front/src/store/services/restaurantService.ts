@@ -52,7 +52,7 @@ const deleteRestaurant = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurant = (name: string, email: string, address: string, zipCode: string, street: string): Promise<any> => {
+const createRestaurant = (name: string, phone: string, email: string, address: string, zipCode: string, street: string): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         axios
@@ -60,6 +60,7 @@ const createRestaurant = (name: string, email: string, address: string, zipCode:
                 name: name,
                 email: email,
                 address: address,
+                phone: phone,
                 zipCode: zipCode,
                 street: street
             }, {

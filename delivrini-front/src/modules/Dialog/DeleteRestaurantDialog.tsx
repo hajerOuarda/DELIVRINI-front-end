@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 
 
 export interface ConfirmationDeleteProps {
@@ -8,5 +9,5 @@ export interface ConfirmationDeleteProps {
 
 export function DeleteRestaurantDialog(props: ConfirmationDeleteProps) {
 
-    return (<label> are you sure you want to delete this item {props.name}?</label>)
+    return (<Typography   color="textSecondary">are you sure you want to delete this item {props.name}?</Typography>)
 }

@@ -1,13 +1,10 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
+import { Typography } from '@mui/material';
 
 
 
@@ -47,14 +44,23 @@ export default function GenericDialog(props: ConfirmationDialogRawProps) {
 
     return (
         <Dialog
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxWidth: 670, maxHeight: 435 } }}
             maxWidth="xs"
 
             open={open}
             onClose={handleCancel}
             {...other}
         >
-            <DialogTitle>{title}</DialogTitle>
+            <DialogTitle >
+                <Typography component="h1" variant="h5" marginBottom={1} sx={{
+                    marginTop: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }} >
+                    {title}
+                </Typography>
+            </DialogTitle>
 
             <DialogContent>
                 {body}
