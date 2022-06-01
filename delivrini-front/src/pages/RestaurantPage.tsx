@@ -22,6 +22,7 @@ import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
 import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
+import EditRestaurantDialog from '../modules/Dialog/EditRestaurantDialog';
 
 
 
@@ -95,6 +96,7 @@ function TablePaginationActions(props: TablePaginationActionsProps) {
 export default function RestaurantPage() {
   const [open, setOpen] = React.useState(false);
   const [actionType, setActionType] = React.useState("");
+  const [rowId, setrowId] = React.useState<number>();
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -141,25 +143,25 @@ export default function RestaurantPage() {
     console.log(("edit test"));
 
   };
-  // const handleCreateResto = (): any => {
-  //   console.log("create");
+  const handleCreateResto = (): any => {
+    console.log("create");
 
-  // };
+  };
 
   const handleClick = (id: number) => {
     if (actionType === "delete") { handleDeleteResto(id) }
     else {
       if (actionType === "edit") { handleEditResto(id) }
 
-      else { return <CreateRestaurantDialog /> }
+      else { handleCreateResto() }
     }
   }
-  const handleBodyContent = (name: string) => {
+  const handleBodyContent = ( ) => {
     if (actionType === "delete") {
-      return <DeleteRestaurantDialog name={name} />
+      return <DeleteRestaurantDialog   />
     }
     else {
-      if (actionType === "edit") { return; }
+      if (actionType === "edit") { return <EditRestaurantDialog /> }
 
       else { return <CreateRestaurantDialog /> }
     }
@@ -172,125 +174,89 @@ export default function RestaurantPage() {
     }
   }
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-        <TableHead style={{ background: 'grey', color: 'white', }}>
-          <TableRow>
-            <TableCell align="left">Restaurants</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Address</TableCell>
-            <TableCell align="left">ZipCode</TableCell>
-            <TableCell align="left">Street</TableCell>
-            <TableCell align="left">Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {(
+    <React.Fragment>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+          <TableHead style={{ background: 'grey', color: 'white', }}>
+            <TableRow>
+              <TableCell align="left">Restaurants</TableCell>
+              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Address</TableCell>
+              <TableCell align="left">ZipCode</TableCell>
+              <TableCell align="left">Street</TableCell>
+              <TableCell align="left">Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(
+              getListRestaurants
+            ).map((row: any) => (
+              <TableRow key={row.id}>
+                <TableCell component="th" scope="row">
+                  {row.name}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.email}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.address}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.zipCode}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.street}
+                </TableCell>
+                <TableCell align="left">
+                  <div className='button-container'>
+                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
+                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
 
-            getListRestaurants
-          ).map((row: any) => (
-            <TableRow key={row.id}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="left">
-                {row.email}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="left">
-                {row.address}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="left">
-                {row.zipCode}
-              </TableCell>
-              <TableCell style={{ width: 160 }} align="left">
-                {row.street}
-              </TableCell>
-              <TableCell align="left">
-                <div className='button-container'>
-                  <Button onClick={() => { setOpen(true); setActionType("edit"); }}> <Edit /></Button>
-                  <Button onClick={() => { setOpen(true); setActionType("delete") }}> <Delete /></Button>
-                </div>
-              </TableCell>
-              <GenericDialog
-                title={handleTitle()}
-                open={open}
-                action={() => handleClick(row.id)}
-                onClose={() => setOpen(false)}
-                body={handleBodyContent(row.name)}
+            {emptyRows > 0 && (
+              <TableRow style={{ height: 53 * emptyRows }}>
+                <TableCell colSpan={6} />
+              </TableRow>
+            )}
+          </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                count={7}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                SelectProps={{
+                  inputProps: {
+                    'aria-label': 'rows per page',
+                  },
+                  native: true,
+                }}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
               />
+
             </TableRow>
-          ))}
+          </TableFooter>
+        </Table>
 
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
-            </TableRow>
-          )}
-          <Button onClick={() => { setOpen(true); setActionType("create") }}   > <Add /></Button>
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25]}
-              count={7}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: {
-                  'aria-label': 'rows per page',
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
+      </TableContainer>
+      <Button onClick={() => { setOpen(true); setActionType("create"); }}   > <Add /></Button>
+      <GenericDialog
+        title={handleTitle()}
+        open={open}
+        action={() => handleClick(rowId ?? 0)}
+        onClose={() => setOpen(false)}
+        body={handleBodyContent()}
+      />
+    </React.Fragment>
 
-          </TableRow>
-        </TableFooter>
-      </Table>
-
-    </TableContainer>
   );
 }
-
-
-
-
-// 
-{/*
-<TableHead>
-          <TableRow>
-            <TableCell align="left">Restaurants</TableCell>
-            <TableCell align="left">Email</TableCell>
-            <TableCell align="left">Address</TableCell>
-            <TableCell align="left">ZipCode</TableCell>
-            <TableCell align="left">Street</TableCell>
-          </TableRow>
-
-        </TableHead> 
-<TableBody>
-  {getListRestaurants.map((row: any) => (
-    <TableRow
-      key={row.name}
-      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-    >
-      <TableCell component="th" scope="row">
-        {row.name}
-      </TableCell>
-      <TableCell align="left">{row.name}</TableCell>
-      <TableCell align="left">{row.email}</TableCell>
-      <TableCell align="left">{row.address}</TableCell>
-      <TableCell align="left">{row.zipCode}</TableCell>
-      <TableCell align="left">{row.street}</TableCell>
-      {/* <TableCell align="left">{row.street}</TableCell> */}
-    //   <TableCell align="left">
-    //     <div className='button-container'>
-    //       <button onClick={() => (handleEditResto(row.id))}> <Edit /></button>
-    //       <button onClick={() => (handleDeleteResto(row.id))}> <Delete /></button>
-    //     </div>
-    //   </TableCell>
-    // </TableRow> ))} </TableBody> */}
 
 
 

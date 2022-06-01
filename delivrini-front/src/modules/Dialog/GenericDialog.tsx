@@ -38,9 +38,6 @@ export default function GenericDialog(props: ConfirmationDialogRawProps) {
         onClose(value);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue((event.target as HTMLInputElement).value);
-    };
 
     return (
         <Dialog
@@ -52,14 +49,8 @@ export default function GenericDialog(props: ConfirmationDialogRawProps) {
             {...other}
         >
             <DialogTitle >
-                <Typography component="h1" variant="h5" marginBottom={1} sx={{
-                    marginTop: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                }} >
-                    {title}
-                </Typography>
+
+                {title}
             </DialogTitle>
 
             <DialogContent>

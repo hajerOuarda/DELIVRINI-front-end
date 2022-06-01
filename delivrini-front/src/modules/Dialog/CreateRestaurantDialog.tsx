@@ -4,18 +4,20 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
 import * as Yup from "yup";
-import React from 'react';
 import { FoodBankOutlined } from '@mui/icons-material';
+import { createRestaurantAction } from '../../store/actions/restaurantAction';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 const theme = createTheme();
 
 export default function CreateRestaurantDialog() {
-    const [values, setValues] = React.useState({});
+    const dispatch = useAppDispatch();
+    const restaurantStatu = useAppSelector((state) => state.RestaurantReducer.statu);
+
 
     const initialValues = {
         restaurantName: "",
@@ -30,40 +32,23 @@ export default function CreateRestaurantDialog() {
         email: Yup.string()
             .email("invalid email")
             .required("This field is required!"),
-        password: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required("This field is required!"),
-        firstName: Yup.string().required("This field is required!"),
-        lastName: Yup.string().required("This field is required!"),
+        restaurantName: Yup.string().required("This field is required!"),
+        zipCode: Yup.string().required("This field is required!"),
         address: Yup.string().required("This field is required!"),
         phone: Yup.string().required("This field is required!"),
     });
 
-    // const handleChange = (event: any) => {
-    //     setValues(prevValues => ({
-    //         ...prevValues,
-    //         // we use the name to tell Formik which key of `values` to update
-    //         [event.target.name]: event.target.value
-
-
-    //     }))
-    //     console.log("handlechange");
-    // }
-
     const handleSubmit = (formValue: { restaurantName: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
-        console.log("test");
-        // createRestaurantAction(formValue)
-
+        console.log("test create ");
+        dispatch<any>(createRestaurantAction(formValue))
     }
-    const sayHi = () => {
-        console.log("test");
-    }
-
+    
+    console.log("res statu ", restaurantStatu)
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={() => {
-                console.log("helloo");
-            }
+            onSubmit={handleSubmit
             }
         >
             {({ errors, touched }) => (
@@ -189,9 +174,9 @@ export default function CreateRestaurantDialog() {
                                 </Button>
 
                             </Form>
-                         </Box>
+                        </Box>
 
-                    </Container>  
+                    </Container>
 
                 </ThemeProvider>
             )}
