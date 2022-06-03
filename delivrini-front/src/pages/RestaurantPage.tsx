@@ -23,6 +23,7 @@ import GenericDialog from '../modules/Dialog/GenericDialog';
 import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
 import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
 import EditRestaurantDialog from '../modules/Dialog/EditRestaurantDialog';
+import { setSnackbar } from '../store/reducers/customizedSnackBarReducer';
 
 
 
@@ -156,12 +157,12 @@ export default function RestaurantPage() {
       else { handleCreateResto() }
     }
   }
-  const handleBodyContent = ( ) => {
+  const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
-      return <DeleteRestaurantDialog   />
+      return <DeleteRestaurantDialog />
     }
     else {
-      if (actionType === "edit") { return <EditRestaurantDialog /> }
+      if (actionType === "edit") { return <EditRestaurantDialog idRestaurant={id} /> }
 
       else { return <CreateRestaurantDialog /> }
     }
@@ -246,12 +247,13 @@ export default function RestaurantPage() {
 
       </TableContainer>
       <Button onClick={() => { setOpen(true); setActionType("create"); }}   > <Add /></Button>
+
       <GenericDialog
         title={handleTitle()}
         open={open}
         action={() => handleClick(rowId ?? 0)}
         onClose={() => setOpen(false)}
-        body={handleBodyContent()}
+        body={handleBodyContent(rowId ?? 0)}
       />
     </React.Fragment>
 

@@ -11,16 +11,16 @@ import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { createRestaurantAction } from '../../store/actions/restaurantAction';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { setSnackbar } from '../../store/reducers/customizedSnackBarReducer';
 
 const theme = createTheme();
 
 export default function CreateRestaurantDialog() {
     const dispatch = useAppDispatch();
-    const restaurantStatu = useAppSelector((state) => state.RestaurantReducer.statu);
 
 
     const initialValues = {
-        restaurantName: "",
+        name: "",
         address: "",
         phone: "",
         zipCode: "",
@@ -32,18 +32,18 @@ export default function CreateRestaurantDialog() {
         email: Yup.string()
             .email("invalid email")
             .required("This field is required!"),
-        restaurantName: Yup.string().required("This field is required!"),
+        name: Yup.string().required("This field is required!"),
         zipCode: Yup.string().required("This field is required!"),
         address: Yup.string().required("This field is required!"),
         phone: Yup.string().required("This field is required!"),
     });
 
-    const handleSubmit = (formValue: { restaurantName: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
-        console.log("test create ");
+    const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
+
         dispatch<any>(createRestaurantAction(formValue))
+
     }
-    
-    console.log("res statu ", restaurantStatu)
+
     return (
         <Formik
             initialValues={initialValues}
@@ -66,23 +66,22 @@ export default function CreateRestaurantDialog() {
                             <Avatar sx={{ m: 1, bgcolor: "secondary.main", marginBottom: 2, marginTop: 0 }}>
                                 <FoodBankOutlined />
                             </Avatar>
-
                             <Form >
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
                                         <Field
                                             as={TextField}
-                                            autoComplete="restaurantName"
-                                            name="restaurantName"
+                                            autoComplete="name"
+                                            name="name"
                                             required
                                             fullWidth
-                                            id="restaurantName"
+                                            id="name"
                                             label="Restaurant Name"
                                             autoFocus
-                                            error={errors.restaurantName && touched.restaurantName}
+                                            error={errors.name && touched.name}
                                         />
                                         <ErrorMessage
-                                            name="restaurantName"
+                                            name="name"
                                             component="div"
                                             className="alert alert-danger"
                                         />
@@ -172,12 +171,9 @@ export default function CreateRestaurantDialog() {
                                 >
                                     Create Restaurant
                                 </Button>
-
                             </Form>
                         </Box>
-
                     </Container>
-
                 </ThemeProvider>
             )}
         </Formik>
