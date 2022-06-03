@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
+import { formikV } from "../actions/restaurantAction";
 import authHeader, { user } from "./authHeader";
 
 const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
@@ -8,7 +9,6 @@ const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
     return new Promise((resolve, reject) => {
         Api
             .get(URLS.restaurantsList, {
-
                 headers: {
                     authorization: "Basic " + authHeader()
                 },
@@ -32,7 +32,7 @@ const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
 const deleteRestaurant = (id: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
-        axios
+        Api
             .delete(URLS.deleteRestaurant + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
@@ -52,18 +52,11 @@ const deleteRestaurant = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurant = (name: string, phone: string, email: string, address: string, zipCode: string, street: string): Promise<any> => {
+const createRestaurant = (values: formikV): Promise<any> => {
 
     return new Promise((resolve, reject) => {
-        axios
-            .post(URLS.createRestaurant, {
-                name: name,
-                email: email,
-                address: address,
-                phone: phone,
-                zipCode: zipCode,
-                street: street
-            }, {
+        Api
+            .post(URLS.createRestaurant, values, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -71,7 +64,52 @@ const createRestaurant = (name: string, phone: string, email: string, address: s
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data restaurant :", response.data);
+                    console.log("data restaurant :", response);
+                }
+                resolve(response.data);
+            })
+            .catch((error) => {
+                console.log("error :", error.message);
+                reject(error.message);
+            });
+    });
+};
+const editRestaurant = (values: formikV, id: number): Promise<any> => {
+
+    return new Promise((resolve, reject) => {
+        Api
+            .patch(URLS.createRestaurant + id, values, {
+                headers: {
+                    authorization: "Basic " + authHeader()
+                }
+            },
+            )
+            .then((response) => {
+                if (response.data) {
+                    console.log("data restaurant :", response);
+                }
+                resolve(response.data);
+            })
+            .catch((error) => {
+                console.log("error :", error.message);
+                reject(error.message);
+            });
+    });
+};
+
+const findRestaurantById = (id: number): Promise<any> => {
+
+    return new Promise((resolve, reject) => {
+        Api
+            .get(URLS.findRestaurantById + id, {
+                headers: {
+                    authorization: "Basic " + authHeader()
+                }
+            },
+            )
+            .then((response) => {
+                if (response.data) {
+                    console.log("data restaurant :", response);
                 }
                 resolve(response.data);
             })
@@ -86,5 +124,8 @@ export const restaurantService = {
     getRestaurantsList,
     deleteRestaurant,
     createRestaurant,
-
+    editRestaurant,
+    findRestaurantById
 }
+
+
