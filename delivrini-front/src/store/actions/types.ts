@@ -19,4 +19,10 @@ export enum restaurantActions {
   EDIT_RESTAURANT_FAILED = "EDIT_RESTAURANT_FAILED"
 }
 
+export enum snackBarActions {
+  SET_SNACKBAR = "SET_SNACKBAR",
+
+
+}
+
 export const TOKEN = "Token"

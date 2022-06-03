@@ -1,3 +1,4 @@
+import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { restaurantService } from "../services/restaurantService";
 import { restaurantActions } from "./types";
 
@@ -41,7 +42,7 @@ const deleteRestaurantAction =
                         type: restaurantActions.DELETE_RESTAURANT_SUCCESS,
                         payload: data,
                     });
-                    console.log("list data", data);
+                    console.log("list data deletion ", data);
                     return data;
                 })
                 .catch((error) => {
@@ -56,17 +57,32 @@ const deleteRestaurantAction =
                 });
         };
 
+export interface formikV {
+    name: string,
+    phone: string,
+    email: string,
+    address: string,
+    zipCode: string,
+    street: string
+}
+
 const createRestaurantAction =
-    (formValue: { restaurantName: string, phone: string, email: string, address: string, zipCode: string, street: string }) =>
+    (values: formikV) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
-                .createRestaurant(formValue.restaurantName, formValue.phone, formValue.email, formValue.address, formValue.zipCode, formValue.street)
+                .createRestaurant(values)
                 .then((data) => {
                     dispatch({
                         type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
                         payload: data,
                     });
-                    console.log("list data deletion", data);
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "Restaurant successfully created!"
+                        ))
+                    console.log("list data  ", data);
                     return data;
                 })
                 .catch((error) => {
@@ -77,9 +93,52 @@ const createRestaurantAction =
                         type: restaurantActions.CREATE_RESTAURANT_FAILED,
                         payload: message,
                     });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while creating restaurant, email or name already exist!"
+                        ))
+                    return;
+                });
+        };
+
+const editRestaurantAction =
+    (values: formikV, id: number) =>
+        (dispatch: any): Promise<void> => {
+            return restaurantService
+                .editRestaurant(values, id)
+                .then((data) => {
+                    dispatch({
+                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
+                        payload: data,
+                    });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "Restaurant successfully created!"
+                        ))
+                    console.log("list data  ", data);
+                    return data;
+                })
+                .catch((error) => {
+                    const message =
+                        error.message ||
+                        error.toString();
+                    dispatch({
+                        type: restaurantActions.CREATE_RESTAURANT_FAILED,
+                        payload: message,
+                    });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while creating restaurant, email or name already exists!"
+                        ))
                     return;
                 });
         };
 
 
-export { listRestaurantAction, deleteRestaurantAction, createRestaurantAction }
+export { listRestaurantAction, deleteRestaurantAction, createRestaurantAction, editRestaurantAction }

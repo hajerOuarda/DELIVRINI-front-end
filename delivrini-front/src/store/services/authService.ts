@@ -1,16 +1,16 @@
 import axios from "axios";
+import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
 
 const sendLogin = (email: string, password: string): Promise<any> => {
   return new Promise((resolve, reject) => {
-    axios
+    Api
       .post(URLS.login, {
         email: email,
         password: password,
       })
       .then((response) => {
         if (response.data.accessToken) {
-          // console.log("data:", response.data);
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("token", response.data.accessToken);
         }
@@ -26,7 +26,7 @@ const sendLogin = (email: string, password: string): Promise<any> => {
 const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string): Promise<any> => {
   return new Promise((resolve, reject) => {
 
-    axios.post(URLS.register, {
+    Api.post(URLS.register, {
       name: firstName,
       lastname: lastName,
       phone: phone,
@@ -53,7 +53,7 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
 
 const sendResetPassword = (email: string): Promise<any> => {
   return new Promise((resolve, reject) => {
-    axios
+    Api
       .post(URLS.resetPassword, {
         email: email,
       })

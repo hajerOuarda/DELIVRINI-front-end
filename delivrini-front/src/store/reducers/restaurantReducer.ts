@@ -12,12 +12,12 @@ interface RestaurantInfo {
 }
 
 interface RestaurantState {
-    statu: string;
+
     restaurantInfo: RestaurantInfo[];
     error: string
 }
 const initialState: RestaurantState = {
-    statu: "",
+
     restaurantInfo: [] as RestaurantInfo[],
     error: " "
 };
@@ -33,14 +33,13 @@ export default function RestaurantReducer(state = initialState, action: any) {
             };
         case restaurantActions.LIST_RESTAURANT_FAILED:
             return {
-                ...state, 
+                ...state,
                 error: payload
             };
         case restaurantActions.DELETE_RESTAURANT_SUCCESS:
 
             return {
                 ...state,
-                statu: "success",
                 restaurantInfo: state.restaurantInfo.filter(({ id }) => id !== +payload.id)
             };
         case restaurantActions.DELETE_RESTAURANT_FAILED:
@@ -53,26 +52,21 @@ export default function RestaurantReducer(state = initialState, action: any) {
             console.log(payload)
             return {
                 ...state,
-                statu: "success",
                 restaurantInfo: [...state.restaurantInfo, payload.restaurant] //otherwise it will only return the current new restaurant hence the map function in list will cause error
-
             };
         case restaurantActions.CREATE_RESTAURANT_FAILED:
             return {
                 ...state,
-                statu: "failed",
                 error: payload
             };
         case restaurantActions.EDIT_RESTAURANT_SUCCESS:
             return {
                 ...state,
-                statu: "success",
                 restaurantInfo: payload
             };
         case restaurantActions.EDIT_RESTAURANT_FAILED:
             return {
                 ...state,
-                statu: "failed",
                 error: payload
             };
         default:
