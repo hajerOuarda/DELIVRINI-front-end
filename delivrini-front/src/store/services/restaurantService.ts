@@ -78,7 +78,7 @@ const editRestaurant = (values: formikV, id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.createRestaurant + id, values, {
+            .patch(URLS.editRestaurant + id, values, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -86,9 +86,10 @@ const editRestaurant = (values: formikV, id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data restaurant :", response);
+
+                    console.log("data restaurant :", response.data);
                 }
-                resolve(response.data);
+                resolve(response.data.updatedRestaurant);
             })
             .catch((error) => {
                 console.log("error :", error.message);

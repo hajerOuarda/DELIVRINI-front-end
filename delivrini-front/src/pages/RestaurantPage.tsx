@@ -174,6 +174,7 @@ export default function RestaurantPage() {
       else { return "Create Restaurant " }
     }
   }
+  console.log(getListRestaurants.map((ee: any) => ee.id))
   return (
     <React.Fragment>
       <TableContainer component={Paper}>

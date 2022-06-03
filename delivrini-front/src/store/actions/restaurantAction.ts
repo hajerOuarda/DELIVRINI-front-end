@@ -110,14 +110,14 @@ const editRestaurantAction =
                 .editRestaurant(values, id)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
+                        type: restaurantActions.EDIT_RESTAURANT_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully created!"
+                            "Restaurant successfully updated!"
                         ))
                     console.log("list data  ", data);
                     return data;
@@ -127,14 +127,14 @@ const editRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_FAILED,
+                        type: restaurantActions.EDIT_RESTAURANT_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while creating restaurant, email or name already exists!"
+                            "error while updating restaurant, email or name already exists!"
                         ))
                     return;
                 });

@@ -11,5 +11,6 @@ export enum URLS {
   deleteRestaurant = "restaurants/",
   createRestaurant = "restaurants",
   findRestaurantById = "restaurants/",
+  editRestaurant = "restaurants/"
 
 }

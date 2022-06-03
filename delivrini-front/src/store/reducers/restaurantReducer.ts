@@ -60,9 +60,11 @@ export default function RestaurantReducer(state = initialState, action: any) {
                 error: payload
             };
         case restaurantActions.EDIT_RESTAURANT_SUCCESS:
+            const oldRestoIndex = state.restaurantInfo.findIndex(resto => resto.id === payload.id)
+            state.restaurantInfo[oldRestoIndex]=payload
             return {
                 ...state,
-                restaurantInfo: payload
+                restaurantInfo: [...state.restaurantInfo]
             };
         case restaurantActions.EDIT_RESTAURANT_FAILED:
             return {

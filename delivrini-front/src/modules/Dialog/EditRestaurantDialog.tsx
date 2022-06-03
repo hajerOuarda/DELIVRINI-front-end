@@ -19,24 +19,25 @@ const theme = createTheme();
 export default function CreateRestaurantDialog(props: any) {
     const dispatch = useAppDispatch();
     const [resto, setResto] = useState<formikV>()
+    const idRestaurant = props.idRestaurant
     useEffect(() => {
-
-        restaurantService.findRestaurantById(props.idRestaurant).then((r) => {
+        restaurantService.findRestaurantById(idRestaurant).then((r) => {
             setResto(r.restaurant_found)
         }).catch((e: any) => console.log(e.message))
     }, [])
 
-    console.log(resto)
-    console.log(resto?.name)
-    const initialValues = {
-        name: resto?.name ?? '',
-        address: resto?.address ?? '',
-        phone: "",
+
+    const initialValues = resto ?? {
+        name: '',
+        address: '',
+        phone: '',
         zipCode: "",
         street: "",
         email: "",
-
     }
+
+    console.log('initis', initialValues)
+
     const validationSchema = Yup.object().shape({
         email: Yup.string()
             .email("invalid email")
@@ -50,13 +51,12 @@ export default function CreateRestaurantDialog(props: any) {
 
     const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
 
-        // dispatch<any>(editRestaurantAction(formValue, 5))
+        dispatch<any>(editRestaurantAction(formValue, idRestaurant))
 
     }
-
     return (
-        <Formik
-            initialValues={initialValues}
+        !resto ? null : <Formik
+            initialValues={resto ?? initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
         >
