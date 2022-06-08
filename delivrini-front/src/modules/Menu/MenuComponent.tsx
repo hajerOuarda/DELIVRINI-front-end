@@ -39,8 +39,8 @@ export default function MenuComponent(props: any) {
       path: paths.restaurant_category,
       icon: <Storefront />,
     },
-    { name: "Meal", path: paths.meal, icon: <RamenDining /> },
     { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
+    { name: "Meal", path: paths.meal, icon: <RamenDining /> },
     { name: "Element", path: paths.element, icon: <FoodBank /> },
     { name: "Profile", path: paths.profile, icon: <AccountBox /> },
   ];

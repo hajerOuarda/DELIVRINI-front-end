@@ -62,7 +62,7 @@ export default function SignUpPage() {
     street: "";
     email: "";
     password: "";
-    role: ""
+    // role: ""
   } = {
     firstName: "",
     lastName: "",
@@ -72,7 +72,7 @@ export default function SignUpPage() {
     street: "",
     email: "",
     password: "",
-    role: ""
+    // role: ""
   }
 
   const validationSchema = Yup.object().shape({

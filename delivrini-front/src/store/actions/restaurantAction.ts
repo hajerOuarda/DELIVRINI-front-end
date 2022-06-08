@@ -67,10 +67,10 @@ export interface formikV {
 }
 
 const createRestaurantAction =
-    (values: formikV) =>
+    (values: formikV, category: string) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
-                .createRestaurant(values)
+                .createRestaurant(values, category)
                 .then((data) => {
                     dispatch({
                         type: restaurantActions.CREATE_RESTAURANT_SUCCESS,

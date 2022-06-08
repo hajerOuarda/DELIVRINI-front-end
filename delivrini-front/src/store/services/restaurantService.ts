@@ -52,18 +52,22 @@ const deleteRestaurant = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurant = (values: formikV): Promise<any> => {
+const createRestaurant = (values: formikV, category: string): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createRestaurant, values, {
+            .post(URLS.createRestaurant, { ...values, category: category }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
-            },
+
+            }
+            ,
             )
             .then((response) => {
                 if (response.data) {
+                    console.log("cat", category);
+
                     console.log("data restaurant :", response);
                 }
                 resolve(response.data);

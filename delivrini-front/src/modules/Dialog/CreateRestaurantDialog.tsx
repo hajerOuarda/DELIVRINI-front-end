@@ -12,12 +12,15 @@ import { FoodBankOutlined } from '@mui/icons-material';
 import { createRestaurantAction } from '../../store/actions/restaurantAction';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { setSnackbar } from '../../store/reducers/customizedSnackBarReducer';
+import { InputLabel, MenuItem, Select } from '@mui/material';
+import { useState } from 'react';
 
 const theme = createTheme();
 
 export default function CreateRestaurantDialog() {
     const dispatch = useAppDispatch();
-
+    const [category, setCategory] = useState("fast food");
+    const categories = ["vegan", "fast food", "chinese"];
 
     const initialValues = {
         name: "",
@@ -37,19 +40,23 @@ export default function CreateRestaurantDialog() {
         address: Yup.string().required("This field is required!"),
         phone: Yup.string().required("This field is required!"),
     });
+    const handleChange = (e: any) => {
+        const selectedCategory = e.target.value;
+        setCategory(selectedCategory);
+    }
 
     const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
 
-        dispatch<any>(createRestaurantAction(formValue))
+        dispatch<any>(createRestaurantAction({ ...formValue }, category))
 
     }
+    console.log("category", category);
 
     return (
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit
-            }
+            onSubmit={handleSubmit}
         >
             {({ errors, touched }) => (
                 <ThemeProvider theme={theme}>
@@ -161,6 +168,24 @@ export default function CreateRestaurantDialog() {
                                             component="div"
                                             className="alert alert-danger"
                                         />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <InputLabel id="demo-simple-select-label">Restaurant category</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="category"
+                                            required
+                                            name="category"
+                                            label="category"
+                                            autoWidth
+                                            displayEmpty
+                                            onChange={handleChange}
+                                            value={category}
+                                        >
+                                            {categories.map((category, index) => (
+                                                <MenuItem value={category} key={index}> {category}</MenuItem>
+                                            ))}
+                                        </Select>
                                     </Grid>
                                 </Grid>
                                 <Button

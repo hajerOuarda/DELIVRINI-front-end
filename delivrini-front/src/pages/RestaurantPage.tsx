@@ -174,7 +174,8 @@ export default function RestaurantPage() {
       else { return "Create Restaurant " }
     }
   }
-  console.log(getListRestaurants.map((ee: any) => ee.id))
+  // console.log(getListRestaurants.map((ee: any) => ee.id))
+
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
@@ -182,6 +183,7 @@ export default function RestaurantPage() {
           <TableHead style={{ background: 'grey', color: 'white', }}>
             <TableRow>
               <TableCell align="left">Restaurants</TableCell>
+              <TableCell align="left">Category</TableCell>
               <TableCell align="left">Email</TableCell>
               <TableCell align="left">Address</TableCell>
               <TableCell align="left">ZipCode</TableCell>
@@ -196,6 +198,9 @@ export default function RestaurantPage() {
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.name}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.fk_Rcategory}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
                   {row.email}
@@ -247,7 +252,7 @@ export default function RestaurantPage() {
         </Table>
 
       </TableContainer>
-      <Button onClick={() => { setOpen(true); setActionType("create"); }}   > <Add /></Button>
+      <Button onClick={() => { setOpen(true); setActionType("create"); }}> <Add /></Button>
 
       <GenericDialog
         title={handleTitle()}
