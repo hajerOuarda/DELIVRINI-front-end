@@ -1,7 +1,7 @@
 import { restaurantCategoryActions } from "../actions/types";
 
 
-interface RestaurantCategoryInfo {
+export interface RestaurantCategoryInfo {
     id: number
     name: string,
     description: string,

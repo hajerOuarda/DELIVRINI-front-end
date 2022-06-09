@@ -10,17 +10,16 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { createRestaurantAction } from '../../store/actions/restaurantAction';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { InputLabel, MenuItem, Select } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const theme = createTheme();
 
 export default function CreateRestaurantDialog() {
     const dispatch = useAppDispatch();
-    const [category, setCategory] = useState("fast food");
-    const categories = ["vegan", "fast food", "chinese"];
-
+    const categories = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo)
+    const [category, setCategory] = useState<any>(categories[0].name)
     const initialValues = {
         name: "",
         address: "",
@@ -44,9 +43,7 @@ export default function CreateRestaurantDialog() {
     }
 
     const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
-
         dispatch<any>(createRestaurantAction({ ...formValue }, category))
-
     }
     console.log("category", category);
 
@@ -180,8 +177,8 @@ export default function CreateRestaurantDialog() {
                                             onChange={handleChange}
                                             value={category}
                                         >
-                                            {categories.map((category, index) => (
-                                                <MenuItem value={category} key={index}> {category}</MenuItem>
+                                            {categories.map((category: any, index: any) => (
+                                                <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
                                             ))}
                                         </Select>
                                     </Grid>
