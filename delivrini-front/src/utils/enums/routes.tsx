@@ -3,11 +3,11 @@ import { HomePage } from "../../pages/HomePage";
 import { MealPage } from "../../pages/Meal";
 import { MealCategoryPage } from "../../pages/MealCategory";
 import { UserPage } from "../../pages/UserPage";
-import { RestaurantCategoryPage } from "../../pages/RestaurantCategory";
 import { ProfilePage } from "../../pages/profilePage";
 import { AuthenticatedRoute } from "../../routes/protectedRoutes";
 import { NotAuthorizedPage } from "../../pages/NotAuthorizedPage";
 import RestaurantPage from "../../pages/RestaurantPage";
+import RestaurantCategoryPage from "../../pages/RestaurantCategory";
 
 export enum paths {
   home = "/",

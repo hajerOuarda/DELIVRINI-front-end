@@ -6,11 +6,16 @@ export enum URLS {
   resetPassword = "user/auth/requestPasswordReset",
   users = "user/admin/all/:limit/:page",
   oneUser = "user/admin/",
-  restaurantCategory = "restaurantCategory/all?size=1&page=1",
+  //** restaurant crud */
   restaurantsList = "restaurants/all",//?size=10&page=1pass par pramettre page number 
   deleteRestaurant = "restaurants/",
   createRestaurant = "restaurants",
   findRestaurantById = "restaurants/",
-  editRestaurant = "restaurants/"
-
+  editRestaurant = "restaurants/",
+  //** restaurantCategory crud */
+  restaurantCategory = "restaurantCategory/all",
+  deleterestaurantCategory = "restaurantCategory/",
+  createrestaurantCategory = "restaurantCategory",
+  findrestaurantCategoryById = "restaurantCategory/",
+  editrestaurantCategory = "restaurantCategory/",
 }

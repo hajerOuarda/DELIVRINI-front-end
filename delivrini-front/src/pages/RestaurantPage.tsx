@@ -23,7 +23,6 @@ import GenericDialog from '../modules/Dialog/GenericDialog';
 import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
 import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
 import EditRestaurantDialog from '../modules/Dialog/EditRestaurantDialog';
-import { setSnackbar } from '../store/reducers/customizedSnackBarReducer';
 
 
 
@@ -106,7 +105,6 @@ export default function RestaurantPage() {
   const dispatch = useAppDispatch();
   const getListRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
   console.log('page', page, getListRestaurants);
-
 
 
   // Avoid a layout jump when reaching the last page with empty rows.

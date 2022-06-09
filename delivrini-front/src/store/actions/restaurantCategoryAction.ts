@@ -1,20 +1,25 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
-import { restaurantService } from "../services/restaurantService";
-import { restaurantActions } from "./types";
+import { restaurantCategoryService } from "../services/restaurantCategoryService";
+import { restaurantCategoryActions } from "./types";
+
+export interface formikRestaurantCategory {
+    name: string,
+    description: string,
+    image: string,
+
+}
 
 
-const listRestaurantAction =
+const listRestaurantCategoryAction =
     (page: number, rowPerPage: number) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .getRestaurantsList(page, rowPerPage)
+            return restaurantCategoryService
+                .getRestaurantCategoryList(page, rowPerPage)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.LIST_RESTAURANT_SUCCESS,
+                        type: restaurantCategoryActions.LIST_RESTAURANTCATEGORY_SUCCESS,
                         payload: data,
                     });
-                    // console.log("list data", data);
-
                     return data;
                 })
                 .catch((error) => {
@@ -22,7 +27,7 @@ const listRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.LIST_RESTAURANT_FAILED,
+                        type: restaurantCategoryActions.LIST_RESTAURANTCATEGORY_FAILED,
                         payload: message,
                     });
                     console.log("list data error ", message);
@@ -30,16 +35,16 @@ const listRestaurantAction =
                 });
         };
 
-// delete restaurant
+// delete RestaurantCategory
 
-const deleteRestaurantAction =
+const deleteRestaurantCategoryAction =
     (id: number) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .deleteRestaurant(id)
+            return restaurantCategoryService
+                .deleteRestaurantCategory(id)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.DELETE_RESTAURANT_SUCCESS,
+                        type: restaurantCategoryActions.DELETE_RESTAURANTCATEGORY_SUCCESS,
                         payload: data,
                     });
                     console.log("list data deletion ", data);
@@ -50,37 +55,29 @@ const deleteRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.DELETE_RESTAURANT_FAILED,
+                        type: restaurantCategoryActions.DELETE_RESTAURANTCATEGORY_FAILED,
                         payload: message,
                     });
                     return;
                 });
         };
 
-export interface  formikRestaurant {
-    name: string,
-    phone: string,
-    email: string,
-    address: string,
-    zipCode: string,
-    street: string
-}
 
-const createRestaurantAction =
-    (values:  formikRestaurant, category: string) =>
+const createRestaurantCategoryAction =
+    (values: formikRestaurantCategory) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .createRestaurant(values, category)
+            return restaurantCategoryService
+                .createRestaurantCategory(values)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
+                        type: restaurantCategoryActions.CREATE_RESTAURANTCATEGORY_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully created!"
+                            "RestaurantCategory successfully created!"
                         ))
                     console.log("list data  ", data);
                     return data;
@@ -90,34 +87,34 @@ const createRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_FAILED,
+                        type: restaurantCategoryActions.CREATE_RESTAURANTCATEGORY_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while creating restaurant, email or name already exist!"
+                            "error while creating RestaurantCategory,  name already exist!"
                         ))
                     return;
                 });
         };
 
-const editRestaurantAction =
-    (values:  formikRestaurant, id: number) =>
+const editRestaurantCategoryAction =
+    (values: formikRestaurantCategory, id: number) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .editRestaurant(values, id)
+            return restaurantCategoryService
+                .editRestaurantCategory(values, id)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.EDIT_RESTAURANT_SUCCESS,
+                        type: restaurantCategoryActions.EDIT_RESTAURANTCATEGORY_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully updated!"
+                            "RestaurantCategory successfully updated!"
                         ))
                     console.log("list data  ", data);
                     return data;
@@ -127,18 +124,18 @@ const editRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.EDIT_RESTAURANT_FAILED,
+                        type: restaurantCategoryActions.EDIT_RESTAURANTCATEGORY_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while updating restaurant, email or name already exists!"
+                            "error while updating RestaurantCategory,  name already exists!"
                         ))
                     return;
                 });
         };
 
 
-export { listRestaurantAction, deleteRestaurantAction, createRestaurantAction, editRestaurantAction }
+export { listRestaurantCategoryAction, deleteRestaurantCategoryAction, createRestaurantCategoryAction, editRestaurantCategoryAction }

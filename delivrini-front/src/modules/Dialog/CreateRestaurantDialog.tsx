@@ -6,12 +6,11 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { createRestaurantAction } from '../../store/actions/restaurantAction';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setSnackbar } from '../../store/reducers/customizedSnackBarReducer';
+import { useAppDispatch } from '../../store/hooks';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 
@@ -29,7 +28,6 @@ export default function CreateRestaurantDialog() {
         zipCode: "",
         street: "",
         email: "",
-
     }
     const validationSchema = Yup.object().shape({
         email: Yup.string()
