@@ -19,10 +19,10 @@ import { useEffect } from "react";
 import { deleteRestaurantAction, listRestaurantAction } from '../store/actions/restaurantAction';
 import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
-import GenericDialog from '../modules/Dialog/GenericDialog';
-import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
-import EditRestaurantDialog from '../modules/Dialog/EditRestaurantDialog';
-import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
+import GenericDialog from '../modules/Dialog/GenericDialog'; 
+import { DeleteRestaurantDialog } from '../modules/Dialog/Restaurant/DeleteRestaurantDialog';
+import CreateRestaurantDialog from '../modules/Dialog/Restaurant/CreateRestaurantDialog';
+import EditRestaurantDialog from '../modules/Dialog/Restaurant/EditRestaurantDialog';
 
 
 
