@@ -8,14 +8,19 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import { useAppDispatch } from "../../store/hooks";
+import { sendLogoutAction } from "../../store/actions";
+import { useNavigate } from "react-router-dom";
+import { paths } from "../../utils/enums/routes";
 
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const AppBarComponent = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -35,6 +40,10 @@ const AppBarComponent = () => {
   };
 
   const handleCloseUserMenu = () => {
+    
+      dispatch<any>(sendLogoutAction())
+      navigate(paths.signin)
+   
     setAnchorElUser(null);
   };
 
@@ -118,7 +127,9 @@ const AppBarComponent = () => {
             >
               {settings.map((setting) => (
 
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={
+                  handleCloseUserMenu 
+                }>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

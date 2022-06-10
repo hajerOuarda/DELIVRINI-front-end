@@ -82,7 +82,6 @@ const createRestaurantAction =
                             "success",
                             "Restaurant successfully created!"
                         ))
-                    console.log("list data  ", data);
                     return data;
                 })
                 .catch((error) => {
