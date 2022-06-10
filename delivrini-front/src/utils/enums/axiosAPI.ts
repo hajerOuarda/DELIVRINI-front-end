@@ -14,8 +14,14 @@ export enum URLS {
   editRestaurant = "restaurants/",
   //** restaurantCategory crud */
   restaurantCategory = "restaurantCategory/all",
-  deleterestaurantCategory = "restaurantCategory/",
-  createrestaurantCategory = "restaurantCategory",
-  findrestaurantCategoryById = "restaurantCategory/",
-  editrestaurantCategory = "restaurantCategory/",
+  deleteRestaurantCategory = "restaurantCategory/",
+  createRestaurantCategory = "restaurantCategory",
+  findRestaurantCategoryById = "restaurantCategory/",
+  editRestaurantCategory = "restaurantCategory/",
+  //** restaurantCategory crud */
+  mealCategory = "mealCategory/all",
+  deleteMealCategory = "mealCategory/",
+  createMealCategory = "mealCategory",
+  findMealCategoryById = "mealCategory/",
+  editMealCategory = "mealCategory/",
 }

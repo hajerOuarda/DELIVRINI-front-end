@@ -1,13 +1,13 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
-import { formikRestaurantCategory } from "../actions/restaurantCategoryAction";
+import { formikMealCategory } from "../actions/mealCategoryAction";
 import authHeader from "./authHeader";
 
-const getRestaurantCategoryList = (page: number, rowPerPage: number): Promise<any> => {
+const getMealCategoryList = (page: number, rowPerPage: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.restaurantCategory, {
+            .get(URLS.mealCategory, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 },
@@ -28,11 +28,11 @@ const getRestaurantCategoryList = (page: number, rowPerPage: number): Promise<an
             });
     });
 };
-const deleteRestaurantCategory = (id: any): Promise<any> => {
+const deleteMealCategory = (id: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .delete(URLS.deleteRestaurantCategory + id, {
+            .delete(URLS.deleteMealCategory + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -51,11 +51,11 @@ const deleteRestaurantCategory = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurantCategory = (values: formikRestaurantCategory): Promise<any> => {
+const createMealCategory = (values: formikMealCategory): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createRestaurantCategory, { ...values }, {
+            .post(URLS.createMealCategory, { ...values }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -63,7 +63,7 @@ const createRestaurantCategory = (values: formikRestaurantCategory): Promise<any
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data RestaurantCategory :", response);
+                    console.log("data mealCategory :", response);
                 }
                 resolve(response.data);
             })
@@ -73,11 +73,11 @@ const createRestaurantCategory = (values: formikRestaurantCategory): Promise<any
             });
     });
 };
-const editRestaurantCategory = (values: formikRestaurantCategory, id: number): Promise<any> => {
+const editMealCategory = (values: formikMealCategory, id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editRestaurantCategory + id, values, {
+            .patch(URLS.editMealCategory + id, values, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -86,7 +86,7 @@ const editRestaurantCategory = (values: formikRestaurantCategory, id: number): P
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data RestaurantCategory :", response.data);
+                    console.log("data mealCategory :", response.data);
                 }
                 resolve(response.data.updatedCategoryRestaurant);
             })
@@ -97,11 +97,11 @@ const editRestaurantCategory = (values: formikRestaurantCategory, id: number): P
     });
 };
 
-const findRestaurantCategoryById = (id: number): Promise<any> => {
+const findMealCategoryById = (id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.findRestaurantCategoryById + id, {
+            .get(URLS.findMealCategoryById + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -109,7 +109,7 @@ const findRestaurantCategoryById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data RestaurantCategory :", response);
+                    console.log("data mealCategory :", response);
                 }
                 resolve(response.data);
             })
@@ -120,12 +120,12 @@ const findRestaurantCategoryById = (id: number): Promise<any> => {
     });
 };
 
-export const restaurantCategoryService = {
-    getRestaurantCategoryList,
-    deleteRestaurantCategory,
-    createRestaurantCategory,
-    editRestaurantCategory,
-    findRestaurantCategoryById
+export const mealCategoryService = {
+    getMealCategoryList,
+    deleteMealCategory,
+    createMealCategory,
+    editMealCategory,
+    findMealCategoryById
 }
 
 
