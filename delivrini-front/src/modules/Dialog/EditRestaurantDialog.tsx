@@ -9,14 +9,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { useAppDispatch } from '../../store/hooks';
-import { editRestaurantAction, formikRestaurant } from '../../store/actions/restaurantAction';
-import { restaurantService } from '../../store/services/restaurantService';
 import { useEffect, useState } from 'react';
+import { restaurantService } from '../../store/services/restaurantService';
+import { editRestaurantAction, formikRestaurant } from '../../store/actions/restaurantAction';
+import { useAppDispatch } from '../../store/hooks';
 
 const theme = createTheme();
 
-export default function CreateRestaurantDialog(props: any) {
+export default function EditRestaurantDialog(props: any) {
     const dispatch = useAppDispatch();
     const [resto, setResto] = useState<formikRestaurant>()
     const idRestaurant = props.idRestaurant

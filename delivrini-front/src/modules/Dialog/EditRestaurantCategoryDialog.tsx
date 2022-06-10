@@ -8,12 +8,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
-import { FoodBankOutlined } from '@mui/icons-material';
+import { FoodBankOutlined } from '@mui/icons-material'; 
 import { useAppDispatch } from '../../store/hooks';
+import { editRestaurantCategoryAction, formikRestaurantCategory } from '../../store/actions/restaurantCategoryAction';
 import { useEffect, useState } from 'react';
 import { restaurantCategoryService } from '../../store/services/restaurantCategoryService';
-import { editRestaurantCategoryAction, formikRestaurantCategory } from '../../store/actions/restaurantCategoryAction';
-
 const theme = createTheme();
 
 export default function EditRestaurantCategoryDialog(props: any) {
@@ -22,7 +21,7 @@ export default function EditRestaurantCategoryDialog(props: any) {
     const idRestaurantCategory = props.idRestaurantCategory
     useEffect(() => {
         restaurantCategoryService.findRestaurantCategoryById(idRestaurantCategory).then((r) => {
-            setRestoCategory(r.restaurant_found)
+            setRestoCategory(r.restaurantCategory_found)
         }).catch((e: any) => console.log(e.message))
     }, [])
     const initialValues = restoCategory ?? {

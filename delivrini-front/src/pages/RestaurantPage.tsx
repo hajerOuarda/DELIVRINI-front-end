@@ -21,8 +21,8 @@ import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
-import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
 import EditRestaurantDialog from '../modules/Dialog/EditRestaurantDialog';
+import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
 
 
 
@@ -172,7 +172,6 @@ export default function RestaurantPage() {
       else { return "Create Restaurant " }
     }
   }
-  // console.log(getListRestaurants.map((ee: any) => ee.id))
 
   return (
     <React.Fragment>

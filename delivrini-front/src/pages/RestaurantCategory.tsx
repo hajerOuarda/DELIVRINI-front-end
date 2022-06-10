@@ -21,8 +21,8 @@ import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import { deleteRestaurantCategoryAction, listRestaurantCategoryAction } from '../store/actions/restaurantCategoryAction';
 import CreateRestaurantCategoryDialog from '../modules/Dialog/CreateRestaurantCategoryDialog';
-import { DeleteRestaurantCategoryDialog } from '../modules/Dialog/DeleteRestaurantCategoryDialog';
 import EditRestaurantCategoryDialog from '../modules/Dialog/EditRestaurantCategoryDialog';
+import { DeleteRestaurantCategoryDialog } from '../modules/Dialog/DeleteRestaurantCategoryDialog';
 
 
 
@@ -130,26 +130,26 @@ export default function RestaurantCategoryPage() {
   }, [page, rowsPerPage])
 
   // *** delete restaurant ***
-  const handleDeleteResto = (id: number) => {
+  const handleDeleteCategoryResto = (id: number) => {
 
     dispatch<any>(deleteRestaurantCategoryAction(id))
 
   };
   // *** edit restaurant ***
-  const handleEditResto = (id: any): any => {
+  const handleEditCategoryResto = (id: any): any => {
     console.log(("edit test"));
 
   };
-  const handleCreateResto = (): any => {
+  const handleCreateCategoryResto = (): any => {
     console.log("create");
   };
 
   const handleClick = (id: number) => {
-    if (actionType === "delete") { handleDeleteResto(id) }
+    if (actionType === "delete") { handleDeleteCategoryResto(id) }
     else {
-      if (actionType === "edit") { handleEditResto(id) }
+      if (actionType === "edit") { handleEditCategoryResto(id) }
 
-      else { handleCreateResto() }
+      else { handleCreateCategoryResto() }
     }
   }
   const handleBodyContent = (id: number) => {
