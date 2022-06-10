@@ -1,3 +1,4 @@
+import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { authenticationService } from "../services";
 import { userActions } from "./types";
 
@@ -13,6 +14,12 @@ const sendLoginAction =
             type: userActions.LOGIN_SUCCESS,
             payload: data,
           });
+          dispatch(
+            setSnackbar(
+              true,
+              "success",
+              "you successfully Logged in!"
+            ))
           return data;
         })
         .catch((error) => {
@@ -38,6 +45,12 @@ const sendRegisterAction =
             type: userActions.REGISTER_SUCCESS,
             payload: data,
           });
+          dispatch(
+            setSnackbar(
+              true,
+              "success",
+              "you successfully signed up !"
+            ))
           return data;
         })
         .catch((error) => {
@@ -83,6 +96,7 @@ const sendLogoutAction = () => (dispatch: any) => {
   dispatch({
     type: userActions.LOGOUT,
   });
+  
 };
 
 export { sendLoginAction, sendLogoutAction, sendRegisterAction, sendResetPasswordAction };
