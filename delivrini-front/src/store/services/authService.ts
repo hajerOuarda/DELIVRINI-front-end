@@ -70,7 +70,10 @@ const sendResetPassword = (email: string): Promise<any> => {
 };
 
 const sendLogout = () => {
-  localStorage.removeItem("user");
+  // localStorage.removeItem("user");
+  // localStorage.removeItem("token");
+
+  localStorage.clear()
 };
 
 export const authenticationService = {
