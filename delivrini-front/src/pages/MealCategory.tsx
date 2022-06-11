@@ -20,6 +20,9 @@ import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import { deleteMealCategoryAction, listMealCategoryAction } from '../store/actions/mealCategoryAction';
+import { DeleteMealCategoryDialog } from '../modules/Dialog/mealCategory/DeleteMealCategoryDialog';
+import EditMealCategoryDialog from '../modules/Dialog/mealCategory/EditMealCategoryDialog';
+import CreateMealCategoryDialog from '../modules/Dialog/mealCategory/CreateMealCategoryDialog';
 
 
 
@@ -151,12 +154,12 @@ export default function MealCategoryPage() {
   }
   const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
-      return <DeleteRestaurantCategoryDialog />
+      return <DeleteMealCategoryDialog />
     }
     else {
-      if (actionType === "edit") { return <EditRestaurantCategoryDialog idRestaurantCategory={id} /> }
+      if (actionType === "edit") { return <EditMealCategoryDialog idMealCategory={id} /> }
 
-      else { return <CreateRestaurantCategoryDialog /> }
+      else { return <CreateMealCategoryDialog /> }
     }
   }
   const handleTitle = () => {
@@ -174,7 +177,7 @@ export default function MealCategoryPage() {
           <TableHead style={{ background: 'grey', color: 'white', }}>
             <TableRow>
 
-              <TableCell align="left">Category</TableCell>
+              <TableCell align="left">Meal Category</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="left">Image</TableCell>
               <TableCell align="left">Actions</TableCell>
