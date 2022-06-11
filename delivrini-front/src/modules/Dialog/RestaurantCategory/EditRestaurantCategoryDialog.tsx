@@ -8,20 +8,20 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
-import { FoodBankOutlined } from '@mui/icons-material'; 
- import { useEffect, useState } from 'react';
+import { FoodBankOutlined } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
 import { useAppDispatch } from '../../../store/hooks';
 import { editRestaurantCategoryAction, formikRestaurantCategory } from '../../../store/actions/restaurantCategoryAction';
 import { restaurantCategoryService } from '../../../store/services/restaurantCategoryService';
- const theme = createTheme();
+const theme = createTheme();
 
 export default function EditRestaurantCategoryDialog(props: any) {
     const dispatch = useAppDispatch();
     const [restoCategory, setRestoCategory] = useState<formikRestaurantCategory>()
     const idRestaurantCategory = props.idRestaurantCategory
     useEffect(() => {
-        restaurantCategoryService.findRestaurantCategoryById(idRestaurantCategory).then((r) => {
-            setRestoCategory(r.restaurantCategory_found)
+        restaurantCategoryService.findRestaurantCategoryById(idRestaurantCategory).then((restoCategory) => {
+            setRestoCategory(restoCategory.restaurantCategory_found)
         }).catch((e: any) => console.log(e.message))
     }, [])
     const initialValues = restoCategory ?? {

@@ -8,7 +8,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
-import { FoodBankOutlined } from '@mui/icons-material'; 
+import { FoodBankOutlined } from '@mui/icons-material';
 import { useAppDispatch } from '../../../store/hooks';
 import { createRestaurantCategoryAction } from '../../../store/actions/restaurantCategoryAction';
 const theme = createTheme();
@@ -62,7 +62,7 @@ export default function CreateRestaurantCategoryDialog() {
                                             required
                                             fullWidth
                                             id="name"
-                                            label="Restaurant Name"
+                                            label="Restaurant Category Name"
                                             autoFocus
                                             error={errors.name && touched.name}
                                         />
