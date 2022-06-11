@@ -23,10 +23,13 @@ import {
 } from "@mui/icons-material";
 import HomeIcon from "@mui/icons-material/Home";
 import { paths } from "../../utils/enums/routes";
-import { useAppSelector } from "../../store/hooks";;
+import { useAppSelector } from "../../store/hooks";
 
 export default function MenuComponent(props: any) {
-  const user_role = useAppSelector((state) => state.authReducer.userInfo.fk_role)
+  // const user_role = useAppSelector((state) => state.authReducer.userInfo.fk_role)
+  const user_role = localStorage.getItem('user_role')
+  console.log("user_role", user_role);
+
   let navigate = useNavigate();
   const [state, setState] = React.useState({
     isOpen: false,
@@ -37,7 +40,7 @@ export default function MenuComponent(props: any) {
 
     { name: "Profile", path: paths.profile, icon: <AccountBox /> },
   ]
-  if (user_role == "admin") {
+  if (user_role === "admin") {
     mylist.splice(1, 0,
       { name: "Restaurant", path: paths.restaurant, icon: <LocalDining /> },
       {
@@ -48,7 +51,7 @@ export default function MenuComponent(props: any) {
     )
   }
   else
-    if (user_role == "chef") {
+    if (user_role === "chef") {
       mylist.splice(1, 0,
         { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
         { name: "Meal", path: paths.meal, icon: <RamenDining /> },

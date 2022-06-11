@@ -6,11 +6,12 @@ const sendLogin = (email: string, password: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     Api
       .post(URLS.login, {
-        email: email,
-        password: password,
+        email,
+        password,
       })
       .then((response) => {
         if (response.data.accessToken) {
+          localStorage.setItem("user_role", response.data.user.fk_role);
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("token", response.data.accessToken);
         }
@@ -40,11 +41,9 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
       .then((response) => {
         resolve(response.data.message);
         console.log("response.data ", response.data);
-        console.log("role", role)
       })
       .catch((error) => {
         console.log("error :", error.response.data.code);
-        console.log("error2 :", error.response);
         console.log("role", role)
         reject(error.response.data.code);
       });
