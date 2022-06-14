@@ -48,7 +48,7 @@ export default function RestaurantCategoryReducer(state = initialState, action: 
             console.log(payload)
             return {
                 ...state,
-                restaurantCategoryInfo: [...state.restaurantCategoryInfo, payload.restaurant]
+                restaurantCategoryInfo: [...state.restaurantCategoryInfo, payload.restaurantCategory]
             };
         case restaurantCategoryActions.CREATE_RESTAURANTCATEGORY_FAILED:
             return {

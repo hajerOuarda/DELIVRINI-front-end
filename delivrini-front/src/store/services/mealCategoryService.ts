@@ -88,7 +88,7 @@ const editMealCategory = (values: formikMealCategory, id: number): Promise<any> 
 
                     console.log("data mealCategory :", response.data);
                 }
-                resolve(response.data.updatedCategoryRestaurant);
+                resolve(response.data.updatedMealCategory);
             })
             .catch((error) => {
                 console.log("error :", error.message);

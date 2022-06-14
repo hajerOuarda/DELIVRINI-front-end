@@ -11,12 +11,12 @@ export interface MealCategoryInfo {
 
 }
 
-interface RestaurantCategoryState {
+interface MealCategoryState {
 
     mealCategoryInfo: MealCategoryInfo[];
     error: string
 }
-const initialState: RestaurantCategoryState = {
+const initialState: MealCategoryState = {
 
     mealCategoryInfo: [] as MealCategoryInfo[],
     error: " "
@@ -50,7 +50,7 @@ export default function MealCategoryReducer(state = initialState, action: any) {
             console.log(payload)
             return {
                 ...state,
-                mealCategoryInfo: [...state.mealCategoryInfo, payload.restaurant]
+                mealCategoryInfo: [...state.mealCategoryInfo, payload.mealCategory]
             };
         case mealCategoryActions.CREATE_MEALCATEGORY_FAILED:
             return {
@@ -58,8 +58,8 @@ export default function MealCategoryReducer(state = initialState, action: any) {
                 error: payload
             };
         case mealCategoryActions.EDIT_MEALCATEGORY_SUCCESS:
-            const oldMealIndex = state.mealCategoryInfo.findIndex(resto => resto.id === payload.id)
-            state.mealCategoryInfo[oldMealIndex] = payload
+            const oldMealCategoryIndex = state.mealCategoryInfo.findIndex(mealCategory => mealCategory.id === payload.id)
+            state.mealCategoryInfo[oldMealCategoryIndex] = payload
             return {
                 ...state,
                 mealCategoryInfo: [...state.mealCategoryInfo]
