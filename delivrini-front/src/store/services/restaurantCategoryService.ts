@@ -86,7 +86,7 @@ const editRestaurantCategory = (values: formikRestaurantCategory, id: number): P
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data RestaurantCategory :", response.data);
+                    console.log("edit RestaurantCategory :", response.data);
                 }
                 resolve(response.data.updatedCategoryRestaurant);
             })
@@ -109,7 +109,7 @@ const findRestaurantCategoryById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data RestaurantCategory :", response);
+                    console.log("find RestaurantCategory :", response);
                 }
                 resolve(response.data);
             })

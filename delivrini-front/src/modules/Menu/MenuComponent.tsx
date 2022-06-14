@@ -28,7 +28,6 @@ import { useAppSelector } from "../../store/hooks";
 export default function MenuComponent(props: any) {
   // const user_role = useAppSelector((state) => state.authReducer.userInfo.fk_role)
   const user_role = localStorage.getItem('user_role')
-  console.log("user_role", user_role);
 
   let navigate = useNavigate();
   const [state, setState] = React.useState({

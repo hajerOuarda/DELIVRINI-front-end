@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../layouts/layout";
+import SignUpLayout from "../layouts/SignUpLayout";
 import CustomizedSnackbars from "../modules/Bar/CustomizedSnackBar";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignInPage from "../pages/SigninPage";
@@ -13,7 +14,7 @@ export default function App() {
       <CustomizedSnackbars />
       <Routes>
         <Route path={paths.signin} element={<SignInPage />} />
-        <Route path={paths.signup} element={<SignUpPage />} />
+        <Route path={paths.signup} element={<SignUpLayout> <SignUpPage /> </SignUpLayout>} />
         <Route path={paths.resetPassword} element={<ResetPasswordPage />} />
 
         {routes.map(({ path, element }, index) => (

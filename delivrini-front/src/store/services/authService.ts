@@ -24,7 +24,7 @@ const sendLogin = (email: string, password: string): Promise<any> => {
   });
 };
 
-const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string): Promise<any> => {
+const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string, restaurant:string): Promise<any> => {
   return new Promise((resolve, reject) => {
 
     Api.post(URLS.register, {
@@ -36,15 +36,14 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
       street: street,
       email: email,
       password: password,
-      role: role
+      role: role,
+      restaurant:restaurant
     })
       .then((response) => {
         resolve(response.data.message);
-        console.log("response.data ", response.data);
       })
       .catch((error) => {
-        console.log("error :", error.response.data.code);
-        console.log("role", role)
+        console.log("error :", error.response.data.code); 
         reject(error.response.data.code);
       });
   });

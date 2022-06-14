@@ -13,8 +13,6 @@ const listRestaurantAction =
                         type: restaurantActions.LIST_RESTAURANT_SUCCESS,
                         payload: data,
                     });
-                    // console.log("list data", data);
-
                     return data;
                 })
                 .catch((error) => {
@@ -57,7 +55,7 @@ const deleteRestaurantAction =
                 });
         };
 
-export interface  formikRestaurant {
+export interface formikRestaurant {
     name: string,
     phone: string,
     email: string,
@@ -67,7 +65,7 @@ export interface  formikRestaurant {
 }
 
 const createRestaurantAction =
-    (values:  formikRestaurant, category: string) =>
+    (values: formikRestaurant, category: string) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
                 .createRestaurant(values, category)
@@ -103,7 +101,7 @@ const createRestaurantAction =
         };
 
 const editRestaurantAction =
-    (values:  formikRestaurant, id: number) =>
+    (values: formikRestaurant, id: number) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
                 .editRestaurant(values, id)

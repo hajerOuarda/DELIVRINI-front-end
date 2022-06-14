@@ -8,9 +8,9 @@ const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
     return new Promise((resolve, reject) => {
         Api
             .get(URLS.restaurantsList, {
-                headers: {
-                    authorization: "Basic " + authHeader()
-                },
+                // headers: {
+                //     authorization: "Basic " + authHeader()
+                // },
                 params: {
                     page,
                     size: rowPerPage

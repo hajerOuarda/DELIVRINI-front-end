@@ -19,12 +19,10 @@ import { useEffect } from "react";
 import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
+import { DeleteRestaurantCategoryDialog } from '../modules/Dialog/RestaurantCategory/DeleteRestaurantCategoryDialog';
+import EditRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/EditRestaurantCategoryDialog';
+import CreateRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/CreateRestaurantCategoryDialog';
 import { deleteRestaurantCategoryAction, listRestaurantCategoryAction } from '../store/actions/restaurantCategoryAction';
-import CreateRestaurantCategoryDialog from '../modules/Dialog/CreateRestaurantCategoryDialog';
-import EditRestaurantCategoryDialog from '../modules/Dialog/EditRestaurantCategoryDialog';
-import { DeleteRestaurantCategoryDialog } from '../modules/Dialog/DeleteRestaurantCategoryDialog';
-
-
 
 interface TablePaginationActionsProps {
   count: number;
@@ -177,7 +175,7 @@ export default function RestaurantCategoryPage() {
           <TableHead style={{ background: 'grey', color: 'white', }}>
             <TableRow>
 
-              <TableCell align="left">Category</TableCell>
+              <TableCell align="left">Restaurant Category</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="left">Image</TableCell>
               <TableCell align="left">Actions</TableCell>
