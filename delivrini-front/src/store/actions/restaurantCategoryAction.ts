@@ -47,8 +47,13 @@ const deleteRestaurantCategoryAction =
                         type: restaurantCategoryActions.DELETE_RESTAURANTCATEGORY_SUCCESS,
                         payload: data,
                     });
-                    console.log("list data deletion ", data);
-                    return data;
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "RestaurantCategory successfully deleted!"
+                        ))
+                     return data;
                 })
                 .catch((error) => {
                     const message =
@@ -58,6 +63,12 @@ const deleteRestaurantCategoryAction =
                         type: restaurantCategoryActions.DELETE_RESTAURANTCATEGORY_FAILED,
                         payload: message,
                     });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while deleting restaurant category !"
+                        ))
                     return;
                 });
         };
@@ -79,7 +90,7 @@ const createRestaurantCategoryAction =
                             "success",
                             "RestaurantCategory successfully created!"
                         ))
-                    console.log("list data  ", data);
+                  
                     return data;
                 })
                 .catch((error) => {

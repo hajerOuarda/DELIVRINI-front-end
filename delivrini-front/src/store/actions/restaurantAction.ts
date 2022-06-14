@@ -40,6 +40,12 @@ const deleteRestaurantAction =
                         type: restaurantActions.DELETE_RESTAURANT_SUCCESS,
                         payload: data,
                     });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "Restaurant successfully deleted!"
+                        ))
                     console.log("list data deletion ", data);
                     return data;
                 })
@@ -51,6 +57,12 @@ const deleteRestaurantAction =
                         type: restaurantActions.DELETE_RESTAURANT_FAILED,
                         payload: message,
                     });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while deleting restaurant !"
+                        ))
                     return;
                 });
         };

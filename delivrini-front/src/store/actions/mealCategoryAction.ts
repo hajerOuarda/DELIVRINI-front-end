@@ -47,7 +47,12 @@ const deleteMealCategoryAction =
                         type: mealCategoryActions.DELETE_MEALCATEGORY_SUCCESS,
                         payload: data,
                     });
-                    console.log("list data deletion ", data);
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "Meal Category successfully created!"
+                        ))
                     return data;
                 })
                 .catch((error) => {
@@ -58,6 +63,12 @@ const deleteMealCategoryAction =
                         type: mealCategoryActions.DELETE_MEALCATEGORY_FAILED,
                         payload: message,
                     });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while deleting Meal Category !"
+                        ))
                     return;
                 });
         };
