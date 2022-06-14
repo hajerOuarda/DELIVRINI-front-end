@@ -111,7 +111,7 @@ export default function CreateMealCategoryDialog() {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Create Restaurant
+                                    Create Meal Category
                                 </Button>
                             </Form>
                         </Box>

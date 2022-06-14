@@ -120,7 +120,7 @@ export default function EditMealCategoryDialog(props: any) {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Edit Restaurant Category
+                                    Edit Meal Category
                                 </Button>
                             </Form>
                         </Box>

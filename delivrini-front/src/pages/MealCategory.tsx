@@ -129,13 +129,13 @@ export default function MealCategoryPage() {
     )
   }, [page, rowsPerPage])
 
-  // *** delete restaurant ***
+  // *** delete Meal category ***
   const handleDeleteMealCategory = (id: number) => {
 
     dispatch<any>(deleteMealCategoryAction(id))
 
   };
-  // *** edit restaurant ***
+  // *** edit Meal category ***
   const handleEditMealCategory = (id: any): any => {
     console.log(("edit test"));
 
@@ -166,7 +166,7 @@ export default function MealCategoryPage() {
     if (actionType === "delete") { return "Delete Confirmation " }
     else {
       if (actionType === "edit") { return "Edit Confirmation " }
-      else { return "Create Restaurant " }
+      else { return "Create Meal category " }
     }
   }
 
