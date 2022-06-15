@@ -1,7 +1,7 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
 import { formikMealCategory } from "../actions/mealCategoryAction";
-import authHeader from "./authHeader";
+ import authHeader from "./authHeader";
 
 const getMealCategoryList = (page: number, rowPerPage: number): Promise<any> => {
 
@@ -51,11 +51,11 @@ const deleteMealCategory = (id: any): Promise<any> => {
     });
 };
 
-const createMealCategory = (values: formikMealCategory): Promise<any> => {
-
+const createMealCategory = (values: formikMealCategory, restaurant: string): Promise<any> => {
+    
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createMealCategory, { ...values }, {
+            .post(URLS.createMealCategory, { ...values, restaurant: restaurant }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }

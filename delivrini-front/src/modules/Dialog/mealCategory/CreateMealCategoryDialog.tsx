@@ -10,12 +10,13 @@ import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { createMealCategoryAction } from '../../../store/actions/mealCategoryAction';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 const theme = createTheme();
 
 export default function CreateMealCategoryDialog() {
     const dispatch = useAppDispatch();
+    const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
 
     const initialValues = {
         name: "",
@@ -29,7 +30,7 @@ export default function CreateMealCategoryDialog() {
 
 
     const handleSubmit = (formValue: { name: string, description: string, image: string }) => {
-        dispatch<any>(createMealCategoryAction(formValue))
+        dispatch<any>(createMealCategoryAction(formValue, restaurant))
     }
 
     return (

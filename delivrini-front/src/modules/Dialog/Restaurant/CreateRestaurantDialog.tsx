@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { InputLabel, MenuItem, Select } from '@mui/material';
+import {  MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createRestaurantAction } from '../../../store/actions/restaurantAction';
@@ -165,8 +165,7 @@ export default function CreateRestaurantDialog() {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                        <InputLabel id="demo-simple-select-label">Restaurant category</InputLabel>
-                                        <Select
+                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="category"
                                             required

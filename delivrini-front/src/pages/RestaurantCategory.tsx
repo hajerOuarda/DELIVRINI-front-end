@@ -19,10 +19,10 @@ import { useEffect } from "react";
 import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
-import { DeleteRestaurantCategoryDialog } from '../modules/Dialog/RestaurantCategory/DeleteRestaurantCategoryDialog';
 import EditRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/EditRestaurantCategoryDialog';
 import CreateRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/CreateRestaurantCategoryDialog';
 import { deleteRestaurantCategoryAction, listRestaurantCategoryAction } from '../store/actions/restaurantCategoryAction';
+import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -152,7 +152,7 @@ export default function RestaurantCategoryPage() {
   }
   const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
-      return <DeleteRestaurantCategoryDialog />
+      return <GenericDeleteDialog />
     }
     else {
       if (actionType === "edit") { return <EditRestaurantCategoryDialog idRestaurantCategory={id} /> }

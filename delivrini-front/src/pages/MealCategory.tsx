@@ -20,9 +20,9 @@ import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import { deleteMealCategoryAction, listMealCategoryAction } from '../store/actions/mealCategoryAction';
-import { DeleteMealCategoryDialog } from '../modules/Dialog/mealCategory/DeleteMealCategoryDialog';
 import EditMealCategoryDialog from '../modules/Dialog/mealCategory/EditMealCategoryDialog';
 import CreateMealCategoryDialog from '../modules/Dialog/mealCategory/CreateMealCategoryDialog';
+import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
 
 
 
@@ -97,12 +97,12 @@ export default function MealCategoryPage() {
   const [open, setOpen] = React.useState(false);
   const [actionType, setActionType] = React.useState("");
   const [rowId, setrowId] = React.useState<number>();
-
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const dispatch = useAppDispatch();
+  const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
   const getListMealCategory = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo);
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -154,7 +154,7 @@ export default function MealCategoryPage() {
   }
   const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
-      return <DeleteMealCategoryDialog />
+      return <GenericDeleteDialog />
     }
     else {
       if (actionType === "edit") { return <EditMealCategoryDialog idMealCategory={id} /> }
@@ -186,7 +186,7 @@ export default function MealCategoryPage() {
           <TableBody>
             {(
               getListMealCategory
-            ).map((row: any) => (
+            ).filter((mealCategory: any) => mealCategory.fk_restaurant === restaurant).map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.name}

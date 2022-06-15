@@ -46,7 +46,7 @@ export default function MenuComponent(props: any) {
         name: "Restaurant Category",
         path: paths.restaurant_category,
         icon: <Storefront />,
-      }, { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> }
+      }
     )
   }
   else

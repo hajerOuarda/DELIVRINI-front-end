@@ -19,10 +19,10 @@ import { useEffect } from "react";
 import { deleteRestaurantAction, listRestaurantAction } from '../store/actions/restaurantAction';
 import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
-import GenericDialog from '../modules/Dialog/GenericDialog'; 
-import { DeleteRestaurantDialog } from '../modules/Dialog/Restaurant/DeleteRestaurantDialog';
+import GenericDialog from '../modules/Dialog/GenericDialog';
 import CreateRestaurantDialog from '../modules/Dialog/Restaurant/CreateRestaurantDialog';
 import EditRestaurantDialog from '../modules/Dialog/Restaurant/EditRestaurantDialog';
+import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
 
 
 
@@ -157,7 +157,7 @@ export default function RestaurantPage() {
   }
   const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
-      return <DeleteRestaurantDialog />
+      return <GenericDeleteDialog />
     }
     else {
       if (actionType === "edit") { return <EditRestaurantDialog idRestaurant={id} /> }

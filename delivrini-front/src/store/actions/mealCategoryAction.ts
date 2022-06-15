@@ -51,7 +51,7 @@ const deleteMealCategoryAction =
                         setSnackbar(
                             true,
                             "success",
-                            "Meal Category successfully created!"
+                            "Meal Category successfully deleted!"
                         ))
                     return data;
                 })
@@ -75,10 +75,10 @@ const deleteMealCategoryAction =
 
 
 const createMealCategoryAction =
-    (values: formikMealCategory) =>
+    (values: formikMealCategory,restaurant:string) =>
         (dispatch: any): Promise<void> => {
             return mealCategoryService
-                .createMealCategory(values)
+                .createMealCategory(values,restaurant)
                 .then((data) => {
                     dispatch({
                         type: mealCategoryActions.CREATE_MEALCATEGORY_SUCCESS,
