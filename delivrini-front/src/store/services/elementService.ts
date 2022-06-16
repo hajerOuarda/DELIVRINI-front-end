@@ -1,13 +1,13 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
-import { formikMealCategory } from "../actions/mealCategoryAction";
+import { formikElement } from "../actions/elementAction";
 import authHeader from "./authHeader";
 
-const getMealCategoryList = (page: number, rowPerPage: number, restaurant: any): Promise<any> => {
+const getElementList = (page: number, rowPerPage: number, restaurant: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.mealCategory, {
+            .get(URLS.element, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 },
@@ -19,7 +19,7 @@ const getMealCategoryList = (page: number, rowPerPage: number, restaurant: any):
             })
             .then((response) => {
                 if (response.data) {
-                    console.log("getMealCategoryList:", response.data);
+                    console.log("data:", response.data);
                 }
                 resolve(response.data);
             })
@@ -29,11 +29,11 @@ const getMealCategoryList = (page: number, rowPerPage: number, restaurant: any):
             });
     });
 };
-const deleteMealCategory = (id: any): Promise<any> => {
+const deleteElement = (id: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .delete(URLS.deleteMealCategory + id, {
+            .delete(URLS.deleteElement + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -52,11 +52,12 @@ const deleteMealCategory = (id: any): Promise<any> => {
     });
 };
 
-const createMealCategory = (values: formikMealCategory, restaurant: string): Promise<any> => {
+const createElement = (values: formikElement, restaurant: string, mealCategory: string): Promise<any> => {
+    console.log("restaurant element", restaurant, "and ", mealCategory);
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createMealCategory, { ...values, restaurant: restaurant }, {
+            .post(URLS.createElement, { ...values, restaurant: restaurant, mealCategory: mealCategory }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -64,7 +65,7 @@ const createMealCategory = (values: formikMealCategory, restaurant: string): Pro
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data mealCategory :", response);
+                    console.log("data Element :", response);
                 }
                 resolve(response.data);
             })
@@ -74,11 +75,11 @@ const createMealCategory = (values: formikMealCategory, restaurant: string): Pro
             });
     });
 };
-const editMealCategory = (values: formikMealCategory, id: number): Promise<any> => {
+const editElement = (values: formikElement, id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editMealCategory + id, values, {
+            .patch(URLS.editElement + id, values, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -87,9 +88,9 @@ const editMealCategory = (values: formikMealCategory, id: number): Promise<any> 
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data mealCategory :", response.data);
+                    console.log("data Element :", response.data);
                 }
-                resolve(response.data.updatedMealCategory);
+                resolve(response.data.updatedElement);
             })
             .catch((error) => {
                 console.log("error :", error.message);
@@ -98,11 +99,11 @@ const editMealCategory = (values: formikMealCategory, id: number): Promise<any> 
     });
 };
 
-const findMealCategoryById = (id: number): Promise<any> => {
+const findElementById = (id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.findMealCategoryById + id, {
+            .get(URLS.findElementById + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -110,7 +111,7 @@ const findMealCategoryById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data mealCategory :", response);
+                    console.log("data Element :", response);
                 }
                 resolve(response.data);
             })
@@ -121,12 +122,12 @@ const findMealCategoryById = (id: number): Promise<any> => {
     });
 };
 
-export const mealCategoryService = {
-    getMealCategoryList,
-    deleteMealCategory,
-    createMealCategory,
-    editMealCategory,
-    findMealCategoryById
+export const ElementService = {
+    getElementList,
+    deleteElement,
+    createElement,
+    editElement,
+    findElementById
 }
 
 

@@ -125,7 +125,7 @@ export default function MealCategoryPage() {
 
   useEffect(() => {
     dispatch<any>(
-      listMealCategoryAction(page, rowsPerPage)
+      listMealCategoryAction(page, rowsPerPage,restaurant)
     )
   }, [page, rowsPerPage])
 

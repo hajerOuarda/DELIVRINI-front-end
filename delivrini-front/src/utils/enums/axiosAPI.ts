@@ -24,4 +24,10 @@ export enum URLS {
   createMealCategory = "mealCategory",
   findMealCategoryById = "mealCategory/",
   editMealCategory = "mealCategory/",
+  //** element crud */
+  element = "element/all",
+  deleteElement = "element/",
+  createElement = "element",
+  findElementById = "element/",
+  editElement = "element/",
 }
