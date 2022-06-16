@@ -53,7 +53,7 @@ export default function SignUpPage() {
   const dispatch = useAppDispatch();
   const roles = ["Client", "DeliveryMan", "Chef"];
   const listRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
-  const [restaurant, setRestaurant] = useState<any>(listRestaurants[0].name)
+  const [restaurant, setRestaurant] = useState<any>("")
 
   const initialValues: {
     firstName: "";
@@ -300,7 +300,7 @@ export default function SignUpPage() {
                           autoWidth
                           displayEmpty
                           onChange={handleChangeRestaurant}
-                          // renderValue={val => <MenuItem>{val?.name ?? 'choose restaurant'} </MenuItem>}
+                          renderValue={val => <MenuItem>{val?.name ?? 'choose restaurant'} </MenuItem>}
                           value={restaurant}
                         >
                           {listRestaurants.map((restaurant: any, index: number) => (

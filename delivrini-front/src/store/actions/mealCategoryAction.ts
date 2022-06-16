@@ -11,10 +11,10 @@ export interface formikMealCategory {
 }
 
 const listMealCategoryAction =
-    (page: number, rowPerPage: number) =>
+    (page: number, rowPerPage: number,restaurant:any) =>
         (dispatch: any): Promise<void> => {
             return mealCategoryService
-                .getMealCategoryList(page, rowPerPage)
+                .getMealCategoryList(page, rowPerPage, restaurant)
                 .then((data) => {
                     dispatch({
                         type: mealCategoryActions.LIST_MEALCATEGORY_SUCCESS,
