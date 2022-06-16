@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import {  MenuItem, Select } from '@mui/material';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createRestaurantAction } from '../../../store/actions/restaurantAction';
@@ -18,8 +18,8 @@ const theme = createTheme();
 
 export default function CreateRestaurantDialog() {
     const dispatch = useAppDispatch();
-    const categories = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo)
-    const [category, setCategory] = useState<any>(categories[0].name)
+    const restaurantCategories = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo)
+    const [category, setCategory] = useState<any>(restaurantCategories[0].name)
     const initialValues = {
         name: "",
         address: "",
@@ -165,7 +165,8 @@ export default function CreateRestaurantDialog() {
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
-                                         <Select
+                                        <InputLabel id="demo-simple-select-label">Restaurant Category</InputLabel>
+                                        <Select
                                             labelId="demo-simple-select-label"
                                             id="category"
                                             required
@@ -176,7 +177,7 @@ export default function CreateRestaurantDialog() {
                                             onChange={handleChange}
                                             value={category}
                                         >
-                                            {categories.map((category: any, index: any) => (
+                                            {restaurantCategories.map((category: any, index: any) => (
                                                 <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
                                             ))}
                                         </Select>
