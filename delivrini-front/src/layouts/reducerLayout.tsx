@@ -17,7 +17,7 @@ const ReducerLayout = (props: Props) => {
     useEffect(() => {
         dispatch<any>(listRestaurantAction(0, 50))
         dispatch<any>(listRestaurantCategoryAction(0, 50))
-        dispatch<any>(listMealCategoryAction(0, 50, ""))
+        // dispatch<any>(listMealCategoryAction(0, 50, ""))
     }, []);
     return (
         < >

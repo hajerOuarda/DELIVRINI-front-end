@@ -1,19 +1,20 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
-import { ElementService } from "../services/elementService";
-import { elementActions } from "./types";
+import { elementService } from "../services/elementService";
+ import { elementActions } from "./types";
 
 
 export interface formikElement {
     name: string,
     description: string,
     image: string,
+    price: string
 
 }
 
 const listElementAction =
     (page: number, rowPerPage: number, restaurant: any) =>
         (dispatch: any): Promise<void> => {
-            return ElementService
+            return elementService
                 .getElementList(page, rowPerPage, restaurant)
                 .then((data) => {
                     dispatch({
@@ -40,7 +41,7 @@ const listElementAction =
 const deleteElementAction =
     (id: number) =>
         (dispatch: any): Promise<void> => {
-            return ElementService
+            return elementService
                 .deleteElement(id)
                 .then((data) => {
                     dispatch({
@@ -77,7 +78,7 @@ const deleteElementAction =
 const createElementAction =
     (values: formikElement, restaurant: string, mealCategory: string) =>
         (dispatch: any): Promise<void> => {
-            return ElementService
+            return elementService
                 .createElement(values, restaurant, mealCategory)
                 .then((data) => {
                     dispatch({
@@ -114,7 +115,7 @@ const createElementAction =
 const editElementAction =
     (values: formikElement, id: number) =>
         (dispatch: any): Promise<void> => {
-            return ElementService
+            return elementService
                 .editElement(values, id)
                 .then((data) => {
                     dispatch({

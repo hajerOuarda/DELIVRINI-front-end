@@ -57,7 +57,7 @@ const createElement = (values: formikElement, restaurant: string, mealCategory: 
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createElement, { ...values, restaurant: restaurant, mealCategory: mealCategory }, {
+            .post(URLS.createElement, { ...values, restaurant: restaurant, mealCategory }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -122,7 +122,7 @@ const findElementById = (id: number): Promise<any> => {
     });
 };
 
-export const ElementService = {
+export const elementService = {
     getElementList,
     deleteElement,
     createElement,

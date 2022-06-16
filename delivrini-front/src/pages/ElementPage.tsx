@@ -22,6 +22,8 @@ import GenericDialog from '../modules/Dialog/GenericDialog';
 import { deleteElementAction, listElementAction } from '../store/actions/elementAction';
 import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
 import CreateElementDialog from '../modules/Dialog/Element/CreateElementDialog';
+import { listMealCategoryAction } from '../store/actions/mealCategoryAction';
+import EditElementDialog from '../modules/Dialog/Element/EditElementDialog';
 
 
 
@@ -126,6 +128,7 @@ export default function ElementPage() {
     dispatch<any>(
       listElementAction(page, rowsPerPage, restaurant)
     )
+    dispatch<any>(listMealCategoryAction(0, 50, restaurant))
   }, [page, rowsPerPage])
 
   // *** delete Element ***
@@ -157,7 +160,7 @@ export default function ElementPage() {
     }
     else {
       if (actionType === "edit") {
-        // return <EditElementDialog idElement={id} />
+        return <EditElementDialog restaurant={restaurant} idElement={id} />
       }
 
       else {
