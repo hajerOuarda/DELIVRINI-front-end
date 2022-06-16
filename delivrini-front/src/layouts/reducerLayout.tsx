@@ -18,8 +18,8 @@ const ReducerLayout = (props: Props) => {
         dispatch<any>(listMealCategoryAction(0, 50))
     }, []);
     return (
-        <>
-            <SignUpPage />
+        < >
+            {props.children}
         </>
     );
 };
