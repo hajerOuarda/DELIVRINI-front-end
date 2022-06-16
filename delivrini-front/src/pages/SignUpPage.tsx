@@ -53,7 +53,7 @@ export default function SignUpPage() {
   const dispatch = useAppDispatch();
   const roles = ["Client", "DeliveryMan", "Chef"];
   const listRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
-  const [restaurant, setRestaurant] = useState<any>("")
+  const [restaurant, setRestaurant] = useState<any>(listRestaurants[0].name)
 
   const initialValues: {
     firstName: "";
@@ -270,8 +270,9 @@ export default function SignUpPage() {
                   </Grid>
                   <Grid container alignItems='center' spacing={2} padding={2} >
                     <Grid item xs={6}>
+                      <InputLabel id="demo-simple-select-autowidth-label">Role</InputLabel>
                       <Select
-                        labelId="demo-simple-select-label"
+                        labelId="demo-simple-select-autowidth-label"
                         id="role"
                         required
                         name="role"
@@ -289,6 +290,7 @@ export default function SignUpPage() {
                     </Grid>
                     {role === "Chef" &&
                       <Grid item xs={6}>
+                        <InputLabel id="demo-simple-select-autowidth-label">Your Restaurant</InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="restaurant"
@@ -298,7 +300,7 @@ export default function SignUpPage() {
                           autoWidth
                           displayEmpty
                           onChange={handleChangeRestaurant}
-                          renderValue={val => <MenuItem>{val?.name ?? 'choose restaurant'} </MenuItem>}
+                          // renderValue={val => <MenuItem>{val?.name ?? 'choose restaurant'} </MenuItem>}
                           value={restaurant}
                         >
                           {listRestaurants.map((restaurant: any, index: number) => (
