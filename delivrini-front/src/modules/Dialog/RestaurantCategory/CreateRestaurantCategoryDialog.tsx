@@ -10,7 +10,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { useAppDispatch } from '../../../store/hooks';
-import { createRestaurantCategoryAction } from '../../../store/actions/restaurantCategoryAction';
+import { createRestaurantCategoryAction, formikRestaurantCategory } from '../../../store/actions/restaurantCategoryAction';
 const theme = createTheme();
 
 export default function CreateRestaurantCategoryDialog() {
@@ -27,7 +27,7 @@ export default function CreateRestaurantCategoryDialog() {
     });
 
 
-    const handleSubmit = (formValue: { name: string, description: string, image: string }) => {
+    const handleSubmit = (formValue: formikRestaurantCategory) => {
         dispatch<any>(createRestaurantCategoryAction(formValue))
     }
 

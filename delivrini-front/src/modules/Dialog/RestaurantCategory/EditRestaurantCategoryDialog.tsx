@@ -37,7 +37,7 @@ export default function EditRestaurantCategoryDialog(props: any) {
         image: Yup.string().required("This field is required!"),
     });
 
-    const handleSubmit = (formValue: { name: string, description: string, image: string }) => {
+    const handleSubmit = (formValue: formikRestaurantCategory) => {
 
         dispatch<any>(editRestaurantCategoryAction(formValue, idRestaurantCategory))
     }

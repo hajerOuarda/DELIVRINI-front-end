@@ -1,6 +1,6 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { elementService } from "../services/elementService";
- import { elementActions } from "./types";
+import { elementActions } from "./types";
 
 
 export interface formikElement {
@@ -116,7 +116,7 @@ const editElementAction =
     (values: formikElement, id: number) =>
         (dispatch: any): Promise<void> => {
             return elementService
-                .editElement(values, id)
+                .editElement(values,  id)
                 .then((data) => {
                     dispatch({
                         type: elementActions.EDIT_ELEMENT_SUCCESS,
@@ -128,7 +128,7 @@ const editElementAction =
                             "success",
                             "Element successfully updated!"
                         ))
-                    console.log("list data  ", data);
+                    console.log("element data  ", data);
                     return data;
                 })
                 .catch((error) => {
@@ -143,7 +143,7 @@ const editElementAction =
                         setSnackbar(
                             true,
                             "error",
-                            "error while updating Element,  name already exists!"
+                            "error while updating Element !"
                         ))
                     return;
                 });
