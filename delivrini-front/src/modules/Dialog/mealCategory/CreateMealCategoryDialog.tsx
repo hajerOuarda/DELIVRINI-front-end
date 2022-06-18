@@ -9,7 +9,7 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { createMealCategoryAction } from '../../../store/actions/mealCategoryAction';
+import { createMealCategoryAction, formikMealCategory } from '../../../store/actions/mealCategoryAction';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 
 const theme = createTheme();
@@ -29,7 +29,7 @@ export default function CreateMealCategoryDialog() {
     });
 
 
-    const handleSubmit = (formValue: { name: string, description: string, image: string }) => {
+    const handleSubmit = (formValue: formikMealCategory) => {
         dispatch<any>(createMealCategoryAction(formValue, restaurant))
     }
 

@@ -11,7 +11,7 @@ export interface formikMealCategory {
 }
 
 const listMealCategoryAction =
-    (page: number, rowPerPage: number,restaurant:any) =>
+    (page: number, rowPerPage: number, restaurant: any) =>
         (dispatch: any): Promise<void> => {
             return mealCategoryService
                 .getMealCategoryList(page, rowPerPage, restaurant)
@@ -75,10 +75,10 @@ const deleteMealCategoryAction =
 
 
 const createMealCategoryAction =
-    (values: formikMealCategory,restaurant:string) =>
+    (values: formikMealCategory, restaurant: string) =>
         (dispatch: any): Promise<void> => {
             return mealCategoryService
-                .createMealCategory(values,restaurant)
+                .createMealCategory(values, restaurant)
                 .then((data) => {
                     dispatch({
                         type: mealCategoryActions.CREATE_MEALCATEGORY_SUCCESS,

@@ -29,15 +29,14 @@ export default function EditMealCategoryDialog(props: any) {
         description: '',
         image: '',
     }
-    console.log('initis', initialValues)
-
+ 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("This field is required!"),
         description: Yup.string().required("This field is required!"),
         image: Yup.string().required("This field is required!"),
     });
 
-    const handleSubmit = (formValue: { name: string, description: string, image: string }) => {
+    const handleSubmit = (formValue:formikMealCategory) => {
 
         dispatch<any>(editMealCategoryAction(formValue, idMealCategory))
     }
