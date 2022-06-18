@@ -75,11 +75,12 @@ const createElement = (values: formikElement, restaurant: string, mealCategory: 
             });
     });
 };
-const editElement = (values: formikElement, id: number): Promise<any> => {
+const editElement = (values: formikElement,   id: number): Promise<any> => {
+    console.log("values", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editElement + id, values, {
+            .patch(URLS.editElement + id, { ...values }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }

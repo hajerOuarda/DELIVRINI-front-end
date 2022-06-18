@@ -186,6 +186,7 @@ export default function ElementPage() {
               <TableCell align="left">Element</TableCell>
               <TableCell align="left">Description</TableCell>
               <TableCell align="left">Price</TableCell>
+              <TableCell align="left">Meal Category</TableCell>
               <TableCell align="left">Image</TableCell>
               <TableCell align="left">Actions</TableCell>
             </TableRow>
@@ -203,6 +204,9 @@ export default function ElementPage() {
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
                   {row.price}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.fk_Mealcategory}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
                   {row.image}

@@ -11,7 +11,7 @@ import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
- import { editElementAction, formikElement } from '../../../store/actions/elementAction';
+import { editElementAction, formikElement } from '../../../store/actions/elementAction';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { elementService } from '../../../store/services/elementService';
 const theme = createTheme();
@@ -37,7 +37,7 @@ export default function EditElementDialog(props: any) {
         image: '',
         // mealcategory: ''
     }
-    console.log('initis', initialValues)
+
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("This field is required!"),
@@ -48,10 +48,14 @@ export default function EditElementDialog(props: any) {
     const handleChange = (e: any) => {
         const selectedMealCategory = e.target.value;
         setMealCategory(selectedMealCategory)
+
+
     }
-    const handleSubmit = (formValue: { name: string, description: string, price: string, image: string }) => {
+    const handleSubmit = (formValue: formikElement) => {
         dispatch<any>(editElementAction(formValue, idElement))
+        console.log('values', formValue)
     }
+
     return (
         !element ? null : <Formik
             initialValues={element ?? initialValues}
@@ -150,12 +154,11 @@ export default function EditElementDialog(props: any) {
                                             autoWidth
                                             displayEmpty
                                             onChange={handleChange}
-                                            renderValue={val => <MenuItem>{val?.name ?? 'Choose Meal category'} </MenuItem>}
+                                            renderValue={val => <MenuItem>{val ?? 'Choose Meal category'} </MenuItem>}
                                             value={mealcategory}
-                                        >{mealcategories.filter((mealCategory: any) => mealCategory.fk_restaurant === props.restaurant)
-                                            .map((category: any, index: any) => (
-                                                <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
-                                            ))}
+                                        >{mealcategories.map((category: any, index: any) => (
+                                            <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
+                                        ))}
                                         </Select>
                                     </Grid>
 

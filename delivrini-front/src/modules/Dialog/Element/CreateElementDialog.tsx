@@ -19,7 +19,6 @@ export default function CreateElementDialog() {
     const dispatch = useAppDispatch();
     const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
     const mealcategories = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo)
-    // const filteredMealCategories = mealcategories.filter((mealCategory: any) => mealCategory.fk_restaurant === restaurant)
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
     const initialValues = {
         name: "",
@@ -36,6 +35,8 @@ export default function CreateElementDialog() {
     const handleChange = (e: any) => {
         const selectedMealCategory = e.target.value;
         setMealCategory(selectedMealCategory)
+        console.log("change", selectedMealCategory);
+
     }
 
     const handleSubmit = (formValue: { name: string, description: string, image: string, price: string }) => {
@@ -131,12 +132,11 @@ export default function CreateElementDialog() {
                                             autoWidth
                                             displayEmpty
                                             onChange={handleChange}
-                                            renderValue={val => <MenuItem>{val?.name ?? 'Choose Meal category'} </MenuItem>}
+                                            renderValue={val => <MenuItem>{val ?? 'Choose Meal category'} </MenuItem>}
                                             value={mealcategory}
-                                        >{mealcategories.filter((mealCategory: any) => mealCategory.fk_restaurant === restaurant)
-                                            .map((category: any, index: any) => (
-                                                <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
-                                            ))}
+                                        >{mealcategories.map((category: any, index: any) => (
+                                            <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
+                                        ))}
                                         </Select>
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
