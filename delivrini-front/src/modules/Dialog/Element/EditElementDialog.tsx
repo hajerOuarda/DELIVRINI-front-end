@@ -35,7 +35,7 @@ export default function EditElementDialog(props: any) {
         description: '',
         price: '',
         image: '',
-        // mealcategory: ''
+        fk_Mealcategory: ''
     }
 
 
@@ -48,10 +48,9 @@ export default function EditElementDialog(props: any) {
     const handleChange = (e: any) => {
         const selectedMealCategory = e.target.value;
         setMealCategory(selectedMealCategory)
-
-
     }
     const handleSubmit = (formValue: formikElement) => {
+        formValue.fk_Mealcategory = mealcategory;
         dispatch<any>(editElementAction(formValue, idElement))
         console.log('values', formValue)
     }
@@ -147,9 +146,9 @@ export default function EditElementDialog(props: any) {
                                         <InputLabel id="demo-simple-select-label">Meal Category</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
-                                            id="mealcategory"
+                                            id="fk_Mealcategory"
                                             required
-                                            name="mealcategory"
+                                            name="fk_Mealcategory"
                                             label="mealcategory"
                                             autoWidth
                                             displayEmpty

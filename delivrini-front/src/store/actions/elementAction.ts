@@ -7,7 +7,8 @@ export interface formikElement {
     name: string,
     description: string,
     image: string,
-    price: string
+    price: string,
+    fk_Mealcategory:string
 
 }
 
@@ -76,10 +77,10 @@ const deleteElementAction =
 
 
 const createElementAction =
-    (values: formikElement, restaurant: string, mealCategory: string) =>
+    (values: formikElement, restaurant: string) =>
         (dispatch: any): Promise<void> => {
             return elementService
-                .createElement(values, restaurant, mealCategory)
+                .createElement(values, restaurant)
                 .then((data) => {
                     dispatch({
                         type: elementActions.CREATE_ELEMENT_SUCCESS,

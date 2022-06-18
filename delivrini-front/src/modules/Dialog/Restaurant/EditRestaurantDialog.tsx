@@ -52,7 +52,7 @@ export default function EditRestaurantDialog(props: any) {
     const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
 
         dispatch<any>(editRestaurantAction(formValue, idRestaurant))
-
+        
     }
     return (
         !resto ? null : <Formik

@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { createTheme, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { createElementAction } from '../../../store/actions/elementAction';
+import { createElementAction, formikElement } from '../../../store/actions/elementAction';
 import { useState } from 'react';
 
 const theme = createTheme();
@@ -25,6 +25,7 @@ export default function CreateElementDialog() {
         description: "",
         price: "",
         image: "",
+        fk_Mealcategory: ""
     }
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("This field is required!"),
@@ -35,12 +36,16 @@ export default function CreateElementDialog() {
     const handleChange = (e: any) => {
         const selectedMealCategory = e.target.value;
         setMealCategory(selectedMealCategory)
+
         console.log("change", selectedMealCategory);
 
     }
 
-    const handleSubmit = (formValue: { name: string, description: string, image: string, price: string }) => {
-        dispatch<any>(createElementAction(formValue, restaurant, mealcategory))
+    const handleSubmit = (formValue: formikElement) => {
+        formValue.fk_Mealcategory = mealcategory;
+        dispatch<any>(createElementAction(formValue, restaurant))
+        console.log("create element values ", formValue);
+
     }
 
     return (
@@ -125,9 +130,9 @@ export default function CreateElementDialog() {
                                         <InputLabel id="demo-simple-select-label">Meal Category</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
-                                            id="mealcategory"
+                                            id="fk_Mealcategory"
                                             required
-                                            name="mealcategory"
+                                            name="fk_Mealcategory"
                                             label="mealcategory"
                                             autoWidth
                                             displayEmpty

@@ -52,12 +52,12 @@ const deleteElement = (id: any): Promise<any> => {
     });
 };
 
-const createElement = (values: formikElement, restaurant: string, mealCategory: string): Promise<any> => {
-    console.log("restaurant element", restaurant, "and ", mealCategory);
+const createElement = (values: formikElement, restaurant: string): Promise<any> => {
+    console.log("restaurant element", restaurant, "and ");
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createElement, { ...values, restaurant: restaurant, mealCategory }, {
+            .post(URLS.createElement, { ...values, restaurant: restaurant }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
