@@ -1,6 +1,6 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
-import {  formikRestaurant } from "../actions/restaurantAction";
+import { formikRestaurant } from "../actions/restaurantAction";
 import authHeader from "./authHeader";
 
 const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
@@ -51,11 +51,12 @@ const deleteRestaurant = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurant = (values:  formikRestaurant, category: string): Promise<any> => {
+const createRestaurant = (values: formikRestaurant): Promise<any> => {
+    console.log("tesst", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createRestaurant, { ...values, category: category }, {
+            .post(URLS.createRestaurant, values, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -63,8 +64,6 @@ const createRestaurant = (values:  formikRestaurant, category: string): Promise<
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("cat", category);
-
                     console.log("data restaurant :", response);
                 }
                 resolve(response.data);
@@ -75,7 +74,7 @@ const createRestaurant = (values:  formikRestaurant, category: string): Promise<
             });
     });
 };
-const editRestaurant = (values:  formikRestaurant, id: number): Promise<any> => {
+const editRestaurant = (values: formikRestaurant, id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api

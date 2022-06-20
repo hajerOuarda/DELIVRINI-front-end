@@ -12,7 +12,7 @@ import { FoodBankOutlined } from '@mui/icons-material';
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { createRestaurantAction } from '../../../store/actions/restaurantAction';
+import { createRestaurantAction, formikRestaurant } from '../../../store/actions/restaurantAction';
 
 const theme = createTheme();
 
@@ -27,6 +27,7 @@ export default function CreateRestaurantDialog() {
         zipCode: "",
         street: "",
         email: "",
+        fk_Rcategory: ""
     }
     const validationSchema = Yup.object().shape({
         email: Yup.string()
@@ -42,10 +43,11 @@ export default function CreateRestaurantDialog() {
         setCategory(selectedCategory);
     }
 
-    const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
-        dispatch<any>(createRestaurantAction({ ...formValue }, category))
-    }
-    console.log("category", category);
+    const handleSubmit = (formValue: formikRestaurant) => {
+        formValue.fk_Rcategory = category;
+        dispatch<any>(createRestaurantAction(formValue))
+     }
+
 
     return (
         <Formik
@@ -168,10 +170,10 @@ export default function CreateRestaurantDialog() {
                                         <InputLabel id="demo-simple-select-label">Restaurant Category</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
-                                            id="category"
+                                            id="fk_Rcategory"
                                             required
-                                            name="category"
-                                            label="category"
+                                            name="fk_Rcategory"
+                                            label="Restaurant category"
                                             autoWidth
                                             displayEmpty
                                             onChange={handleChange}
