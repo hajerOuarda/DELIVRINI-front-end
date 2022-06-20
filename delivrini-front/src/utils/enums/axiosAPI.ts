@@ -1,10 +1,9 @@
-export const API_URL = process.env.REACT_APP_API_URL ?? "" //move it to env config
 
 export enum URLS {
   login = "user/auth/login",
   register = "user/auth/signup",
   resetPassword = "user/auth/requestPasswordReset",
-  users = "user/admin/all/:limit/:page",
+  users = "user/admin/all",
   oneUser = "user/admin/",
   //** restaurant crud */
   restaurantsList = "restaurants/all",//?size=10&page=1pass par pramettre page number 
