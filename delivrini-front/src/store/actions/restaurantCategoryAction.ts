@@ -30,7 +30,6 @@ const listRestaurantCategoryAction =
                         type: restaurantCategoryActions.LIST_RESTAURANTCATEGORY_FAILED,
                         payload: message,
                     });
-                    console.log("list data error ", message);
                     return;
                 });
         };
@@ -53,7 +52,7 @@ const deleteRestaurantCategoryAction =
                             "success",
                             "RestaurantCategory successfully deleted!"
                         ))
-                     return data;
+                    return data;
                 })
                 .catch((error) => {
                     const message =
@@ -90,7 +89,7 @@ const createRestaurantCategoryAction =
                             "success",
                             "RestaurantCategory successfully created!"
                         ))
-                  
+
                     return data;
                 })
                 .catch((error) => {
@@ -127,7 +126,6 @@ const editRestaurantCategoryAction =
                             "success",
                             "RestaurantCategory successfully updated!"
                         ))
-                    console.log("list data  ", data);
                     return data;
                 })
                 .catch((error) => {

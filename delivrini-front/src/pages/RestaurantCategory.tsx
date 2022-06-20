@@ -134,7 +134,6 @@ export default function RestaurantCategoryPage() {
     dispatch<any>(deleteRestaurantCategoryAction(row.id))
     getListRestaurants.filter((resto: any) => resto.fk_Rcategory === row.name)
       .map((restaurant: any) => (
-        console.log("filtered restaurant", restaurant),
         dispatch<any>(deleteRestaurantAction(restaurant.id))
       ))
 

@@ -32,8 +32,7 @@ const listElementAction =
                         type: elementActions.LIST_ELEMENT_FAILED,
                         payload: message,
                     });
-                    console.log("list data error ", message);
-                    return;
+                     return;
                 });
         };
 
@@ -92,8 +91,7 @@ const createElementAction =
                             "success",
                             "Element successfully created!"
                         ))
-                    console.log("list data  ", data);
-                    return data;
+                     return data;
                 })
                 .catch((error) => {
                     const message =
@@ -129,8 +127,7 @@ const editElementAction =
                             "success",
                             "Element successfully updated!"
                         ))
-                    console.log("element data  ", data);
-                    return data;
+                     return data;
                 })
                 .catch((error) => {
                     const message =

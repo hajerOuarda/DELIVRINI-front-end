@@ -30,8 +30,7 @@ const listMealCategoryAction =
                         type: mealCategoryActions.LIST_MEALCATEGORY_FAILED,
                         payload: message,
                     });
-                    console.log("list data error ", message);
-                    return;
+                     return;
                 });
         };
 
@@ -90,8 +89,7 @@ const createMealCategoryAction =
                             "success",
                             "MealCategory successfully created!"
                         ))
-                    console.log("list data  ", data);
-                    return data;
+                     return data;
                 })
                 .catch((error) => {
                     const message =
@@ -127,8 +125,7 @@ const editMealCategoryAction =
                             "success",
                             "MealCategory successfully updated!"
                         ))
-                    console.log("list data  ", data);
-                    return data;
+                     return data;
                 })
                 .catch((error) => {
                     const message =
