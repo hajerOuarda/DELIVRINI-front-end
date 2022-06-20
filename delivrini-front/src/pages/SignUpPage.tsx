@@ -52,6 +52,8 @@ export default function SignUpPage() {
   const isMailUsed = useAppSelector((state) => state.authReducer.userInfo);
   const dispatch = useAppDispatch();
   const roles = ["Client", "DeliveryMan", "Chef"];
+  const listRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
+  const [restaurant, setRestaurant] = useState<any>("")
 
   const initialValues: {
     firstName: "";
@@ -62,7 +64,7 @@ export default function SignUpPage() {
     street: "";
     email: "";
     password: "";
-    role: ""
+    // role: ""
   } = {
     firstName: "",
     lastName: "",
@@ -72,7 +74,7 @@ export default function SignUpPage() {
     street: "",
     email: "",
     password: "",
-    role: ""
+    // role: ""
   }
 
   const validationSchema = Yup.object().shape({
@@ -86,9 +88,13 @@ export default function SignUpPage() {
     phone: Yup.string().required("This field is required!"),
   });
 
-  const handleChange = (e: any) => {
+  const handleChangeRole = (e: any) => {
     const selectedRole = e.target.value;
     setRole(selectedRole);
+  }
+  const handleChangeRestaurant = (e: any) => {
+    const selectedResto = e.target.value;
+    setRestaurant(selectedResto)
   }
 
   const handleRegister = (formValue: {
@@ -101,7 +107,7 @@ export default function SignUpPage() {
     email: string;
     password: string;
   }) => {
-    dispatch<any>(sendRegisterAction({ ...formValue }, role))
+    dispatch<any>(sendRegisterAction({ ...formValue }, role, restaurant))
   }
 
   useEffect(() => {
@@ -109,6 +115,7 @@ export default function SignUpPage() {
       navigate(paths.signin);
     }
   }, [isRegistered, navigate]);
+  console.log("rest", restaurant);
 
   return (
     <Formik
@@ -261,25 +268,51 @@ export default function SignUpPage() {
                       className="alert alert-danger"
                     />
                   </Grid>
-                  <Grid item xs={12}>
-                    <InputLabel id="demo-simple-select-label">Role</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="role"
-                      required
-                      name="role"
-                      label="Role"
-                      autoWidth
-                      displayEmpty
-                      onChange={handleChange
-                      }
-                      value={role}
-                    >
-                      {roles.map((role, index) => (
-                        <MenuItem value={role} key={index}> {role}</MenuItem>
-                      ))}
-                    </Select>
+                  <Grid container alignItems='center' spacing={2} padding={2} >
+                    <Grid item xs={6}>
+                      <InputLabel id="demo-simple-select-autowidth-label">Role</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-autowidth-label"
+                        id="role"
+                        required
+                        name="role"
+                        label="Role"
+                        autoWidth
+                        displayEmpty
+                        onChange={handleChangeRole
+                        }
+                        value={role}
+                      >
+                        {roles.map((role, index) => (
+                          <MenuItem value={role} key={index}> {role}</MenuItem>
+                        ))}
+                      </Select>
+                    </Grid>
+                    {role === "Chef" &&
+                      <Grid item xs={6}>
+                        <InputLabel id="demo-simple-select-autowidth-label">Your Restaurant</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="restaurant"
+                          required
+                          name="restaurant"
+                          placeholder="Restaurant"
+                          autoWidth
+                          displayEmpty
+                          onChange={handleChangeRestaurant}
+                          renderValue={val => <MenuItem>{val?.name ?? 'choose restaurant'} </MenuItem>}
+                          value={restaurant}
+                        >
+                          {listRestaurants.map((restaurant: any, index: number) => (
+                            <MenuItem value={restaurant.name} key={index}> {restaurant.name}</MenuItem>
+                          ))}
+                        </Select>
+                      </Grid>}
+
                   </Grid>
+
+
+
                 </Grid>
                 <Button
                   type="submit"

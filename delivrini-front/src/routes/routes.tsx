@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../layouts/layout";
+import ReducerLayout from "../layouts/reducerLayout";
 import CustomizedSnackbars from "../modules/Bar/CustomizedSnackBar";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignInPage from "../pages/SigninPage";
@@ -12,8 +13,8 @@ export default function App() {
     <div>
       <CustomizedSnackbars />
       <Routes>
-        <Route path={paths.signin} element={<SignInPage />} />
-        <Route path={paths.signup} element={<SignUpPage />} />
+        <Route path={paths.signin} element={<ReducerLayout> <SignInPage /></ReducerLayout>} />
+        <Route path={paths.signup} element={<ReducerLayout> <SignUpPage /> </ReducerLayout>} />
         <Route path={paths.resetPassword} element={<ResetPasswordPage />} />
 
         {routes.map(({ path, element }, index) => (
@@ -22,7 +23,7 @@ export default function App() {
             path={path}
             element={
               <Layout>
-                <AuthenticatedRoute> {element} </AuthenticatedRoute>
+                <AuthenticatedRoute> <ReducerLayout>  {element} </ReducerLayout></AuthenticatedRoute>
               </Layout>
             }
           />

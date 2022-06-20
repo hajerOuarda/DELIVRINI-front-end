@@ -6,11 +6,12 @@ const sendLogin = (email: string, password: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     Api
       .post(URLS.login, {
-        email: email,
-        password: password,
+        email,
+        password,
       })
       .then((response) => {
         if (response.data.accessToken) {
+          localStorage.setItem("user_role", response.data.user.fk_role);
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("token", response.data.accessToken);
         }
@@ -23,7 +24,7 @@ const sendLogin = (email: string, password: string): Promise<any> => {
   });
 };
 
-const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string): Promise<any> => {
+const sendRegister = (firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string, role: string, restaurant:string): Promise<any> => {
   return new Promise((resolve, reject) => {
 
     Api.post(URLS.register, {
@@ -35,17 +36,14 @@ const sendRegister = (firstName: string, lastName: string, address: string, phon
       street: street,
       email: email,
       password: password,
-      role: role
+      role: role,
+      restaurant:restaurant
     })
       .then((response) => {
         resolve(response.data.message);
-        console.log("response.data ", response.data);
-        console.log("role", role)
       })
       .catch((error) => {
-        console.log("error :", error.response.data.code);
-        console.log("error2 :", error.response);
-        console.log("role", role)
+        console.log("error :", error.response.data.code); 
         reject(error.response.data.code);
       });
   });
@@ -70,7 +68,10 @@ const sendResetPassword = (email: string): Promise<any> => {
 };
 
 const sendLogout = () => {
-  localStorage.removeItem("user");
+  // localStorage.removeItem("user");
+  // localStorage.removeItem("token");
+
+  localStorage.clear()
 };
 
 export const authenticationService = {

@@ -1,16 +1,23 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
-import { restaurantService } from "../services/restaurantService";
-import { restaurantActions } from "./types";
+import { mealCategoryService } from "../services/mealCategoryService";
+import { mealCategoryActions } from "./types";
 
 
-const listRestaurantAction =
-    (page: number, rowPerPage: number) =>
+export interface formikMealCategory {
+    name: string,
+    description: string,
+    image: string,
+
+}
+
+const listMealCategoryAction =
+    (page: number, rowPerPage: number, restaurant: any) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .getRestaurantsList(page, rowPerPage)
+            return mealCategoryService
+                .getMealCategoryList(page, rowPerPage, restaurant)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.LIST_RESTAURANT_SUCCESS,
+                        type: mealCategoryActions.LIST_MEALCATEGORY_SUCCESS,
                         payload: data,
                     });
                     return data;
@@ -20,7 +27,7 @@ const listRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.LIST_RESTAURANT_FAILED,
+                        type: mealCategoryActions.LIST_MEALCATEGORY_FAILED,
                         payload: message,
                     });
                     console.log("list data error ", message);
@@ -28,69 +35,23 @@ const listRestaurantAction =
                 });
         };
 
-// delete restaurant
+// delete MealCategory
 
-const deleteRestaurantAction =
+const deleteMealCategoryAction =
     (id: number) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .deleteRestaurant(id)
+            return mealCategoryService
+                .deleteMealCategory(id)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.DELETE_RESTAURANT_SUCCESS,
+                        type: mealCategoryActions.DELETE_MEALCATEGORY_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully deleted!"
-                        ))
-                    console.log("list data deletion ", data);
-                    return data;
-                })
-                .catch((error) => {
-                    const message =
-                        error.message ||
-                        error.toString();
-                    dispatch({
-                        type: restaurantActions.DELETE_RESTAURANT_FAILED,
-                        payload: message,
-                    });
-                    dispatch(
-                        setSnackbar(
-                            true,
-                            "error",
-                            "error while deleting restaurant !"
-                        ))
-                    return;
-                });
-        };
-
-export interface formikRestaurant {
-    name: string,
-    phone: string,
-    email: string,
-    address: string,
-    zipCode: string,
-    street: string
-}
-
-const createRestaurantAction =
-    (values: formikRestaurant, category: string) =>
-        (dispatch: any): Promise<void> => {
-            return restaurantService
-                .createRestaurant(values, category)
-                .then((data) => {
-                    dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
-                        payload: data,
-                    });
-                    dispatch(
-                        setSnackbar(
-                            true,
-                            "success",
-                            "Restaurant successfully created!"
+                            "Meal Category successfully deleted!"
                         ))
                     return data;
                 })
@@ -99,34 +60,35 @@ const createRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_FAILED,
+                        type: mealCategoryActions.DELETE_MEALCATEGORY_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while creating restaurant, email or name already exist!"
+                            "error while deleting Meal Category !"
                         ))
                     return;
                 });
         };
 
-const editRestaurantAction =
-    (values: formikRestaurant, id: number) =>
+
+const createMealCategoryAction =
+    (values: formikMealCategory, restaurant: string) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .editRestaurant(values, id)
+            return mealCategoryService
+                .createMealCategory(values, restaurant)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.EDIT_RESTAURANT_SUCCESS,
+                        type: mealCategoryActions.CREATE_MEALCATEGORY_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully updated!"
+                            "MealCategory successfully created!"
                         ))
                     console.log("list data  ", data);
                     return data;
@@ -136,18 +98,55 @@ const editRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.EDIT_RESTAURANT_FAILED,
+                        type: mealCategoryActions.CREATE_MEALCATEGORY_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while updating restaurant, email or name already exists!"
+                            "error while creating MealCategory,  name already exist!"
+                        ))
+                    return;
+                });
+        };
+
+const editMealCategoryAction =
+    (values: formikMealCategory, id: number) =>
+        (dispatch: any): Promise<void> => {
+            return mealCategoryService
+                .editMealCategory(values, id)
+                .then((data) => {
+                    dispatch({
+                        type: mealCategoryActions.EDIT_MEALCATEGORY_SUCCESS,
+                        payload: data,
+                    });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "MealCategory successfully updated!"
+                        ))
+                    console.log("list data  ", data);
+                    return data;
+                })
+                .catch((error) => {
+                    const message =
+                        error.message ||
+                        error.toString();
+                    dispatch({
+                        type: mealCategoryActions.EDIT_MEALCATEGORY_FAILED,
+                        payload: message,
+                    });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while updating MealCategory,  name already exists!"
                         ))
                     return;
                 });
         };
 
 
-export { listRestaurantAction, deleteRestaurantAction, createRestaurantAction, editRestaurantAction }
+export { listMealCategoryAction, deleteMealCategoryAction, createMealCategoryAction, editMealCategoryAction }

@@ -1,19 +1,20 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
-import {  formikRestaurant } from "../actions/restaurantAction";
+import { formikElement } from "../actions/elementAction";
 import authHeader from "./authHeader";
 
-const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
+const getElementList = (page: number, rowPerPage: number, restaurant: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.restaurantsList, {
-                // headers: {
-                //     authorization: "Basic " + authHeader()
-                // },
+            .get(URLS.element, {
+                headers: {
+                    authorization: "Basic " + authHeader()
+                },
                 params: {
                     page,
-                    size: rowPerPage
+                    size: rowPerPage,
+                    restaurant
                 }
             })
             .then((response) => {
@@ -28,11 +29,11 @@ const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
             });
     });
 };
-const deleteRestaurant = (id: any): Promise<any> => {
+const deleteElement = (id: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .delete(URLS.deleteRestaurant + id, {
+            .delete(URLS.deleteElement + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -51,11 +52,12 @@ const deleteRestaurant = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurant = (values:  formikRestaurant, category: string): Promise<any> => {
+const createElement = (values: formikElement, restaurant: string): Promise<any> => {
+    console.log("restaurant element", restaurant, "and ");
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createRestaurant, { ...values, category: category }, {
+            .post(URLS.createElement, { ...values, restaurant: restaurant }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -63,9 +65,7 @@ const createRestaurant = (values:  formikRestaurant, category: string): Promise<
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("cat", category);
-
-                    console.log("data restaurant :", response);
+                    console.log("data Element :", response);
                 }
                 resolve(response.data);
             })
@@ -75,11 +75,12 @@ const createRestaurant = (values:  formikRestaurant, category: string): Promise<
             });
     });
 };
-const editRestaurant = (values:  formikRestaurant, id: number): Promise<any> => {
+const editElement = (values: formikElement,   id: number): Promise<any> => {
+    console.log("values", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editRestaurant + id, values, {
+            .patch(URLS.editElement + id, { ...values }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -88,9 +89,9 @@ const editRestaurant = (values:  formikRestaurant, id: number): Promise<any> => 
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data restaurant :", response.data);
+                    console.log("data Element :", response.data);
                 }
-                resolve(response.data.updatedRestaurant);
+                resolve(response.data.updatedElement);
             })
             .catch((error) => {
                 console.log("error :", error.message);
@@ -99,11 +100,11 @@ const editRestaurant = (values:  formikRestaurant, id: number): Promise<any> => 
     });
 };
 
-const findRestaurantById = (id: number): Promise<any> => {
+const findElementById = (id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.findRestaurantById + id, {
+            .get(URLS.findElementById + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -111,7 +112,7 @@ const findRestaurantById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data restaurant :", response);
+                    console.log("data Element :", response);
                 }
                 resolve(response.data);
             })
@@ -122,12 +123,12 @@ const findRestaurantById = (id: number): Promise<any> => {
     });
 };
 
-export const restaurantService = {
-    getRestaurantsList,
-    deleteRestaurant,
-    createRestaurant,
-    editRestaurant,
-    findRestaurantById
+export const elementService = {
+    getElementList,
+    deleteElement,
+    createElement,
+    editElement,
+    findElementById
 }
 
 

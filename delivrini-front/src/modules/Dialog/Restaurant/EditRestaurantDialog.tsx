@@ -6,19 +6,19 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { useAppDispatch } from '../../store/hooks';
-import { editRestaurantAction, formikV } from '../../store/actions/restaurantAction';
-import { restaurantService } from '../../store/services/restaurantService';
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../../store/hooks';
+import { editRestaurantAction, formikRestaurant } from '../../../store/actions/restaurantAction';
+import { restaurantService } from '../../../store/services/restaurantService';
 
 const theme = createTheme();
 
-export default function CreateRestaurantDialog(props: any) {
+export default function EditRestaurantDialog(props: any) {
     const dispatch = useAppDispatch();
-    const [resto, setResto] = useState<formikV>()
+    const [resto, setResto] = useState<formikRestaurant>()
     const idRestaurant = props.idRestaurant
     useEffect(() => {
         restaurantService.findRestaurantById(idRestaurant).then((r) => {
@@ -52,7 +52,7 @@ export default function CreateRestaurantDialog(props: any) {
     const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
 
         dispatch<any>(editRestaurantAction(formValue, idRestaurant))
-
+        
     }
     return (
         !resto ? null : <Formik

@@ -5,42 +5,46 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ErrorMessage, Field, Form, Formik, useFormik } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { createRestaurantAction } from '../../store/actions/restaurantAction';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setSnackbar } from '../../store/reducers/customizedSnackBarReducer';
+import { createTheme, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { createElementAction, formikElement } from '../../../store/actions/elementAction';
+import { useState } from 'react';
 
 const theme = createTheme();
 
-export default function CreateRestaurantDialog() {
+export default function CreateElementDialog() {
     const dispatch = useAppDispatch();
-
-
+    const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
+    const mealcategories = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo)
+    const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
     const initialValues = {
         name: "",
-        address: "",
-        phone: "",
-        zipCode: "",
-        street: "",
-        email: "",
-
+        description: "",
+        price: "",
+        image: "",
+        fk_Mealcategory: ""
     }
     const validationSchema = Yup.object().shape({
-        email: Yup.string()
-            .email("invalid email")
-            .required("This field is required!"),
         name: Yup.string().required("This field is required!"),
-        zipCode: Yup.string().required("This field is required!"),
-        address: Yup.string().required("This field is required!"),
-        phone: Yup.string().required("This field is required!"),
+        price: Yup.string().required("This field is required!"),
+        image: Yup.string().required("This field is required!"),
+        description: Yup.string().required("This field is required!"),
     });
+    const handleChange = (e: any) => {
+        const selectedMealCategory = e.target.value;
+        setMealCategory(selectedMealCategory)
 
-    const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
+        console.log("change", selectedMealCategory);
 
-        dispatch<any>(createRestaurantAction(formValue))
+    }
+
+    const handleSubmit = (formValue: formikElement) => {
+        formValue.fk_Mealcategory = mealcategory;
+        dispatch<any>(createElementAction(formValue, restaurant))
+        console.log("create element values ", formValue);
 
     }
 
@@ -48,8 +52,7 @@ export default function CreateRestaurantDialog() {
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={handleSubmit
-            }
+            onSubmit={handleSubmit}
         >
             {({ errors, touched }) => (
                 <ThemeProvider theme={theme}>
@@ -68,7 +71,7 @@ export default function CreateRestaurantDialog() {
                             </Avatar>
                             <Form >
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12}>
                                         <Field
                                             as={TextField}
                                             autoComplete="name"
@@ -76,7 +79,7 @@ export default function CreateRestaurantDialog() {
                                             required
                                             fullWidth
                                             id="name"
-                                            label="Restaurant Name"
+                                            label=" Element Name"
                                             autoFocus
                                             error={errors.name && touched.name}
                                         />
@@ -87,81 +90,72 @@ export default function CreateRestaurantDialog() {
                                         />
                                     </Grid>
 
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={12} >
                                         <Field
                                             as={TextField}
                                             required
                                             fullWidth
-                                            id="phone"
-                                            label="Phone"
-                                            name="phone"
-                                            autoComplete="phone"
-                                            error={errors.phone && touched.phone}
+                                            id="description"
+                                            label="Description"
+                                            name="description"
+                                            autoComplete="description"
+                                            error={errors.description && touched.description}
                                         />
 
                                         <ErrorMessage
-                                            name="phone"
+                                            name="description"
                                             component="div"
                                             className="alert alert-danger"
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <Field
-                                            as={TextField}
-                                            fullWidth
-                                            id="zipCode"
-                                            label="Zip Code"
-                                            name="zipCode"
-                                            autoComplete="zipCode"
-                                            error={errors.zipCode && touched.zipCode}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={6}>
-                                        <Field
-                                            as={TextField}
-                                            fullWidth
-                                            id="street"
-                                            label="Street"
-                                            name="street"
-                                            autoComplete="street"
-                                            error={errors.street && touched.street}
-                                        />
-
-                                    </Grid>
-                                    <Grid item xs={12}  >
+                                    <Grid item xs={12} >
                                         <Field
                                             as={TextField}
                                             required
                                             fullWidth
-                                            id="address"
-                                            label="address"
-                                            name="address"
-                                            autoComplete="address"
-                                            error={errors.address && touched.address}
+                                            id="price"
+                                            label="Price"
+                                            name="price"
+                                            autoComplete="price"
+                                            error={errors.price && touched.price}
                                         />
+
                                         <ErrorMessage
-                                            name="address"
+                                            name="price"
                                             component="div"
                                             className="alert alert-danger"
                                         />
                                     </Grid>
                                     <Grid item xs={12}>
+                                        <InputLabel id="demo-simple-select-label">Meal Category</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="fk_Mealcategory"
+                                            required
+                                            name="fk_Mealcategory"
+                                            label="mealcategory"
+                                            autoWidth
+                                            displayEmpty
+                                            onChange={handleChange}
+                                            renderValue={val => <MenuItem>{val ?? 'Choose Meal category'} </MenuItem>}
+                                            value={mealcategory}
+                                        >{mealcategories.map((category: any, index: any) => (
+                                            <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
+                                        ))}
+                                        </Select>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
                                         <Field
                                             as={TextField}
-                                            required
                                             fullWidth
-                                            id="email"
-                                            label="Email"
-                                            name="email"
-                                            autoComplete="email"
-                                            error={errors.email && touched.email}
-                                        />
-                                        <ErrorMessage
-                                            name="email"
-                                            component="div"
-                                            className="alert alert-danger"
+                                            id="image"
+                                            label="Image"
+                                            name="image"
+                                            autoComplete="image"
+                                            error={errors.image && touched.image}
                                         />
                                     </Grid>
+
                                 </Grid>
                                 <Button
                                     type="submit"
@@ -169,7 +163,7 @@ export default function CreateRestaurantDialog() {
                                     variant="contained"
                                     sx={{ mt: 3, mb: 2 }}
                                 >
-                                    Create Restaurant
+                                    Create  Element
                                 </Button>
                             </Form>
                         </Box>

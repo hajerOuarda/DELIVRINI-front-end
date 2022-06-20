@@ -1,16 +1,25 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
-import { restaurantService } from "../services/restaurantService";
-import { restaurantActions } from "./types";
+import { elementService } from "../services/elementService";
+import { elementActions } from "./types";
 
 
-const listRestaurantAction =
-    (page: number, rowPerPage: number) =>
+export interface formikElement {
+    name: string,
+    description: string,
+    image: string,
+    price: string,
+    fk_Mealcategory:string
+
+}
+
+const listElementAction =
+    (page: number, rowPerPage: number, restaurant: any) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .getRestaurantsList(page, rowPerPage)
+            return elementService
+                .getElementList(page, rowPerPage, restaurant)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.LIST_RESTAURANT_SUCCESS,
+                        type: elementActions.LIST_ELEMENT_SUCCESS,
                         payload: data,
                     });
                     return data;
@@ -20,7 +29,7 @@ const listRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.LIST_RESTAURANT_FAILED,
+                        type: elementActions.LIST_ELEMENT_FAILED,
                         payload: message,
                     });
                     console.log("list data error ", message);
@@ -28,69 +37,23 @@ const listRestaurantAction =
                 });
         };
 
-// delete restaurant
+// delete Element
 
-const deleteRestaurantAction =
+const deleteElementAction =
     (id: number) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .deleteRestaurant(id)
+            return elementService
+                .deleteElement(id)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.DELETE_RESTAURANT_SUCCESS,
+                        type: elementActions.DELETE_ELEMENT_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully deleted!"
-                        ))
-                    console.log("list data deletion ", data);
-                    return data;
-                })
-                .catch((error) => {
-                    const message =
-                        error.message ||
-                        error.toString();
-                    dispatch({
-                        type: restaurantActions.DELETE_RESTAURANT_FAILED,
-                        payload: message,
-                    });
-                    dispatch(
-                        setSnackbar(
-                            true,
-                            "error",
-                            "error while deleting restaurant !"
-                        ))
-                    return;
-                });
-        };
-
-export interface formikRestaurant {
-    name: string,
-    phone: string,
-    email: string,
-    address: string,
-    zipCode: string,
-    street: string
-}
-
-const createRestaurantAction =
-    (values: formikRestaurant, category: string) =>
-        (dispatch: any): Promise<void> => {
-            return restaurantService
-                .createRestaurant(values, category)
-                .then((data) => {
-                    dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
-                        payload: data,
-                    });
-                    dispatch(
-                        setSnackbar(
-                            true,
-                            "success",
-                            "Restaurant successfully created!"
+                            "Element successfully deleted!"
                         ))
                     return data;
                 })
@@ -99,34 +62,35 @@ const createRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.CREATE_RESTAURANT_FAILED,
+                        type: elementActions.DELETE_ELEMENT_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while creating restaurant, email or name already exist!"
+                            "error while deleting Element !"
                         ))
                     return;
                 });
         };
 
-const editRestaurantAction =
-    (values: formikRestaurant, id: number) =>
+
+const createElementAction =
+    (values: formikElement, restaurant: string) =>
         (dispatch: any): Promise<void> => {
-            return restaurantService
-                .editRestaurant(values, id)
+            return elementService
+                .createElement(values, restaurant)
                 .then((data) => {
                     dispatch({
-                        type: restaurantActions.EDIT_RESTAURANT_SUCCESS,
+                        type: elementActions.CREATE_ELEMENT_SUCCESS,
                         payload: data,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
-                            "Restaurant successfully updated!"
+                            "Element successfully created!"
                         ))
                     console.log("list data  ", data);
                     return data;
@@ -136,18 +100,55 @@ const editRestaurantAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: restaurantActions.EDIT_RESTAURANT_FAILED,
+                        type: elementActions.CREATE_ELEMENT_FAILED,
                         payload: message,
                     });
                     dispatch(
                         setSnackbar(
                             true,
                             "error",
-                            "error while updating restaurant, email or name already exists!"
+                            "error while creating Element,  name already exist!"
+                        ))
+                    return;
+                });
+        };
+
+const editElementAction =
+    (values: formikElement, id: number) =>
+        (dispatch: any): Promise<void> => {
+            return elementService
+                .editElement(values,  id)
+                .then((data) => {
+                    dispatch({
+                        type: elementActions.EDIT_ELEMENT_SUCCESS,
+                        payload: data,
+                    });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "success",
+                            "Element successfully updated!"
+                        ))
+                    console.log("element data  ", data);
+                    return data;
+                })
+                .catch((error) => {
+                    const message =
+                        error.message ||
+                        error.toString();
+                    dispatch({
+                        type: elementActions.EDIT_ELEMENT_FAILED,
+                        payload: message,
+                    });
+                    dispatch(
+                        setSnackbar(
+                            true,
+                            "error",
+                            "error while updating Element !"
                         ))
                     return;
                 });
         };
 
 
-export { listRestaurantAction, deleteRestaurantAction, createRestaurantAction, editRestaurantAction }
+export { listElementAction, deleteElementAction, createElementAction, editElementAction }

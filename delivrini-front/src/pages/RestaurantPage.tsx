@@ -20,10 +20,9 @@ import { deleteRestaurantAction, listRestaurantAction } from '../store/actions/r
 import { Button, TableHead } from '@mui/material';
 import { Add, Delete, Edit } from '@mui/icons-material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
-import { DeleteRestaurantDialog } from '../modules/Dialog/DeleteRestaurantDialog';
-import CreateRestaurantDialog from '../modules/Dialog/CreateRestaurantDialog';
-import EditRestaurantDialog from '../modules/Dialog/EditRestaurantDialog';
-import { setSnackbar } from '../store/reducers/customizedSnackBarReducer';
+import CreateRestaurantDialog from '../modules/Dialog/Restaurant/CreateRestaurantDialog';
+import EditRestaurantDialog from '../modules/Dialog/Restaurant/EditRestaurantDialog';
+import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
 
 
 
@@ -108,7 +107,6 @@ export default function RestaurantPage() {
   console.log('page', page, getListRestaurants);
 
 
-
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - getListRestaurants.length) : 0;
@@ -159,7 +157,7 @@ export default function RestaurantPage() {
   }
   const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
-      return <DeleteRestaurantDialog />
+      return <GenericDeleteDialog />
     }
     else {
       if (actionType === "edit") { return <EditRestaurantDialog idRestaurant={id} /> }
@@ -174,7 +172,7 @@ export default function RestaurantPage() {
       else { return "Create Restaurant " }
     }
   }
-  console.log(getListRestaurants.map((ee: any) => ee.id))
+
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
@@ -182,6 +180,7 @@ export default function RestaurantPage() {
           <TableHead style={{ background: 'grey', color: 'white', }}>
             <TableRow>
               <TableCell align="left">Restaurants</TableCell>
+              <TableCell align="left">Category</TableCell>
               <TableCell align="left">Email</TableCell>
               <TableCell align="left">Address</TableCell>
               <TableCell align="left">ZipCode</TableCell>
@@ -196,6 +195,9 @@ export default function RestaurantPage() {
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">
                   {row.name}
+                </TableCell>
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.fk_Rcategory}
                 </TableCell>
                 <TableCell style={{ width: 160 }} align="left">
                   {row.email}
@@ -247,7 +249,7 @@ export default function RestaurantPage() {
         </Table>
 
       </TableContainer>
-      <Button onClick={() => { setOpen(true); setActionType("create"); }}   > <Add /></Button>
+      <Button onClick={() => { setOpen(true); setActionType("create"); }}> <Add /></Button>
 
       <GenericDialog
         title={handleTitle()}

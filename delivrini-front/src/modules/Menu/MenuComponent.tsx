@@ -16,34 +16,48 @@ import { useNavigate } from "react-router-dom";
 import {
   AccountBox,
   FoodBank,
-  HowToReg,
   LocalDining,
-  LoginRounded,
   MenuBook,
   RamenDining,
   Storefront,
 } from "@mui/icons-material";
 import HomeIcon from "@mui/icons-material/Home";
 import { paths } from "../../utils/enums/routes";
+import { useAppSelector } from "../../store/hooks";
 
 export default function MenuComponent(props: any) {
+  // const user_role = useAppSelector((state) => state.authReducer.userInfo.fk_role)
+  const user_role = localStorage.getItem('user_role')
+
   let navigate = useNavigate();
   const [state, setState] = React.useState({
     isOpen: false,
   });
-  const mylist = [
+
+  let mylist = [
     { name: "Home ", path: paths.home, icon: <HomeIcon /> },
-    { name: "Restaurant", path: paths.restaurant, icon: <LocalDining /> },
-    {
-      name: "Restaurant Category",
-      path: paths.restaurant_category,
-      icon: <Storefront />,
-    },
-    { name: "Meal", path: paths.meal, icon: <RamenDining /> },
-    { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
-    { name: "Element", path: paths.element, icon: <FoodBank /> },
+
     { name: "Profile", path: paths.profile, icon: <AccountBox /> },
-  ];
+  ]
+  if (user_role === "admin") {
+    mylist.splice(1, 0,
+      { name: "Restaurant", path: paths.restaurant, icon: <LocalDining /> },
+      {
+        name: "Restaurant Category",
+        path: paths.restaurant_category,
+        icon: <Storefront />,
+      }
+    )
+  }
+  else
+    if (user_role === "chef") {
+      mylist.splice(1, 0,
+        { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
+        { name: "Meal", path: paths.meal, icon: <RamenDining /> },
+        { name: "Element", path: paths.element, icon: <FoodBank /> },
+      )
+    }
+
 
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
