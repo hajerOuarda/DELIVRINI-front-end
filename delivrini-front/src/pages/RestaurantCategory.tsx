@@ -23,6 +23,7 @@ import EditRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/E
 import CreateRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/CreateRestaurantCategoryDialog';
 import { deleteRestaurantCategoryAction, listRestaurantCategoryAction } from '../store/actions/restaurantCategoryAction';
 import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
+import { deleteRestaurantAction } from '../store/actions/restaurantAction';
 
 interface TablePaginationActionsProps {
   count: number;
@@ -102,7 +103,7 @@ export default function RestaurantCategoryPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const dispatch = useAppDispatch();
   const getListRestaurantCategory = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo);
-
+  const getListRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - getListRestaurantCategory.length) : 0;
@@ -128,9 +129,14 @@ export default function RestaurantCategoryPage() {
   }, [page, rowsPerPage])
 
   // *** delete restaurant ***
-  const handleDeleteCategoryResto = (id: number) => {
+  const handleDeleteCategoryResto = (row: any) => {
 
-    dispatch<any>(deleteRestaurantCategoryAction(id))
+    dispatch<any>(deleteRestaurantCategoryAction(row.id))
+    getListRestaurants.filter((resto: any) => resto.fk_Rcategory === row.name)
+      .map((restaurant: any) => (
+        console.log("filtered restaurant", restaurant),
+        dispatch<any>(deleteRestaurantAction(restaurant.id))
+      ))
 
   };
   // *** edit restaurant ***
@@ -142,7 +148,7 @@ export default function RestaurantCategoryPage() {
     console.log("create");
   };
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: any) => {
     if (actionType === "delete") { handleDeleteCategoryResto(id) }
     else {
       if (actionType === "edit") { handleEditCategoryResto(id) }
@@ -199,7 +205,7 @@ export default function RestaurantCategoryPage() {
                 <TableCell align="left">
                   <div className='button-container'>
                     <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
-                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
+                    <Button onClick={() => { setrowId(row); setOpen(true); setActionType("delete") }}> <Delete /></Button>
                   </div>
                 </TableCell>
               </TableRow>
