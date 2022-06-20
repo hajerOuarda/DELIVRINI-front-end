@@ -23,6 +23,7 @@ import GenericDialog from '../modules/Dialog/GenericDialog';
 import CreateRestaurantDialog from '../modules/Dialog/Restaurant/CreateRestaurantDialog';
 import EditRestaurantDialog from '../modules/Dialog/Restaurant/EditRestaurantDialog';
 import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
+import { GenericErrorDialog } from '../modules/Dialog/ErrorGenericDialog';
 
 
 
@@ -104,6 +105,8 @@ export default function RestaurantPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const dispatch = useAppDispatch();
   const getListRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
+  const restaurantCategories = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo)
+
   console.log('page', page, getListRestaurants);
 
 
@@ -159,108 +162,120 @@ export default function RestaurantPage() {
     if (actionType === "delete") {
       return <GenericDeleteDialog />
     }
-    else {
-      if (actionType === "edit") { return <EditRestaurantDialog idRestaurant={id} /> }
+    else
+      if (actionType === "error") {
+        return <GenericErrorDialog message="you have to create restaurant category first" />
+      }
+      else {
+        if (actionType === "edit") { return <EditRestaurantDialog idRestaurant={id} /> }
 
-      else { return <CreateRestaurantDialog /> }
-    }
+        else { return <CreateRestaurantDialog /> }
+      }
   }
   const handleTitle = () => {
     if (actionType === "delete") { return "Delete Confirmation " }
     else {
-      if (actionType === "edit") { return "Edit Confirmation " }
-      else { return "Create Restaurant " }
+      if (actionType === "error") { return "Error " }
+   
+    else {
+    if (actionType === "edit") { return "Edit Confirmation " }
+
+    else { return "Create Restaurant " }
+      }
     }
-  }
+}
 
-  return (
-    <React.Fragment>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-          <TableHead style={{ background: 'grey', color: 'white', }}>
-            <TableRow>
-              <TableCell align="left">Restaurants</TableCell>
-              <TableCell align="left">Category</TableCell>
-              <TableCell align="left">Email</TableCell>
-              <TableCell align="left">Address</TableCell>
-              <TableCell align="left">ZipCode</TableCell>
-              <TableCell align="left">Street</TableCell>
-              <TableCell align="left">Actions</TableCell>
+return (
+  <React.Fragment>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
+        <TableHead style={{ background: 'grey', color: 'white', }}>
+          <TableRow>
+            <TableCell align="left">Restaurants</TableCell>
+            <TableCell align="left">Category</TableCell>
+            <TableCell align="left">Email</TableCell>
+            <TableCell align="left">Address</TableCell>
+            <TableCell align="left">ZipCode</TableCell>
+            <TableCell align="left">Street</TableCell>
+            <TableCell align="left">Actions</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {(
+            getListRestaurants
+          ).map((row: any) => (
+            <TableRow key={row.id}>
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="left">
+                {row.fk_Rcategory}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="left">
+                {row.email}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="left">
+                {row.address}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="left">
+                {row.zipCode}
+              </TableCell>
+              <TableCell style={{ width: 160 }} align="left">
+                {row.street}
+              </TableCell>
+              <TableCell align="left">
+                <div className='button-container'>
+                  <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
+                  <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
+                </div>
+              </TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
-            {(
-              getListRestaurants
-            ).map((row: any) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.fk_Rcategory}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.email}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.address}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.zipCode}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.street}
-                </TableCell>
-                <TableCell align="left">
-                  <div className='button-container'>
-                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
-                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+          ))}
 
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                count={7}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
-
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} />
             </TableRow>
-          </TableFooter>
-        </Table>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              count={7}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
 
-      </TableContainer>
-      <Button onClick={() => { setOpen(true); setActionType("create"); }}> <Add /></Button>
+          </TableRow>
+        </TableFooter>
+      </Table>
 
-      <GenericDialog
-        title={handleTitle()}
-        open={open}
-        action={() => handleClick(rowId ?? 0)}
-        onClose={() => setOpen(false)}
-        body={handleBodyContent(rowId ?? 0)}
-      />
-    </React.Fragment>
+    </TableContainer>
+    <Button onClick={() => {
+      if (restaurantCategories.length) { setOpen(true); setActionType("create") }
+      else { setOpen(true); setActionType("error"); }
+    }}> <Add /></Button>
 
-  );
+    <GenericDialog
+      title={handleTitle()}
+      open={open}
+      action={() => handleClick(rowId ?? 0)}
+      onClose={() => setOpen(false)}
+      body={handleBodyContent(rowId ?? 0)}
+    />
+  </React.Fragment>
+
+);
 }
 
 
