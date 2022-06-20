@@ -24,6 +24,7 @@ import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
 import CreateElementDialog from '../modules/Dialog/Element/CreateElementDialog';
 import { listMealCategoryAction } from '../store/actions/mealCategoryAction';
 import EditElementDialog from '../modules/Dialog/Element/EditElementDialog';
+import { GenericErrorDialog } from '../modules/Dialog/ErrorGenericDialog';
 
 
 
@@ -105,6 +106,7 @@ export default function ElementPage() {
   const dispatch = useAppDispatch();
   const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
   const getListElement = useAppSelector((state) => state.ElementReducer.elementInfo);
+  const mealcategories = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo)
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -158,21 +160,28 @@ export default function ElementPage() {
     if (actionType === "delete") {
       return <GenericDeleteDialog />
     }
-    else {
-      if (actionType === "edit") {
-        return <EditElementDialog restaurant={restaurant} idElement={id} />
+    else
+      if (actionType === "error") {
+        return <GenericErrorDialog message="you have to create Meal category first" />
       }
-
       else {
-        return <CreateElementDialog />
+        if (actionType === "edit") {
+          return <EditElementDialog restaurant={restaurant} idElement={id} />
+        }
+
+        else {
+          return <CreateElementDialog />
+        }
       }
-    }
   }
   const handleTitle = () => {
     if (actionType === "delete") { return "Delete Confirmation " }
     else {
-      if (actionType === "edit") { return "Edit Confirmation " }
-      else { return "Create Element " }
+      if (actionType === "error") { return "Error " }
+      else {
+        if (actionType === "edit") { return "Edit Confirmation " }
+        else { return "Create Element " }
+      }
     }
   }
 
@@ -250,7 +259,11 @@ export default function ElementPage() {
         </Table>
 
       </TableContainer>
-      <Button onClick={() => { setOpen(true); setActionType("create"); }}> <Add /></Button>
+      <Button onClick={() => {
+        if (mealcategories.length) { setOpen(true); setActionType("create") } else {
+          setOpen(true); setActionType("error")
+        }
+      }}> <Add /></Button>
 
       <GenericDialog
         title={handleTitle()}

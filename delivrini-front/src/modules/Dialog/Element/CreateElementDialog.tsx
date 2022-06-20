@@ -137,7 +137,7 @@ export default function CreateElementDialog() {
                                             autoWidth
                                             displayEmpty
                                             onChange={handleChange}
-                                            renderValue={val => <MenuItem>{val ?? 'Choose Meal category'} </MenuItem>}
+                                            // renderValue={val => <MenuItem>{val ?? 'unknown category'} </MenuItem>}
                                             value={mealcategory}
                                         >{mealcategories.map((category: any, index: any) => (
                                             <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
@@ -155,8 +155,12 @@ export default function CreateElementDialog() {
                                             error={errors.image && touched.image}
                                         />
                                     </Grid>
+                                    <Grid item xs={12} >
+                                        <Button variant="outlined"> add ingredients </Button>
+                                        <Button variant="outlined"> add Extras </Button> </Grid>
 
                                 </Grid>
+
                                 <Button
                                     type="submit"
                                     fullWidth

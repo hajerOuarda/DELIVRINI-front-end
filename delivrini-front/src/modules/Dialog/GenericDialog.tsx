@@ -41,7 +41,7 @@ export default function GenericDialog(props: ConfirmationDialogRawProps) {
 
     return (
         <Dialog
-            sx={{ '& .MuiDialog-paper': { width: '80%', maxWidth: 670, maxHeight: 435 } }}
+            sx={{ '& .MuiDialog-paper': { width: '80%', maxWidth: 690, maxHeight: 470 } }}
             maxWidth="xs"
 
             open={open}
@@ -57,10 +57,10 @@ export default function GenericDialog(props: ConfirmationDialogRawProps) {
                 {body}
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={handleCancel}>
+                <Button autoFocus variant='outlined' onClick={handleCancel}>
                     Cancel
                 </Button>
-                <Button onClick={handleOk}>Ok</Button>
+                <Button variant='outlined' onClick={handleOk}>Ok</Button>
             </DialogActions>
         </Dialog>
     );
