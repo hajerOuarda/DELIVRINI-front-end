@@ -76,10 +76,12 @@ const deleteElementAction =
 
 
 const createElementAction =
-    (values: formikElement, restaurant: string) =>
+    (values: formikElement, restaurant: string, ingredients:any[], listExtras:any[]) =>
         (dispatch: any): Promise<void> => {
+            console.log("ingredients ", ingredients);
+            
             return elementService
-                .createElement(values, restaurant)
+                .createElement(values, restaurant, ingredients, listExtras)
                 .then((data) => {
                     dispatch({
                         type: elementActions.CREATE_ELEMENT_SUCCESS,

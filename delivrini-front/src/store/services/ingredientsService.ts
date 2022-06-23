@@ -1,20 +1,19 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
-import { formikElement } from "../actions/elementAction";
-import authHeader from "./authHeader";
+ import authHeader from "./authHeader";
 
-const getElementList = (page: number, rowPerPage: number, restaurant: any): Promise<any> => {
+const getIngredientsList = (page: number, rowPerPage: number, element: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.element, {
+            .get(URLS.ingredients, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 },
                 params: {
                     page,
                     size: rowPerPage,
-                    restaurant
+                    element
                 }
             })
             .then((response) => {
@@ -29,11 +28,11 @@ const getElementList = (page: number, rowPerPage: number, restaurant: any): Prom
             });
     });
 };
-const deleteElement = (id: any): Promise<any> => {
+const deleteIngredients = (id: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .delete(URLS.deleteElement + id, {
+            .delete(URLS.deleteIngredients + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -52,12 +51,12 @@ const deleteElement = (id: any): Promise<any> => {
     });
 };
 
-const createElement = (values: formikElement, restaurant: string, ingredients:any[], listExtras:any[]): Promise<any> => {
-    console.log("restaurant element", restaurant, "and ");
+const createIngredients = (values: any, element: string): Promise<any> => {
+    console.log("element Ingredients", element, "and ");
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createElement, { ...values, restaurant: restaurant }, {
+            .post(URLS.createIngredients, values , {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -65,7 +64,7 @@ const createElement = (values: formikElement, restaurant: string, ingredients:an
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data Element :", response);
+                    console.log("data Ingredients :", response);
                 }
                 resolve(response.data);
             })
@@ -75,12 +74,12 @@ const createElement = (values: formikElement, restaurant: string, ingredients:an
             });
     });
 };
-const editElement = (values: formikElement,   id: number): Promise<any> => {
+const editIngredients = (values: any, id: number): Promise<any> => {
     console.log("values", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editElement + id, { ...values }, {
+            .patch(URLS.editIngredients + id, { ...values }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -89,9 +88,9 @@ const editElement = (values: formikElement,   id: number): Promise<any> => {
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data Element :", response.data);
+                    console.log("data Ingredients :", response.data);
                 }
-                resolve(response.data.updatedElement);
+                resolve(response.data.updatedIngredients);
             })
             .catch((error) => {
                 console.log("error :", error.message);
@@ -100,11 +99,11 @@ const editElement = (values: formikElement,   id: number): Promise<any> => {
     });
 };
 
-const findElementById = (id: number): Promise<any> => {
+const findIngredientsById = (id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.findElementById + id, {
+            .get(URLS.findIngredientsById + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -112,7 +111,7 @@ const findElementById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data Element :", response.data);
+                    console.log("data Ingredients :", response.data);
                 }
                 resolve(response.data);
             })
@@ -123,12 +122,12 @@ const findElementById = (id: number): Promise<any> => {
     });
 };
 
-export const elementService = {
-    getElementList,
-    deleteElement,
-    createElement,
-    editElement,
-    findElementById
+export const IngredientsService = {
+    getIngredientsList,
+    deleteIngredients,
+    createIngredients,
+    editIngredients,
+    findIngredientsById
 }
 
 

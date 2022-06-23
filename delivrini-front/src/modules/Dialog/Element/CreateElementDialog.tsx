@@ -8,10 +8,11 @@ import Container from '@mui/material/Container';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { createTheme, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
+import { createTheme, Input, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createElementAction, formikElement } from '../../../store/actions/elementAction';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import ChipInputAutosuggest from '../../Ingredients/ChipInputAutosuggest';
 
 const theme = createTheme();
 
@@ -20,35 +21,74 @@ export default function CreateElementDialog() {
     const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
     const mealcategories = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo)
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
+
+    //** ingredients */
+    const [ingredients, setIngredients] = useState<string[]>([]);
+    //** extras */
+    const [listExtras, setListInput] = useState<any>([
+        { extrasName: "", extrasPrice: "", },
+
+    ]);
+
     const initialValues = {
         name: "",
         description: "",
         price: "",
         image: "",
-        fk_Mealcategory: ""
+        fk_Mealcategory: "",
     }
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("This field is required!"),
         price: Yup.string().required("This field is required!"),
         image: Yup.string().required("This field is required!"),
         description: Yup.string().required("This field is required!"),
+        // extrasName: Yup.string().required("This field is required!"),
+        // extrasPrice: Yup.string().required("This field is required!"),
+
     });
     const handleChange = (e: any) => {
         const selectedMealCategory = e.target.value;
         setMealCategory(selectedMealCategory)
 
-        console.log("change", selectedMealCategory);
-
     }
 
     const handleSubmit = (formValue: formikElement) => {
         formValue.fk_Mealcategory = mealcategory;
-        dispatch<any>(createElementAction(formValue, restaurant))
+        dispatch<any>(createElementAction(formValue, restaurant, ingredients, listExtras))
         console.log("create element values ", formValue);
+        console.log("Ingredients", ingredients)
+        console.log("extra list", listExtras);
 
     }
 
+    const handleSetIngredients = (ingredientsInputs: any) => {
+        setIngredients([ingredientsInputs])
+    }
+    const handleChangeExtras = (e: any, index: any) => {
+        const { name, value } = e.target;
+        const list = [...listExtras];
+        list[index][name] = value;
+        setListInput(list);
+    };
+
+    const handleAddInput = () => {
+        setListInput([
+            ...listExtras,
+            { extrasName: "", extrasPrice: "" }
+        ]);
+    }
+
+    const handleRemoveInput = (index: any) => {
+        const list = [...listExtras];
+
+        list.splice(index, 1);
+
+        setListInput(list);
+    };
+
+    console.log("extra list", listExtras);
     return (
+
         <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -71,7 +111,7 @@ export default function CreateElementDialog() {
                             </Avatar>
                             <Form >
                                 <Grid container spacing={2}>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} sm={6}>
                                         <Field
                                             as={TextField}
                                             autoComplete="name"
@@ -89,7 +129,24 @@ export default function CreateElementDialog() {
                                             className="alert alert-danger"
                                         />
                                     </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <Field
+                                            as={TextField}
+                                            required
+                                            fullWidth
+                                            id="price"
+                                            label="Price"
+                                            name="price"
+                                            autoComplete="price"
+                                            error={errors.price && touched.price}
+                                        />
 
+                                        <ErrorMessage
+                                            name="price"
+                                            component="div"
+                                            className="alert alert-danger"
+                                        />
+                                    </Grid>
                                     <Grid item xs={12} >
                                         <Field
                                             as={TextField}
@@ -108,26 +165,9 @@ export default function CreateElementDialog() {
                                             className="alert alert-danger"
                                         />
                                     </Grid>
-                                    <Grid item xs={12} >
-                                        <Field
-                                            as={TextField}
-                                            required
-                                            fullWidth
-                                            id="price"
-                                            label="Price"
-                                            name="price"
-                                            autoComplete="price"
-                                            error={errors.price && touched.price}
-                                        />
 
-                                        <ErrorMessage
-                                            name="price"
-                                            component="div"
-                                            className="alert alert-danger"
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <InputLabel id="demo-simple-select-label">Meal Category</InputLabel>
+                                    <Grid item xs={12}  >
+                                        <InputLabel id="demo-simple-select-label" >Meal Category</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
                                             id="fk_Mealcategory"
@@ -144,7 +184,7 @@ export default function CreateElementDialog() {
                                         ))}
                                         </Select>
                                     </Grid>
-                                    <Grid item xs={12} sm={6}>
+                                    <Grid item xs={6}  >
                                         <Field
                                             as={TextField}
                                             fullWidth
@@ -155,12 +195,48 @@ export default function CreateElementDialog() {
                                             error={errors.image && touched.image}
                                         />
                                     </Grid>
+
+
                                     <Grid item xs={12} >
-                                        <Button variant="outlined"> add ingredients </Button>
-                                        <Button variant="outlined"> add Extras </Button> </Grid>
+                                        <ChipInputAutosuggest addIngredients={handleSetIngredients} />
+                                    </Grid>
+
+
+                                    {listExtras.map((item: any, index: any) => (
+                                        <>
+                                            <Grid item xs={6}   >
+
+                                                <Field
+                                                    as={TextField}
+                                                    fullWidth
+                                                    id="extrasName"
+                                                    label="extras Name"
+                                                    name="extrasName"
+                                                    autoComplete="extrasName"
+                                                    value={item.extrasName}
+                                                    // key={index}
+                                                    onChange={(e: any) => handleChangeExtras(e, index)} />
+                                            </Grid>
+                                            <Grid item xs={6}   >
+                                                <Field
+                                                    as={TextField}
+                                                    fullWidth
+                                                    id="extrasPrice"
+                                                    label="extras Price"
+                                                    name="extrasPrice"
+                                                    autoComplete="extrasPrice"
+                                                    value={item.extrasPrice}
+                                                    // key={index}
+                                                    onChange={(e: any) => handleChangeExtras(e, index)} />
+
+                                                {index ? <Button variant="outlined" onClick={() => handleRemoveInput(index)}> Remove </Button> : null}
+                                                <Button variant="outlined" onClick={() => handleAddInput()}>  Add</Button>
+                                            </Grid>
+                                        </>
+
+                                    ))}
 
                                 </Grid>
-
                                 <Button
                                     type="submit"
                                     fullWidth
@@ -170,10 +246,14 @@ export default function CreateElementDialog() {
                                     Create  Element
                                 </Button>
                             </Form>
+
                         </Box>
                     </Container>
                 </ThemeProvider>
+
             )}
         </Formik>
+
     )
-}
+
+} 
