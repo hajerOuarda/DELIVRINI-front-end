@@ -10,16 +10,21 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { editRestaurantAction, formikRestaurant } from '../../../store/actions/restaurantAction';
 import { restaurantService } from '../../../store/services/restaurantService';
+import { InputLabel, MenuItem, Select } from '@mui/material';
 
 const theme = createTheme();
 
 export default function EditRestaurantDialog(props: any) {
     const dispatch = useAppDispatch();
-    const [resto, setResto] = useState<formikRestaurant>()
-    const idRestaurant = props.idRestaurant
+    const [resto, setResto] = useState<formikRestaurant>();
+    const restaurantCategories = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo)
+    const [category, setCategory] = useState<any>(restaurantCategories[0].name)
+    const idRestaurant = props.idRestaurant;
+
+
     useEffect(() => {
         restaurantService.findRestaurantById(idRestaurant).then((r) => {
             setResto(r.restaurant_found)
@@ -34,6 +39,7 @@ export default function EditRestaurantDialog(props: any) {
         zipCode: "",
         street: "",
         email: "",
+        fk_Rcategory: ""
     }
 
     console.log('initis', initialValues)
@@ -49,10 +55,16 @@ export default function EditRestaurantDialog(props: any) {
         street: Yup.string().required("This field is required!"),
     });
 
-    const handleSubmit = (formValue: { name: string, address: string, phone: string, zipCode: string, street: string, email: string }) => {
+    const handleChange = (e: any) => {
+        const selectedCategory = e.target.value;
+        setCategory(selectedCategory);
+    }
 
+    const handleSubmit = (formValue: formikRestaurant) => {
+        formValue.fk_Rcategory = category;
         dispatch<any>(editRestaurantAction(formValue, idRestaurant))
-        
+        console.log("values", formValue);
+
     }
     return (
         !resto ? null : <Formik
@@ -169,6 +181,24 @@ export default function EditRestaurantDialog(props: any) {
                                             component="div"
                                             className="alert alert-danger"
                                         />
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <InputLabel id="demo-simple-select-label">Restaurant Category</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-label"
+                                            id="fk_Rcategory"
+                                            required
+                                            name="fk_Rcategory"
+                                            label="Restaurant category"
+                                            autoWidth
+                                            displayEmpty
+                                            onChange={handleChange}
+                                            value={category}
+                                        >
+                                            {restaurantCategories.map((category: any, index: any) => (
+                                                <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
+                                            ))}
+                                        </Select>
                                     </Grid>
                                 </Grid>
                                 <Button

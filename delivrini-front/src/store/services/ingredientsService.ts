@@ -1,19 +1,19 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
-import { formikRestaurant } from "../actions/restaurantAction";
-import authHeader from "./authHeader";
+ import authHeader from "./authHeader";
 
-const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
+const getIngredientsList = (page: number, rowPerPage: number, element: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.restaurantsList, {
-                // headers: {
-                //     authorization: "Basic " + authHeader()
-                // },
+            .get(URLS.ingredients, {
+                headers: {
+                    authorization: "Basic " + authHeader()
+                },
                 params: {
                     page,
-                    size: rowPerPage
+                    size: rowPerPage,
+                    element
                 }
             })
             .then((response) => {
@@ -28,11 +28,11 @@ const getRestaurantsList = (page: number, rowPerPage: number): Promise<any> => {
             });
     });
 };
-const deleteRestaurant = (id: any): Promise<any> => {
+const deleteIngredients = (id: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .delete(URLS.deleteRestaurant + id, {
+            .delete(URLS.deleteIngredients + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -51,12 +51,12 @@ const deleteRestaurant = (id: any): Promise<any> => {
     });
 };
 
-const createRestaurant = (values: formikRestaurant): Promise<any> => {
-    console.log("tesst", values);
+const createIngredients = (values: any, element: string): Promise<any> => {
+    console.log("element Ingredients", element, "and ");
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createRestaurant, values, {
+            .post(URLS.createIngredients, values , {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -64,7 +64,7 @@ const createRestaurant = (values: formikRestaurant): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data restaurant :", response);
+                    console.log("data Ingredients :", response);
                 }
                 resolve(response.data);
             })
@@ -74,11 +74,12 @@ const createRestaurant = (values: formikRestaurant): Promise<any> => {
             });
     });
 };
-const editRestaurant = (values: formikRestaurant, id: number): Promise<any> => {
+const editIngredients = (values: any, id: number): Promise<any> => {
+    console.log("values", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editRestaurant + id, values, {
+            .patch(URLS.editIngredients + id, { ...values }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -87,9 +88,9 @@ const editRestaurant = (values: formikRestaurant, id: number): Promise<any> => {
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data restaurant :", response.data);
+                    console.log("data Ingredients :", response.data);
                 }
-                resolve(response.data.updatedRestaurant);
+                resolve(response.data.updatedIngredients);
             })
             .catch((error) => {
                 console.log("error :", error.message);
@@ -98,11 +99,11 @@ const editRestaurant = (values: formikRestaurant, id: number): Promise<any> => {
     });
 };
 
-const findRestaurantById = (id: number): Promise<any> => {
+const findIngredientsById = (id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.findRestaurantById + id, {
+            .get(URLS.findIngredientsById + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -110,7 +111,7 @@ const findRestaurantById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data restaurant :", response);
+                    console.log("data Ingredients :", response.data);
                 }
                 resolve(response.data);
             })
@@ -121,12 +122,12 @@ const findRestaurantById = (id: number): Promise<any> => {
     });
 };
 
-export const restaurantService = {
-    getRestaurantsList,
-    deleteRestaurant,
-    createRestaurant,
-    editRestaurant,
-    findRestaurantById
+export const IngredientsService = {
+    getIngredientsList,
+    deleteIngredients,
+    createIngredients,
+    editIngredients,
+    findIngredientsById
 }
 
 

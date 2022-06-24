@@ -23,7 +23,6 @@ const listRestaurantAction =
                         type: restaurantActions.LIST_RESTAURANT_FAILED,
                         payload: message,
                     });
-                    console.log("list data error ", message);
                     return;
                 });
         };
@@ -31,7 +30,7 @@ const listRestaurantAction =
 // delete restaurant
 
 const deleteRestaurantAction =
-    (id: number) =>
+    (id: any) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
                 .deleteRestaurant(id)
@@ -46,7 +45,6 @@ const deleteRestaurantAction =
                             "success",
                             "Restaurant successfully deleted!"
                         ))
-                    console.log("list data deletion ", data);
                     return data;
                 })
                 .catch((error) => {
@@ -73,14 +71,15 @@ export interface formikRestaurant {
     email: string,
     address: string,
     zipCode: string,
-    street: string
+    street: string,
+    fk_Rcategory: string,
 }
 
 const createRestaurantAction =
-    (values: formikRestaurant, category: string) =>
+    (values: formikRestaurant) =>
         (dispatch: any): Promise<void> => {
             return restaurantService
-                .createRestaurant(values, category)
+                .createRestaurant(values)
                 .then((data) => {
                     dispatch({
                         type: restaurantActions.CREATE_RESTAURANT_SUCCESS,
@@ -128,7 +127,6 @@ const editRestaurantAction =
                             "success",
                             "Restaurant successfully updated!"
                         ))
-                    console.log("list data  ", data);
                     return data;
                 })
                 .catch((error) => {

@@ -48,8 +48,7 @@ export default function RestaurantReducer(state = initialState, action: any) {
                 error: payload
             };
         case restaurantActions.CREATE_RESTAURANT_SUCCESS:
-            console.log(payload)
-            return {
+             return {
                 ...state,
                 restaurantInfo: [...state.restaurantInfo, payload.restaurant] //otherwise it will only return the current new restaurant hence the map function in list will cause error
             };

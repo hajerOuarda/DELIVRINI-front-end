@@ -1,4 +1,4 @@
-import { userActions } from "../actions/types";
+import { authenticationActions } from "../actions/types";
 
 interface LoginState {
   isLoggedIn: boolean;
@@ -15,42 +15,42 @@ const initialState: LoginState = {
 export default function authReducer(state = initialState, action: any) {
   const { type, payload } = action;
   switch (type) {
-    case userActions.REGISTER_SUCCESS:
+    case authenticationActions.REGISTER_SUCCESS:
       return {
         ...state,
         isLoggedIn: false,
         isRegistered: true,
         userInfo: payload
       };
-    case userActions.REGISTER_FAIL:
+    case authenticationActions.REGISTER_FAIL:
       return {
         ...state,
         isLoggedIn: false,
         userInfo: payload
       };
-    case userActions.LOGIN_SUCCESS:
+    case authenticationActions.LOGIN_SUCCESS:
       return {
         ...state,
         isLoggedIn: true,
         userInfo: payload.user,
       };
-    case userActions.LOGIN_FAIL:
+    case authenticationActions.LOGIN_FAIL:
       return {
         ...state,
         isLoggedIn: false,
         userInfo: payload,
       };
-    case userActions.RESET_SUCCESS:
+    case authenticationActions.RESET_SUCCESS:
       return {
         ...state,
         userInfo: payload
       };
-    case userActions.RESET_FAIL:
+    case authenticationActions.RESET_FAIL:
       return {
         ...state,
         userInfo: payload
       };
-    case userActions.LOGOUT:
+    case authenticationActions.LOGOUT:
       return {
         ...state,
         isLoggedIn: false,

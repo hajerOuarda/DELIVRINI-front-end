@@ -52,7 +52,7 @@ const deleteElement = (id: any): Promise<any> => {
     });
 };
 
-const createElement = (values: formikElement, restaurant: string): Promise<any> => {
+const createElement = (values: formikElement, restaurant: string, ingredients:any[], listExtras:any[]): Promise<any> => {
     console.log("restaurant element", restaurant, "and ");
 
     return new Promise((resolve, reject) => {
@@ -112,7 +112,7 @@ const findElementById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data Element :", response);
+                    console.log("data Element :", response.data);
                 }
                 resolve(response.data);
             })

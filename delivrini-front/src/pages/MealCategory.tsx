@@ -23,6 +23,7 @@ import { deleteMealCategoryAction, listMealCategoryAction } from '../store/actio
 import EditMealCategoryDialog from '../modules/Dialog/mealCategory/EditMealCategoryDialog';
 import CreateMealCategoryDialog from '../modules/Dialog/mealCategory/CreateMealCategoryDialog';
 import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
+import { deleteElementAction } from '../store/actions/elementAction';
 
 
 
@@ -104,6 +105,7 @@ export default function MealCategoryPage() {
   const dispatch = useAppDispatch();
   const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
   const getListMealCategory = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo);
+  const getListElements = useAppSelector((state) => state.ElementReducer.elementInfo);
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -130,9 +132,14 @@ export default function MealCategoryPage() {
   }, [page, rowsPerPage])
 
   // *** delete Meal category ***
-  const handleDeleteMealCategory = (id: number) => {
+  const handleDeleteMealCategory = (row: any) => {
 
-    dispatch<any>(deleteMealCategoryAction(id))
+    dispatch<any>(deleteMealCategoryAction(row.id))
+    getListElements.filter((element: any) => element.fk_Mealcategory === row.name)
+      .map((element: any) => (
+         dispatch<any>(deleteElementAction(element.id))
+      ))
+
 
   };
   // *** edit Meal category ***
@@ -144,7 +151,7 @@ export default function MealCategoryPage() {
     console.log("create");
   };
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: any) => {
     if (actionType === "delete") { handleDeleteMealCategory(id) }
     else {
       if (actionType === "edit") { handleEditMealCategory(id) }
@@ -201,7 +208,7 @@ export default function MealCategoryPage() {
                 <TableCell align="left">
                   <div className='button-container'>
                     <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
-                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
+                    <Button onClick={() => { setrowId(row); setOpen(true); setActionType("delete") }}> <Delete /></Button>
                   </div>
                 </TableCell>
               </TableRow>

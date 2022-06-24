@@ -45,8 +45,7 @@ export default function ElementReducer(state = initialState, action: any) {
                 error: payload
             };
         case elementActions.CREATE_ELEMENT_SUCCESS:
-            console.log(payload)
-            return {
+             return {
                 ...state,
                 elementInfo: [...state.elementInfo, payload.element]
             };

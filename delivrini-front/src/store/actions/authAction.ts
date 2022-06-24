@@ -1,6 +1,6 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { authenticationService } from "../services";
-import { userActions } from "./types";
+import { authenticationActions } from "./types";
 
 //
 
@@ -11,7 +11,7 @@ const sendLoginAction =
         .sendLogin(formValue.email, formValue.password)
         .then((data) => {
           dispatch({
-            type: userActions.LOGIN_SUCCESS,
+            type: authenticationActions.LOGIN_SUCCESS,
             payload: data,
           });
           dispatch(
@@ -27,7 +27,7 @@ const sendLoginAction =
             error.message ||
             error.toString();
           dispatch({
-            type: userActions.LOGIN_FAIL,
+            type: authenticationActions.LOGIN_FAIL,
             payload: message,
           });
 
@@ -36,13 +36,13 @@ const sendLoginAction =
     };
 
 const sendRegisterAction =
-  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string }, role: string,restaurant:string) =>
+  (formValue: { firstName: string, lastName: string, address: string, phone: string, zipCode: string, street: string, email: string, password: string }, role: string, restaurant: string) =>
     (dispatch: any): Promise<void> => {
       return authenticationService
         .sendRegister(formValue.firstName, formValue.lastName, formValue.address, formValue.phone, formValue.zipCode, formValue.street, formValue.email, formValue.password, role, restaurant)
         .then((data) => {
           dispatch({
-            type: userActions.REGISTER_SUCCESS,
+            type: authenticationActions.REGISTER_SUCCESS,
             payload: data,
           });
           dispatch(
@@ -58,7 +58,7 @@ const sendRegisterAction =
             error.message ||
             error.toString();
           dispatch({
-            type: userActions.REGISTER_FAIL,
+            type: authenticationActions.REGISTER_FAIL,
             payload: message,
           });
           return;
@@ -72,7 +72,7 @@ const sendResetPasswordAction =
         .sendResetPassword(formValue.email)
         .then((data) => {
           dispatch({
-            type: userActions.RESET_SUCCESS,
+            type: authenticationActions.RESET_SUCCESS,
             payload: data,
           });
           return data;
@@ -83,7 +83,7 @@ const sendResetPasswordAction =
             error.message ||
             error.toString();
           dispatch({
-            type: userActions.RESET_FAIL,
+            type: authenticationActions.RESET_FAIL,
             payload: message,
           });
           return;
@@ -94,9 +94,9 @@ const sendResetPasswordAction =
 const sendLogoutAction = () => (dispatch: any) => {
   authenticationService.sendLogout();
   dispatch({
-    type: userActions.LOGOUT,
+    type: authenticationActions.LOGOUT,
   });
-  
+
 };
 
 export { sendLoginAction, sendLogoutAction, sendRegisterAction, sendResetPasswordAction };

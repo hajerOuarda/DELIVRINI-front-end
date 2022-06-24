@@ -12,7 +12,7 @@ import { FoodBankOutlined } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { editElementAction, formikElement } from '../../../store/actions/elementAction';
-import { InputLabel, MenuItem, Select } from '@mui/material';
+import { ButtonGroup, InputLabel, MenuItem, Select } from '@mui/material';
 import { elementService } from '../../../store/services/elementService';
 const theme = createTheme();
 
@@ -142,7 +142,7 @@ export default function EditElementDialog(props: any) {
                                             error={errors.image && touched.image}
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
+                                    <Grid item xs={12} >
                                         <InputLabel id="demo-simple-select-label">Meal Category</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -153,14 +153,17 @@ export default function EditElementDialog(props: any) {
                                             autoWidth
                                             displayEmpty
                                             onChange={handleChange}
-                                            renderValue={val => <MenuItem>{val ?? 'Choose Meal category'} </MenuItem>}
+                                            // renderValue={val => <MenuItem>{val ?? 'Choose Meal category'} </MenuItem>}
                                             value={mealcategory}
                                         >{mealcategories.map((category: any, index: any) => (
                                             <MenuItem value={category.name} key={index}> {category.name}</MenuItem>
                                         ))}
                                         </Select>
                                     </Grid>
-
+                                    <Grid item xs={12} >
+                                        <Button variant="outlined"> add ingredients </Button>
+                                        <Button variant="outlined"> add Extras </Button>
+                                    </Grid>
                                 </Grid>
                                 <Button
                                     type="submit"

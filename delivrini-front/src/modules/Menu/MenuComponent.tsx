@@ -20,6 +20,7 @@ import {
   MenuBook,
   RamenDining,
   Storefront,
+  GroupRounded
 } from "@mui/icons-material";
 import HomeIcon from "@mui/icons-material/Home";
 import { paths } from "../../utils/enums/routes";
@@ -40,13 +41,15 @@ export default function MenuComponent(props: any) {
     { name: "Profile", path: paths.profile, icon: <AccountBox /> },
   ]
   if (user_role === "admin") {
+    // add elements in the middle of my array
     mylist.splice(1, 0,
       { name: "Restaurant", path: paths.restaurant, icon: <LocalDining /> },
       {
         name: "Restaurant Category",
         path: paths.restaurant_category,
         icon: <Storefront />,
-      }
+      },
+      { name: "Users", path: paths.user, icon: <GroupRounded /> },
     )
   }
   else
