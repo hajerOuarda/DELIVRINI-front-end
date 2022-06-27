@@ -1,5 +1,6 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { elementService } from "../services/elementService";
+import { createIngredientsAction } from "./ingredientsAction";
 import { elementActions } from "./types";
 
 
@@ -93,7 +94,11 @@ const createElementAction =
                             "success",
                             "Element successfully created!"
                         ))
+                        dispatch(
+                            createIngredientsAction(ingredients,data.element.name)
+                        )
                      return data;
+                     
                 })
                 .catch((error) => {
                     const message =

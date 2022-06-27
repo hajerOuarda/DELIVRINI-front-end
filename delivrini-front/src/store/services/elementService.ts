@@ -52,7 +52,7 @@ const deleteElement = (id: any): Promise<any> => {
     });
 };
 
-const createElement = (values: formikElement, restaurant: string, ingredients:any[], listExtras:any[]): Promise<any> => {
+const createElement = (values: formikElement, restaurant: string, ingredients: any[], listExtras: any[]): Promise<any> => {
     console.log("restaurant element", restaurant, "and ");
 
     return new Promise((resolve, reject) => {
@@ -67,6 +67,8 @@ const createElement = (values: formikElement, restaurant: string, ingredients:an
                 if (response.data) {
                     console.log("data Element :", response);
                 }
+
+
                 resolve(response.data);
             })
             .catch((error) => {
@@ -75,7 +77,7 @@ const createElement = (values: formikElement, restaurant: string, ingredients:an
             });
     });
 };
-const editElement = (values: formikElement,   id: number): Promise<any> => {
+const editElement = (values: formikElement, id: number): Promise<any> => {
     console.log("values", values);
 
     return new Promise((resolve, reject) => {

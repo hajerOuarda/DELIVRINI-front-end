@@ -1,6 +1,6 @@
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
- import authHeader from "./authHeader";
+import authHeader from "./authHeader";
 
 const getIngredientsList = (page: number, rowPerPage: number, element: any): Promise<any> => {
 
@@ -51,12 +51,12 @@ const deleteIngredients = (id: any): Promise<any> => {
     });
 };
 
-const createIngredients = (values: any, element: string): Promise<any> => {
-    console.log("element Ingredients", element, "and ");
+const createIngredients = (values: any[], element: string): Promise<any> => {
+    console.log("element Ingredients", element);
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createIngredients, values , {
+            .post(URLS.createIngredients, { values, element }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -122,7 +122,7 @@ const findIngredientsById = (id: number): Promise<any> => {
     });
 };
 
-export const IngredientsService = {
+export const ingredientsService = {
     getIngredientsList,
     deleteIngredients,
     createIngredients,

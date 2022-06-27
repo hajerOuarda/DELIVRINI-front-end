@@ -8,11 +8,11 @@ import Container from '@mui/material/Container';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { createTheme, Input, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
+import { createTheme, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createElementAction, formikElement } from '../../../store/actions/elementAction';
-import React, { useState } from 'react';
-import ChipInputAutosuggest from '../../Ingredients/ChipInputAutosuggest';
+import { useState } from 'react';
+import ChipInputIngredients from '../../Ingredients/ChipInputIngredients';
 
 const theme = createTheme();
 
@@ -23,7 +23,7 @@ export default function CreateElementDialog() {
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
 
     //** ingredients */
-    const [ingredients, setIngredients] = useState<string[]>([]);
+    const [ingredients, setIngredients] = useState<any[]>([]);
     //** extras */
     const [listExtras, setListInput] = useState<any>([
         { extrasName: "", extrasPrice: "", },
@@ -55,15 +55,14 @@ export default function CreateElementDialog() {
     const handleSubmit = (formValue: formikElement) => {
         formValue.fk_Mealcategory = mealcategory;
         dispatch<any>(createElementAction(formValue, restaurant, ingredients, listExtras))
+
         console.log("create element values ", formValue);
         console.log("Ingredients", ingredients)
         console.log("extra list", listExtras);
 
     }
 
-    const handleSetIngredients = (ingredientsInputs: any) => {
-        setIngredients([ingredientsInputs])
-    }
+
     const handleChangeExtras = (e: any, index: any) => {
         const { name, value } = e.target;
         const list = [...listExtras];
@@ -85,8 +84,9 @@ export default function CreateElementDialog() {
 
         setListInput(list);
     };
+    console.log("Ingredients from parent component", ingredients)
 
-    console.log("extra list", listExtras);
+
     return (
 
         <Formik
@@ -198,7 +198,7 @@ export default function CreateElementDialog() {
 
 
                                     <Grid item xs={12} >
-                                        <ChipInputAutosuggest addIngredients={handleSetIngredients} />
+                                        <ChipInputIngredients ingredients={ingredients} setIngredients={setIngredients} />
                                     </Grid>
 
 
@@ -214,7 +214,7 @@ export default function CreateElementDialog() {
                                                     name="extrasName"
                                                     autoComplete="extrasName"
                                                     value={item.extrasName}
-                                                    // key={index}
+                                                    key={index}
                                                     onChange={(e: any) => handleChangeExtras(e, index)} />
                                             </Grid>
                                             <Grid item xs={6}   >
@@ -226,7 +226,7 @@ export default function CreateElementDialog() {
                                                     name="extrasPrice"
                                                     autoComplete="extrasPrice"
                                                     value={item.extrasPrice}
-                                                    // key={index}
+                                                    key={index + 1}
                                                     onChange={(e: any) => handleChangeExtras(e, index)} />
 
                                                 {index ? <Button variant="outlined" onClick={() => handleRemoveInput(index)}> Remove </Button> : null}
