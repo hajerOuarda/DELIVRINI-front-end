@@ -23,10 +23,10 @@ export default function CreateElementDialog() {
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
 
     //** ingredients */
-    const [ingredients, setIngredients] = useState<any[]>([]);
+    const [ingredients, setIngredients] = useState<any>([]);
     //** extras */
     const [listExtras, setListInput] = useState<any>([
-        { extrasName: "", extrasPrice: "", },
+        { extrasName: "", extrasPrice: "", id: new Date().getTime() },
 
     ]);
 
@@ -70,18 +70,16 @@ export default function CreateElementDialog() {
         setListInput(list);
     };
 
-    const handleAddInput = () => {
+    const handleAddExtras = () => {
         setListInput([
             ...listExtras,
-            { extrasName: "", extrasPrice: "" }
+            { extrasName: "", extrasPrice: "", id: new Date().getTime() }
         ]);
     }
 
     const handleRemoveInput = (index: any) => {
         const list = [...listExtras];
-
         list.splice(index, 1);
-
         setListInput(list);
     };
     console.log("Ingredients from parent component", ingredients)
@@ -226,11 +224,11 @@ export default function CreateElementDialog() {
                                                     name="extrasPrice"
                                                     autoComplete="extrasPrice"
                                                     value={item.extrasPrice}
-                                                    key={index + 1}
+                                                    key={item.id}
                                                     onChange={(e: any) => handleChangeExtras(e, index)} />
 
                                                 {index ? <Button variant="outlined" onClick={() => handleRemoveInput(index)}> Remove </Button> : null}
-                                                <Button variant="outlined" onClick={() => handleAddInput()}>  Add</Button>
+                                                <Button variant="outlined" onClick={() => handleAddExtras()}>  Add</Button>
                                             </Grid>
                                         </>
 

@@ -2,7 +2,7 @@ import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
 import authHeader from "./authHeader";
 
-const getIngredientsList = (page: number, rowPerPage: number, element: any): Promise<any> => {
+const getIngredientsList = (element: any): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
@@ -11,14 +11,14 @@ const getIngredientsList = (page: number, rowPerPage: number, element: any): Pro
                     authorization: "Basic " + authHeader()
                 },
                 params: {
-                    page,
-                    size: rowPerPage,
+                    // page,
+                    // size: rowPerPage,
                     element
                 }
             })
             .then((response) => {
                 if (response.data) {
-                    console.log("data:", response.data);
+                    console.log("data ingredients:", response.data);
                 }
                 resolve(response.data);
             })
@@ -51,8 +51,7 @@ const deleteIngredients = (id: any): Promise<any> => {
     });
 };
 
-const createIngredients = (values: any[], element: string): Promise<any> => {
-    console.log("element Ingredients", element);
+const createIngredients = (values: any, element: string): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
@@ -74,7 +73,7 @@ const createIngredients = (values: any[], element: string): Promise<any> => {
             });
     });
 };
-const editIngredients = (values: any, id: number): Promise<any> => {
+const editIngredients = (values: any, id: any, element: string): Promise<any> => {
     console.log("values", values);
 
     return new Promise((resolve, reject) => {

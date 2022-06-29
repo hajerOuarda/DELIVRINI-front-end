@@ -2,57 +2,62 @@ import * as React from 'react';
 import Chip from '@mui/material/Chip';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 
-// export interface IngredientsProps {
-//     ingredients: string[]
-// }
+
 export default function ChipInputIngredients({ ingredients, setIngredients }: any) {
 
     const [currentTagText, setCurrentTagText] = useState("");
 
-    const handleTag = (e: any) => {
+
+    const handleTag = (e: any,index:any) => {
         if (e.keyCode === 13 && e.target.value) {
-            setIngredients((ingredients: any[]) => [...ingredients, e.target.value]);
+            console.log("target",  e.target)
+            
+            const { name, value } = e.target;
+            const list = [...ingredients];
+            list [name] = value;
+            // setIngredients([...list,{name:""}]);
+
+            setIngredients((ingredients: any[]) => [...ingredients, {name:e.target.value}]);
+            console.log("defaultList", ingredients);
             setCurrentTagText("");
             e.preventDefault();
         }
     };
 
     const removeTag = (option: any) => {
-        console.log("options tag", option);
         setIngredients((ingredients: any) => ingredients.filter((value: any) => (
             value !== option
-            // console.log('i', i.name,"ingredients",ingredients)
-        )))
-
+         )))
     };
-
 
     return (
         <Autocomplete
             multiple
             id="tags-filled"
             options={[]}
-            defaultValue={[]}
+            defaultValue={ingredients.map((i:any)=>i.name)}
             freeSolo
-
+            value={ingredients.map((i:any)=>i.name)}
             renderTags={(
                 value: string[],
                 getTagProps
             ) =>
                 value.map((option: string, index: number) => (
-                    <Chip variant="outlined" label={option} {...getTagProps({ index })} onDelete={() => removeTag(option)} key={index}
+                    <Chip variant="outlined" label={option} {...getTagProps({ index })}
+                        // onDelete={() => removeTag(option)}
+                        key={index} color="secondary"
+
                     />
                 ))
             }
             renderInput={(params: any) => (
                 <TextField
                     {...params}
-                    label="Receivers"
-                    placeholder="Add a receiver by pressing enter after its dotName or address"
-                    onKeyDown={handleTag}
+                    label="Ingredients"
+                    placeholder="Add a ingredients by pressing enter after its dotName or address"
+                onKeyDown={handleTag}
                 />
             )
             }

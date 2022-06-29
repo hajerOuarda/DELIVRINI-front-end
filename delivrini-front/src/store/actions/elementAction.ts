@@ -1,6 +1,6 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { elementService } from "../services/elementService";
-import { createIngredientsAction } from "./ingredientsAction";
+import { createIngredientsAction, listIngredientsAction } from "./ingredientsAction";
 import { elementActions } from "./types";
 
 
@@ -9,7 +9,7 @@ export interface formikElement {
     description: string,
     image: string,
     price: string,
-    fk_Mealcategory:string
+    fk_Mealcategory: string
 
 }
 
@@ -23,6 +23,7 @@ const listElementAction =
                         type: elementActions.LIST_ELEMENT_SUCCESS,
                         payload: data,
                     });
+
                     return data;
                 })
                 .catch((error) => {
@@ -33,7 +34,7 @@ const listElementAction =
                         type: elementActions.LIST_ELEMENT_FAILED,
                         payload: message,
                     });
-                     return;
+                    return;
                 });
         };
 
@@ -77,12 +78,12 @@ const deleteElementAction =
 
 
 const createElementAction =
-    (values: formikElement, restaurant: string, ingredients:any[], listExtras:any[]) =>
+    (values: formikElement, restaurant: string, ingredients: any[], listExtras: any[]) =>
         (dispatch: any): Promise<void> => {
             console.log("ingredients ", ingredients);
-            
+
             return elementService
-                .createElement(values, restaurant, ingredients, listExtras)
+                .createElement(values, restaurant)
                 .then((data) => {
                     dispatch({
                         type: elementActions.CREATE_ELEMENT_SUCCESS,
@@ -94,11 +95,15 @@ const createElementAction =
                             "success",
                             "Element successfully created!"
                         ))
-                        dispatch(
-                            createIngredientsAction(ingredients,data.element.name)
-                        )
-                     return data;
-                     
+                    dispatch(
+                        createIngredientsAction(ingredients, data.element.name)
+                    )
+                    //TODO dispatch extras too 
+                    // dispatch(
+                    //     createExtrasAction(ingredients, data.element.name)
+                    // )
+                    return data;
+
                 })
                 .catch((error) => {
                     const message =
@@ -119,10 +124,10 @@ const createElementAction =
         };
 
 const editElementAction =
-    (values: formikElement, id: number) =>
+    (values: formikElement, id: number, ingredients: any[], listExtras: any[]) =>
         (dispatch: any): Promise<void> => {
             return elementService
-                .editElement(values,  id)
+                .editElement(values, id)
                 .then((data) => {
                     dispatch({
                         type: elementActions.EDIT_ELEMENT_SUCCESS,
@@ -134,7 +139,10 @@ const editElementAction =
                             "success",
                             "Element successfully updated!"
                         ))
-                     return data;
+                    // dispatch(
+                    //     editIngredientsAction(ingredients, data.element.name)
+                    // )
+                    return data;
                 })
                 .catch((error) => {
                     const message =

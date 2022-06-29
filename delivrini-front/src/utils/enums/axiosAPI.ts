@@ -35,4 +35,10 @@ export enum URLS {
   createIngredients = "ingredients",
   findIngredientsById = "ingredients/",
   editIngredients = "ingredients/",
+  //** extras crud */
+  extras = "extras/all",
+  deleteExtras = "extras/",
+  createExtras = "extras",
+  findExtrasById = "extras/",
+  editExtras = "extras/",
 }

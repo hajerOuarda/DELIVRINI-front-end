@@ -36,7 +36,7 @@ export default function MenuComponent(props: any) {
   });
 
   let mylist = [
-    { name: "Home ", path: paths.home, icon: <HomeIcon /> },
+
 
     { name: "Profile", path: paths.profile, icon: <AccountBox /> },
   ]
@@ -60,6 +60,9 @@ export default function MenuComponent(props: any) {
         { name: "Element", path: paths.element, icon: <FoodBank /> },
       )
     }
+    else
+      mylist.splice(1, 0,
+        { name: "Home ", path: paths.home, icon: <HomeIcon /> })
 
 
   const toggleDrawer =

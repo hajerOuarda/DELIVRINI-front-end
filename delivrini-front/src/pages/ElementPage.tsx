@@ -127,10 +127,9 @@ export default function ElementPage() {
   };
 
   useEffect(() => {
-    dispatch<any>(
-      listElementAction(page, rowsPerPage, restaurant)
-    )
+    dispatch<any>(listElementAction(page, rowsPerPage, restaurant))
     dispatch<any>(listMealCategoryAction(0, 50, restaurant))
+
   }, [page, rowsPerPage])
 
   // *** delete Element ***
