@@ -103,7 +103,6 @@ export default function RestaurantCategoryPage() {
   // Avoid a layout jump when reaching the last page with empty rows.
   const dispatch = useAppDispatch();
   const getListRestaurantCategory = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo);
-  const getListRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - getListRestaurantCategory.length) : 0;
@@ -129,13 +128,8 @@ export default function RestaurantCategoryPage() {
   }, [page, rowsPerPage])
 
   // *** delete restaurant ***
-  const handleDeleteCategoryResto = (row: any) => {
-
-    dispatch<any>(deleteRestaurantCategoryAction(row.id))
-    getListRestaurants.filter((resto: any) => resto.fk_Rcategory === row.name)
-      .map((restaurant: any) => (
-        dispatch<any>(deleteRestaurantAction(restaurant.id))
-      ))
+  const handleDeleteCategoryResto = (id: number) => {
+    dispatch<any>(deleteRestaurantCategoryAction(id))
 
   };
   // *** edit restaurant ***
@@ -204,7 +198,7 @@ export default function RestaurantCategoryPage() {
                 <TableCell align="left">
                   <div className='button-container'>
                     <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
-                    <Button onClick={() => { setrowId(row); setOpen(true); setActionType("delete") }}> <Delete /></Button>
+                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
                   </div>
                 </TableCell>
               </TableRow>
