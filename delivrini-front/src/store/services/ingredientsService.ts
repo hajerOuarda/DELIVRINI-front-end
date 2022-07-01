@@ -73,12 +73,12 @@ const createIngredients = (values: any, element: string): Promise<any> => {
             });
     });
 };
-const editIngredients = (values: any, id: any, element: string): Promise<any> => {
+const editIngredients = (values: any, element: string): Promise<any> => {
     console.log("values", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editIngredients + id, { ...values }, {
+            .patch(URLS.createIngredients, { values, element }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }

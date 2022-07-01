@@ -55,10 +55,10 @@ const createIngredientsAction =
         };
 
 const editIngredientsAction =
-    (values: any[], id: any, element: string) =>
+    (values: any[], element: string) =>
         (dispatch: any): Promise<void> => {
             return ingredientsService
-                .editIngredients(values, id, element)
+                .editIngredients(values, element)
                 .then((data) => {
                     dispatch({
                         type: ingredientsActions.EDIT_INGREDIENTS_SUCCESS,

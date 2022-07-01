@@ -1,6 +1,7 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { elementService } from "../services/elementService";
-import { createIngredientsAction, listIngredientsAction } from "./ingredientsAction";
+import { createExtrasAction } from "./extrasAction";
+import { createIngredientsAction, editIngredientsAction, listIngredientsAction } from "./ingredientsAction";
 import { elementActions } from "./types";
 
 
@@ -99,9 +100,9 @@ const createElementAction =
                         createIngredientsAction(ingredients, data.element.name)
                     )
                     //TODO dispatch extras too 
-                    // dispatch(
-                    //     createExtrasAction(ingredients, data.element.name)
-                    // )
+                    dispatch(
+                        createExtrasAction(listExtras, data.element.name)
+                    )
                     return data;
 
                 })
@@ -139,9 +140,9 @@ const editElementAction =
                             "success",
                             "Element successfully updated!"
                         ))
-                    // dispatch(
-                    //     editIngredientsAction(ingredients, data.element.name)
-                    // )
+                    dispatch(
+                        editIngredientsAction(ingredients, data.element.name)
+                    )
                     return data;
                 })
                 .catch((error) => {

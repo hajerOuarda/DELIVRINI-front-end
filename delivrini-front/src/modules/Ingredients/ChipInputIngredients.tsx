@@ -10,16 +10,15 @@ export default function ChipInputIngredients({ ingredients, setIngredients }: an
     const [currentTagText, setCurrentTagText] = useState("");
 
 
-    const handleTag = (e: any,index:any) => {
+    const handleTag = (e: any, index: any) => {
         if (e.keyCode === 13 && e.target.value) {
-            console.log("target",  e.target)
-            
+
             const { name, value } = e.target;
             const list = [...ingredients];
-            list [name] = value;
+            list[name] = value;
             // setIngredients([...list,{name:""}]);
 
-            setIngredients((ingredients: any[]) => [...ingredients, {name:e.target.value}]);
+            setIngredients((ingredients: any[]) => [...ingredients, { name: e.target.value }]);
             console.log("defaultList", ingredients);
             setCurrentTagText("");
             e.preventDefault();
@@ -28,8 +27,8 @@ export default function ChipInputIngredients({ ingredients, setIngredients }: an
 
     const removeTag = (option: any) => {
         setIngredients((ingredients: any) => ingredients.filter((value: any) => (
-            value !== option
-         )))
+            value.name !== option
+        )))
     };
 
     return (
@@ -37,16 +36,16 @@ export default function ChipInputIngredients({ ingredients, setIngredients }: an
             multiple
             id="tags-filled"
             options={[]}
-            defaultValue={ingredients.map((i:any)=>i.name)}
+            defaultValue={ingredients.map((i: any) => i.name)}
             freeSolo
-            value={ingredients.map((i:any)=>i.name)}
+            value={ingredients.map((i: any) => i.name)}
             renderTags={(
                 value: string[],
                 getTagProps
             ) =>
                 value.map((option: string, index: number) => (
                     <Chip variant="outlined" label={option} {...getTagProps({ index })}
-                        // onDelete={() => removeTag(option)}
+                        onDelete={() => removeTag(option)}
                         key={index} color="secondary"
 
                     />
@@ -57,7 +56,7 @@ export default function ChipInputIngredients({ ingredients, setIngredients }: an
                     {...params}
                     label="Ingredients"
                     placeholder="Add a ingredients by pressing enter after its dotName or address"
-                onKeyDown={handleTag}
+                    onKeyDown={handleTag}
                 />
             )
             }

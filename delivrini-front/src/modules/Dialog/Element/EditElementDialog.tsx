@@ -26,12 +26,10 @@ export default function EditElementDialog(props: any) {
     const mealcategories = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo)
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
     const listIngredients = useAppSelector((state) => state.IngredientsReducer.ingredientsInfo)
-    // let defaultList: any[] = []
-
 
 
     //** ingredients */
-    let [ingredients, setIngredients] = useState<any[]>([]);
+    let [ingredients, setIngredients] = useState<any>([]);
 
     //** extras */
     const [listExtras, setListInput] = useState<any>([
@@ -39,9 +37,9 @@ export default function EditElementDialog(props: any) {
     ]);
 
 
-    listIngredients.map((ingredient: any) => (
-        ingredients = [...ingredients, ingredient.name]
-    ))
+    // listIngredients.map((ingredient: any) => (
+    //     ingredients = [...ingredients, ingredient]
+    // ))
 
     useEffect(() => {
         elementService.findElementById(idElement).then((element) => {
@@ -73,7 +71,7 @@ export default function EditElementDialog(props: any) {
     }
     const handleSubmit = (formValue: formikElement) => {
         formValue.fk_Mealcategory = mealcategory;
-        dispatch<any>(editElementAction(formValue, idElement,ingredients,listExtras))
+        dispatch<any>(editElementAction(formValue, idElement, ingredients, listExtras))
         console.log('values', formValue)
     }
 

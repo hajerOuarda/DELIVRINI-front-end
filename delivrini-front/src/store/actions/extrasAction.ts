@@ -1,15 +1,16 @@
-import { setSnackbar } from "../reducers/customizedSnackBarReducer";
-import { ingredientsService } from "../services/ingredientsService";
-import { ingredientsActions } from "./types";
+import { extrasService } from "../services/extrasService";
+import { extrasActions } from "./types";
 
-const listIngredientsAction =
+
+
+const listExtrasAction =
     (element: any) =>
         (dispatch: any): Promise<void> => {
-            return ingredientsService
-                .getIngredientsList(element)
+            return extrasService
+                .getExtrasList(element)
                 .then((data) => {
                     dispatch({
-                        type: ingredientsActions.LIST_INGREDIENTS_SUCCESS,
+                        type: extrasActions.LIST_EXTRAS_SUCCESS,
                         payload: data,
                     });
                     return data;
@@ -19,23 +20,23 @@ const listIngredientsAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: ingredientsActions.LIST_INGREDIENTS_FAILED,
+                        type: extrasActions.LIST_EXTRAS_FAILED,
                         payload: message,
                     });
                     return;
                 });
         };
 
-const createIngredientsAction =
+const createExtrasAction =
     (values: any[], elementName: any) =>
         (dispatch: any): Promise<void> => {
-            console.log("ingredients ", values);
+            console.log("extras ", values);
 
-            return ingredientsService
-                .createIngredients(values, elementName)
+            return extrasService
+                .createExtras(values, elementName)
                 .then((data) => {
                     dispatch({
-                        type: ingredientsActions.CREATE_INGREDIENTS_SUCCESS,
+                        type: extrasActions.CREATE_EXTRAS_SUCCESS,
                         payload: data,
                     });
 
@@ -46,22 +47,22 @@ const createIngredientsAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: ingredientsActions.CREATE_INGREDIENTS_FAILED,
+                        type: extrasActions.CREATE_EXTRAS_FAILED,
                         payload: message,
                     });
-
+                    
                     return;
                 });
         };
 
-const editIngredientsAction =
+const editExtrasAction =
     (values: any[], id: any, element: string) =>
         (dispatch: any): Promise<void> => {
-            return ingredientsService
-                .editIngredients(values, id, element)
+            return extrasService
+                .editExtras(values, id, element)
                 .then((data) => {
                     dispatch({
-                        type: ingredientsActions.EDIT_INGREDIENTS_SUCCESS,
+                        type: extrasActions.EDIT_EXTRAS_SUCCESS,
                         payload: data,
                     });
 
@@ -72,18 +73,13 @@ const editIngredientsAction =
                         error.message ||
                         error.toString();
                     dispatch({
-                        type: ingredientsActions.EDIT_INGREDIENTS_FAILED,
+                        type: extrasActions.EDIT_EXTRAS_FAILED,
                         payload: message,
                     });
-                    dispatch(
-                        setSnackbar(
-                            true,
-                            "error",
-                            "error while updating MealCategory,  name already exists!"
-                        ))
+
                     return;
                 });
         };
 
 
-export { createIngredientsAction, listIngredientsAction, editIngredientsAction }
+export { createExtrasAction, listExtrasAction, }

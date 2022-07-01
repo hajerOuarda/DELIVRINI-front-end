@@ -26,7 +26,7 @@ export default function CreateElementDialog() {
     const [ingredients, setIngredients] = useState<any>([]);
     //** extras */
     const [listExtras, setListInput] = useState<any>([
-        { extrasName: "", extrasPrice: "", id: new Date().getTime() },
+        { extrasName: "", extrasPrice: "" },
 
     ]);
 
@@ -73,7 +73,7 @@ export default function CreateElementDialog() {
     const handleAddExtras = () => {
         setListInput([
             ...listExtras,
-            { extrasName: "", extrasPrice: "", id: new Date().getTime() }
+            { extrasName: "", extrasPrice: "" }
         ]);
     }
 
@@ -83,6 +83,7 @@ export default function CreateElementDialog() {
         setListInput(list);
     };
     console.log("Ingredients from parent component", ingredients)
+    console.log("listExtras from parent component", listExtras)
 
 
     return (
@@ -224,7 +225,7 @@ export default function CreateElementDialog() {
                                                     name="extrasPrice"
                                                     autoComplete="extrasPrice"
                                                     value={item.extrasPrice}
-                                                    key={item.id}
+                                                    key={item.index}
                                                     onChange={(e: any) => handleChangeExtras(e, index)} />
 
                                                 {index ? <Button variant="outlined" onClick={() => handleRemoveInput(index)}> Remove </Button> : null}

@@ -11,14 +11,12 @@ const getExtrasList = (element: any): Promise<any> => {
                     authorization: "Basic " + authHeader()
                 },
                 params: {
-                    // page,
-                    // size: rowPerPage,
                     element
                 }
             })
             .then((response) => {
                 if (response.data) {
-                    console.log("data ingredients:", response.data);
+                    console.log("data extras:", response.data);
                 }
                 resolve(response.data);
             })
@@ -63,7 +61,7 @@ const createExtras = (values: any[], element: string): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data Ingredients :", response);
+                    console.log("data Extras :", response);
                 }
                 resolve(response.data);
             })
@@ -87,9 +85,9 @@ const editExtras = (values: any, id: any, element: string): Promise<any> => {
             .then((response) => {
                 if (response.data) {
 
-                    console.log("data Ingredients :", response.data);
+                    console.log("data Extras :", response.data);
                 }
-                resolve(response.data.updatedIngredients);
+                resolve(response.data.updatedExtras);
             })
             .catch((error) => {
                 console.log("error :", error.message);
@@ -102,7 +100,7 @@ const findExtrasById = (id: number): Promise<any> => {
 
     return new Promise((resolve, reject) => {
         Api
-            .get(URLS.findIngredientsById + id, {
+            .get(URLS.findExtrasById + id, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -110,7 +108,7 @@ const findExtrasById = (id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-                    console.log("data Ingredients :", response.data);
+                    console.log("data Extras :", response.data);
                 }
                 resolve(response.data);
             })
@@ -121,7 +119,7 @@ const findExtrasById = (id: number): Promise<any> => {
     });
 };
 
-export const ingredientsService = {
+export const extrasService = {
     getExtrasList,
     deleteExtras,
     createExtras,
