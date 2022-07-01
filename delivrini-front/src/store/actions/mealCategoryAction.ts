@@ -30,7 +30,7 @@ const listMealCategoryAction =
                         type: mealCategoryActions.LIST_MEALCATEGORY_FAILED,
                         payload: message,
                     });
-                     return;
+                    return;
                 });
         };
 
@@ -89,7 +89,7 @@ const createMealCategoryAction =
                             "success",
                             "MealCategory successfully created!"
                         ))
-                     return data;
+                    return data;
                 })
                 .catch((error) => {
                     const message =
@@ -103,7 +103,7 @@ const createMealCategoryAction =
                         setSnackbar(
                             true,
                             "error",
-                            "error while creating MealCategory,  name already exist!"
+                            "error while creating MealCategory !"
                         ))
                     return;
                 });
@@ -125,7 +125,7 @@ const editMealCategoryAction =
                             "success",
                             "MealCategory successfully updated!"
                         ))
-                     return data;
+                    return data;
                 })
                 .catch((error) => {
                     const message =

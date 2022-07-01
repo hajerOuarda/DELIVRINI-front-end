@@ -56,7 +56,7 @@ export default function MenuComponent(props: any) {
     if (user_role === "chef") {
       mylist.splice(1, 0,
         { name: "Meal Category", path: paths.meal_category, icon: <MenuBook /> },
-        { name: "Meal", path: paths.meal, icon: <RamenDining /> },
+        // { name: "Meal", path: paths.meal, icon: <RamenDining /> },
         { name: "Element", path: paths.element, icon: <FoodBank /> },
       )
     }

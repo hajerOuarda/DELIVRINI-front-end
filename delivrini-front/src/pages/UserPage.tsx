@@ -156,9 +156,9 @@ export default function UserPage() {
       return <GenericDeleteDialog />
     }
     else {
-      if (actionType === "edit") { return <EditRestaurantCategoryDialog idRestaurantCategory={id} /> }
+      // if (actionType === "edit") { return <EditRestaurantCategoryDialog idRestaurantCategory={id} /> }
 
-      else { return <CreateRestaurantCategoryDialog /> }
+      // else { return <CreateRestaurantCategoryDialog /> }
     }
   }
   const handleTitle = () => {
@@ -224,8 +224,8 @@ export default function UserPage() {
                   {row.fk_restaurant}
                 </TableCell>
 
-                <TableCell   align="left" >
-                  <div className='button-container' style={{ width: 128}}>
+                <TableCell align="left" >
+                  <div className='button-container' style={{ width: 128 }}>
                     <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
                     <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
                   </div>

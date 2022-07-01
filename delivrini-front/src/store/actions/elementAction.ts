@@ -130,19 +130,21 @@ const editElementAction =
             return elementService
                 .editElement(values, id)
                 .then((data) => {
+                    console.log("DATAAAAAA", data);
+
                     dispatch({
                         type: elementActions.EDIT_ELEMENT_SUCCESS,
                         payload: data,
-                    });
+                    })
+                    dispatch(
+                        createIngredientsAction(ingredients, data.name)
+                    )
                     dispatch(
                         setSnackbar(
                             true,
                             "success",
                             "Element successfully updated!"
                         ))
-                    dispatch(
-                        editIngredientsAction(ingredients, data.element.name)
-                    )
                     return data;
                 })
                 .catch((error) => {

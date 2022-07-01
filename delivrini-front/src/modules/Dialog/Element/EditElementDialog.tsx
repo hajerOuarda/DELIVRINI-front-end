@@ -15,8 +15,7 @@ import { editElementAction, formikElement } from '../../../store/actions/element
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { elementService } from '../../../store/services/elementService';
 import ChipInputIngredients from '../../Ingredients/ChipInputIngredients';
-import { ingredientsService } from '../../../store/services/ingredientsService';
-import { listIngredientsAction } from '../../../store/actions/ingredientsAction';
+ import { listIngredientsAction } from '../../../store/actions/ingredientsAction';
 const theme = createTheme();
 
 export default function EditElementDialog(props: any) {
@@ -35,11 +34,7 @@ export default function EditElementDialog(props: any) {
     const [listExtras, setListInput] = useState<any>([
         { extrasName: "", extrasPrice: "", id: new Date().getTime() },
     ]);
-
-
-    // listIngredients.map((ingredient: any) => (
-    //     ingredients = [...ingredients, ingredient]
-    // ))
+ 
 
     useEffect(() => {
         elementService.findElementById(idElement).then((element) => {

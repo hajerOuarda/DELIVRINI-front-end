@@ -27,7 +27,7 @@ const listIngredientsAction =
         };
 
 const createIngredientsAction =
-    (values: any[], elementName: any) =>
+    (values: any , elementName: any) =>
         (dispatch: any): Promise<void> => {
             console.log("ingredients ", values);
 
@@ -79,7 +79,7 @@ const editIngredientsAction =
                         setSnackbar(
                             true,
                             "error",
-                            "error while updating MealCategory,  name already exists!"
+                            "error while updating ingredients !"
                         ))
                     return;
                 });

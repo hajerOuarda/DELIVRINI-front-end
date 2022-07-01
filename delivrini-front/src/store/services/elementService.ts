@@ -78,11 +78,11 @@ const createElement = (values: formikElement, restaurant: string): Promise<any> 
     });
 };
 const editElement = (values: formikElement, id: number): Promise<any> => {
-    console.log("values", values);
+    console.log("values edit element", values);
 
     return new Promise((resolve, reject) => {
         Api
-            .patch(URLS.editElement + id, { ...values }, {
+            .patch(URLS.editElement + id, values, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }
@@ -90,7 +90,6 @@ const editElement = (values: formikElement, id: number): Promise<any> => {
             )
             .then((response) => {
                 if (response.data) {
-
                     console.log("data Element :", response.data);
                 }
                 resolve(response.data.updatedElement);
