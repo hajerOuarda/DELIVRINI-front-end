@@ -15,7 +15,7 @@ import { editElementAction, formikElement } from '../../../store/actions/element
 import { InputLabel, MenuItem, Select } from '@mui/material';
 import { elementService } from '../../../store/services/elementService';
 import ChipInputIngredients from '../../Ingredients/ChipInputIngredients';
- import { listIngredientsAction } from '../../../store/actions/ingredientsAction';
+import { listIngredientsAction } from '../../../store/actions/ingredientsAction';
 const theme = createTheme();
 
 export default function EditElementDialog(props: any) {
@@ -32,9 +32,9 @@ export default function EditElementDialog(props: any) {
 
     //** extras */
     const [listExtras, setListInput] = useState<any>([
-        { extrasName: "", extrasPrice: "", id: new Date().getTime() },
+        { extrasName: "", extrasPrice: "" },
     ]);
- 
+
 
     useEffect(() => {
         elementService.findElementById(idElement).then((element) => {
@@ -56,7 +56,6 @@ export default function EditElementDialog(props: any) {
 
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("This field is required!"),
-        description: Yup.string().required("This field is required!"),
         price: Yup.string().required("This field is required!"),
         image: Yup.string().required("This field is required!"),
     });
@@ -69,27 +68,45 @@ export default function EditElementDialog(props: any) {
         dispatch<any>(editElementAction(formValue, idElement, ingredients, listExtras))
         console.log('values', formValue)
     }
-
+    /** Extras */
     const handleChangeExtras = (e: any, index: any) => {
         const { name, value } = e.target;
         const list = [...listExtras];
         list[index][name] = value;
         setListInput(list);
     };
-
     const handleAddExtras = () => {
         setListInput([
             ...listExtras,
-            { extrasName: "", extrasPrice: "", id: new Date().getTime() }
+            { extrasName: "", extrasPrice: "" }
         ]);
     }
     const handleRemoveInput = (index: any) => {
         const list = [...listExtras];
-
         list.splice(index, 1);
-
         setListInput(list);
     };
+
+    /**Ingredients */
+
+    const handleChangeIngredients = (e: any, index: any) => {
+        const { name, value } = e.target;
+        const list = [...ingredients];
+        list[index][name] = value;
+        setIngredients(list);
+    };
+    const handleAddIngredients = () => {
+        setIngredients([
+            ...ingredients,
+            { ingredientName: "" }
+        ]);
+    }
+    const handleRemoveIngredients = (index: any) => {
+        const list = [...ingredients];
+        list.splice(index, 1);
+        setIngredients(list);
+    };
+
     console.log("Ingredients from parent component", ingredients)
 
 
@@ -198,10 +215,29 @@ export default function EditElementDialog(props: any) {
                                             error={errors.image && touched.image}
                                         />
                                     </Grid>
-                                    <Grid item xs={12} >
-                                        <ChipInputIngredients ingredients={ingredients} setIngredients={setIngredients} />
-                                    </Grid>
 
+                                    <Grid item   >
+                                        {ingredients.map((item: any, index: any) => (
+
+                                            <Grid item xs={12} sm={6}  >
+                                                <Field
+                                                    as={TextField}
+                                                    fullWidth
+                                                    id="ingredientName"
+                                                    label="Ingredients"
+                                                    name="ingredientName"
+                                                    autoComplete="ingredientName"
+                                                    value={item.ingredientName}
+                                                    key={item.index}
+                                                    onChange={(e: any) => handleChangeIngredients(e, index)} />
+
+                                                {index ? <Button variant="outlined" onClick={() => handleRemoveIngredients(index)}> Remove </Button> : null}
+                                                <Button variant="outlined" onClick={() => handleAddIngredients()}>  Add</Button>
+                                            </Grid>
+
+
+                                        ))}
+                                    </Grid>
 
                                     {listExtras.map((item: any, index: any) => (
                                         <>

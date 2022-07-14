@@ -12,8 +12,7 @@ import { createTheme, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/m
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createElementAction, formikElement } from '../../../store/actions/elementAction';
 import { useState } from 'react';
-import ChipInputIngredients from '../../Ingredients/ChipInputIngredients';
-
+ 
 const theme = createTheme();
 
 export default function CreateElementDialog() {
@@ -23,9 +22,11 @@ export default function CreateElementDialog() {
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
 
     //** ingredients */
-    const [ingredients, setIngredients] = useState<any>([]);
+    const [ingredients, setIngredients] = useState<any>([
+        { ingredientName: "" },
+    ]);
     //** extras */
-    const [listExtras, setListInput] = useState<any>([
+    const [listExtras, setListExtras] = useState<any>([
         { extrasName: "", extrasPrice: "" },
 
     ]);
@@ -41,9 +42,6 @@ export default function CreateElementDialog() {
         name: Yup.string().required("This field is required!"),
         price: Yup.string().required("This field is required!"),
         image: Yup.string().required("This field is required!"),
-        description: Yup.string().required("This field is required!"),
-        // extrasName: Yup.string().required("This field is required!"),
-        // extrasPrice: Yup.string().required("This field is required!"),
 
     });
     const handleChange = (e: any) => {
@@ -59,19 +57,18 @@ export default function CreateElementDialog() {
         console.log("create element values ", formValue);
         console.log("Ingredients", ingredients)
         console.log("extra list", listExtras);
-
     }
 
-
+    /** Extras */
     const handleChangeExtras = (e: any, index: any) => {
         const { name, value } = e.target;
         const list = [...listExtras];
         list[index][name] = value;
-        setListInput(list);
+        setListExtras(list);
     };
 
     const handleAddExtras = () => {
-        setListInput([
+        setListExtras([
             ...listExtras,
             { extrasName: "", extrasPrice: "" }
         ]);
@@ -80,10 +77,31 @@ export default function CreateElementDialog() {
     const handleRemoveInput = (index: any) => {
         const list = [...listExtras];
         list.splice(index, 1);
-        setListInput(list);
+        setListExtras(list);
     };
+    /** Ingredients */
+    const handleChangeIngredients = (e: any, index: any) => {
+        const { name, value } = e.target;
+        const list = [...ingredients];
+        list[index][name] = value;
+        setIngredients(list);
+    };
+
+    const handleAddIngredients = () => {
+        setIngredients([
+            ...ingredients,
+            { ingredientName: "" }
+        ]);
+    }
+
+    const handleRemoveIngredients = (index: any) => {
+        const list = [...ingredients];
+        list.splice(index, 1);
+        setIngredients(list);
+    };
+
     console.log("Ingredients from parent component", ingredients)
-    console.log("listExtras from parent component", listExtras)
+    console.log("listExtras ", listExtras)
 
 
     return (
@@ -183,7 +201,7 @@ export default function CreateElementDialog() {
                                         ))}
                                         </Select>
                                     </Grid>
-                                    <Grid item xs={6}  >
+                                    <Grid item xs={12}  >
                                         <Field
                                             as={TextField}
                                             fullWidth
@@ -195,16 +213,32 @@ export default function CreateElementDialog() {
                                         />
                                     </Grid>
 
+                                    <Grid item   >
+                                        {ingredients.map((item: any, index: any) => (
 
-                                    <Grid item xs={12} >
-                                        <ChipInputIngredients ingredients={ingredients} setIngredients={setIngredients} />
+                                            <Grid item xs={12} sm={6}  >
+                                                <Field
+                                                    as={TextField}
+                                                    fullWidth
+                                                    id="ingredientName"
+                                                    label="Ingredients"
+                                                    name="ingredientName"
+                                                    autoComplete="ingredientName"
+                                                    value={item.ingredientName}
+                                                    key={item.index}
+                                                    onChange={(e: any) => handleChangeIngredients(e, index)} />
+
+                                                {index ? <Button variant="outlined" onClick={() => handleRemoveIngredients(index)}> Remove </Button> : null}
+                                                <Button variant="outlined" onClick={() => handleAddIngredients()}>  Add</Button>
+                                            </Grid>
+
+
+                                        ))}
                                     </Grid>
-
 
                                     {listExtras.map((item: any, index: any) => (
                                         <>
                                             <Grid item xs={6}   >
-
                                                 <Field
                                                     as={TextField}
                                                     fullWidth
