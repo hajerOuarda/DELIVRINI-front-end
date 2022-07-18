@@ -110,7 +110,7 @@ export default function ResetPasswordPage() {
                                         {userInfo == "Request failed with status code 404" ?
                                             <Alert severity="error" color="error">
                                                 No user with this email
-                                            </Alert> : userInfo.status == "200" ?
+                                            </Alert> : userInfo && userInfo.status == "200" ?
                                                 <Alert severity="success" color="success">
                                                     1:Check your mailBox or click this link :
                                                     <br />

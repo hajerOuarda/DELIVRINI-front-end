@@ -199,7 +199,7 @@ export default function ElementPage() {
               <TableCell align="left">Actions</TableCell>
             </TableRow>
           </TableHead>
-          getListElement ?   <TableBody>
+          <TableBody>
             {(
               getListElement
             ).filter((element: any) => element.fk_restaurant === restaurant).map((row: any) => (
@@ -234,7 +234,7 @@ export default function ElementPage() {
                 <TableCell colSpan={6} />
               </TableRow>
             )}
-          </TableBody> : null
+          </TableBody>
           <TableFooter>
             <TableRow>
               <TablePagination

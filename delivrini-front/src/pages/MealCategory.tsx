@@ -186,7 +186,7 @@ export default function MealCategoryPage() {
           </TableHead>
           <TableBody>
             {(
-              getListMealCategory
+              getListMealCategory || []
             ).filter((mealCategory: any) => mealCategory.fk_restaurant === restaurant).map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">

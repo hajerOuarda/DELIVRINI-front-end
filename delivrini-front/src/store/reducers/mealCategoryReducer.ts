@@ -47,7 +47,7 @@ export default function MealCategoryReducer(state = initialState, action: any) {
                 error: payload
             };
         case mealCategoryActions.CREATE_MEALCATEGORY_SUCCESS:
-             return {
+            return {
                 ...state,
                 mealCategoryInfo: [...state.mealCategoryInfo, payload.mealCategory]
             };
