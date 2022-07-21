@@ -2,6 +2,15 @@ import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { restaurantService } from "../services/restaurantService";
 import { restaurantActions } from "./types";
 
+export interface formikRestaurant {
+    name: string,
+    phone: string,
+    email: string,
+    address: string,
+    zipCode: string,
+    street: string,
+    fk_Rcategory: string,
+}
 
 const listRestaurantAction =
     (page: number, rowPerPage: number) =>
@@ -65,15 +74,7 @@ const deleteRestaurantAction =
                 });
         };
 
-export interface formikRestaurant {
-    name: string,
-    phone: string,
-    email: string,
-    address: string,
-    zipCode: string,
-    street: string,
-    fk_Rcategory: string,
-}
+
 
 const createRestaurantAction =
     (values: formikRestaurant) =>

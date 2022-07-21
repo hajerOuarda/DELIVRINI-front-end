@@ -201,7 +201,7 @@ export default function ElementPage() {
           </TableHead>
           <TableBody>
             {(
-              getListElement
+              getListElement || []
             ).filter((element: any) => element.fk_restaurant === restaurant).map((row: any) => (
               <TableRow key={row.id}>
                 <TableCell component="th" scope="row">

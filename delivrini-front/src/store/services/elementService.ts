@@ -53,11 +53,11 @@ const deleteElement = (id: any): Promise<any> => {
 };
 
 const createElement = (values: formikElement, restaurant: string): Promise<any> => {
-    console.log("restaurant element", restaurant, "and ");
+    console.log("restaurant element", restaurant);
 
     return new Promise((resolve, reject) => {
         Api
-            .post(URLS.createElement, { ...values, restaurant: restaurant }, {
+            .post(URLS.createElement, { ...values, restaurant }, {
                 headers: {
                     authorization: "Basic " + authHeader()
                 }

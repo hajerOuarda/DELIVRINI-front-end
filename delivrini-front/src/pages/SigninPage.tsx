@@ -65,8 +65,7 @@ export default function SignInPage() {
   };
 
   useEffect(() => {
-    console.log("logged ? ", isLoggedIn);
-
+ 
     if (isLoggedIn) {
       navigate(paths.profile);
     }
