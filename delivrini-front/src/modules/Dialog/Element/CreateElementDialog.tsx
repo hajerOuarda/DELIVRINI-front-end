@@ -8,11 +8,11 @@ import Container from '@mui/material/Container';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from "yup";
 import { FoodBankOutlined } from '@mui/icons-material';
-import { createTheme, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
+import { createTheme, Input, InputLabel, MenuItem, Select, ThemeProvider } from '@mui/material';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { createElementAction, formikElement } from '../../../store/actions/elementAction';
 import { useState } from 'react';
- 
+
 const theme = createTheme();
 
 export default function CreateElementDialog() {
@@ -20,7 +20,7 @@ export default function CreateElementDialog() {
     const restaurant = useAppSelector((state) => state.authReducer.userInfo.fk_restaurant);
     const mealcategories = useAppSelector((state) => state.MealCategoryReducer.mealCategoryInfo)
     const [mealcategory, setMealCategory] = useState<any>(mealcategories[0].name)
-
+    const [selectedImage, setSelectedImage] = useState<any>([]);
     //** ingredients */
     const [ingredients, setIngredients] = useState<any>([
         { ingredientName: "" },
@@ -41,7 +41,7 @@ export default function CreateElementDialog() {
     const validationSchema = Yup.object().shape({
         name: Yup.string().required("This field is required!"),
         price: Yup.string().required("This field is required!"),
-        image: Yup.string().required("This field is required!"),
+
 
     });
     const handleChange = (e: any) => {
@@ -57,6 +57,12 @@ export default function CreateElementDialog() {
         console.log("create element values ", formValue);
         console.log("Ingredients", ingredients)
         console.log("extra list", listExtras);
+        console.log("file", selectedImage);
+    }
+
+    function onImageChange(e: any) {
+        setSelectedImage([...selectedImage, URL.createObjectURL(e.target.files[0])]);
+        console.log("file", selectedImage);
     }
 
     /** Extras */
@@ -173,7 +179,6 @@ export default function CreateElementDialog() {
                                             label="Description"
                                             name="description"
                                             autoComplete="description"
-                                            error={errors.description && touched.description}
                                         />
 
                                         <ErrorMessage
@@ -202,15 +207,18 @@ export default function CreateElementDialog() {
                                         </Select>
                                     </Grid>
                                     <Grid item xs={12}  >
-                                        <Field
-                                            as={TextField}
-                                            fullWidth
+
+                                        <Input type="file" id="image" name="image" onChange={() => onImageChange} />
+
+                                        {/* <Field
+ 
                                             id="image"
                                             label="Image"
                                             name="image"
                                             autoComplete="image"
+                                            type="file" multiple accept="image/*" onChange={onImageChange}
                                             error={errors.image && touched.image}
-                                        />
+                                        /> */}
                                     </Grid>
 
                                     <Grid item   >
@@ -278,6 +286,7 @@ export default function CreateElementDialog() {
                                 >
                                     Create  Element
                                 </Button>
+
                             </Form>
 
                         </Box>

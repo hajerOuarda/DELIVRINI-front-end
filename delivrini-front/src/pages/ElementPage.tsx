@@ -183,6 +183,7 @@ export default function ElementPage() {
       }
     }
   }
+  console.log("ingre", getListElement);
 
   return (
     <React.Fragment>
@@ -196,6 +197,7 @@ export default function ElementPage() {
               <TableCell align="left">Price</TableCell>
               <TableCell align="left">Meal Category</TableCell>
               <TableCell align="left">Image</TableCell>
+              <TableCell align="left">Ingredients</TableCell>
               <TableCell align="left">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -219,7 +221,9 @@ export default function ElementPage() {
                 <TableCell style={{ width: 160 }} align="left">
                   {row.image}
                 </TableCell>
-
+                <TableCell style={{ width: 160 }} align="left">
+                  {row.Ingredients}
+                </TableCell>
                 <TableCell align="left">
                   <div className='button-container'>
                     <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
