@@ -1,154 +1,113 @@
 import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { useEffect } from "react";
-import { Button, TableHead } from '@mui/material';
-import { Add, Delete, Edit } from '@mui/icons-material';
+import {
+  Button, Container, IconButton,
+  TablePagination, TableContainer, TableBody, Table,
+  Box, Card, Tooltip
+} from '@mui/material';
 import GenericDialog from '../modules/Dialog/GenericDialog';
 import EditRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/EditRestaurantCategoryDialog';
 import CreateRestaurantCategoryDialog from '../modules/Dialog/RestaurantCategory/CreateRestaurantCategoryDialog';
 import { deleteRestaurantCategoryAction, listRestaurantCategoryAction } from '../store/actions/restaurantCategoryAction';
 import { GenericDeleteDialog } from '../modules/Dialog/GenericDeleteDialog';
-import { deleteRestaurantAction } from '../store/actions/restaurantAction';
+import useTable, { emptyRows, getComparator } from '../hooks/useTable';
+import useSettings from '../hooks/useSettings';
+import { RestaurantCategoryTableRow, RestaurantCategoryTableToolbar } from '../sections/@dashboard/restaurant/restaurant-category';
+import {
+  TableNoData,
+  TableSkeleton,
+  TableEmptyRows,
+  TableHeadCustom,
+  TableSelectedActions,
+} from '../components/table';
+import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
+import Page from '../components/Page';
+import Iconify from '../components/Iconify';
+import Scrollbar from '../components/Scrollbar';
 
-interface TablePaginationActionsProps {
-  count: number;
-  page: number;
-  rowsPerPage: number;
-  onPageChange: (
-    event: React.MouseEvent<HTMLButtonElement>,
-    newPage: number,
-  ) => void;
-}
+// ----------------------------------------------------------------------
 
-function TablePaginationActions(props: TablePaginationActionsProps) {
-  const theme = useTheme();
-  const { count, page, rowsPerPage, onPageChange } = props;
-
-  const handleFirstPageButtonClick = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    onPageChange(event, 0);
-  };
-
-  const handleBackButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    onPageChange(event, page - 1);
-  };
-
-  const handleNextButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    onPageChange(event, page + 1);
-  };
-
-  const handleLastPageButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-  };
-
-  return (
-    <Box sx={{ flexShrink: 0, ml: 2.5 }}>
-      <IconButton
-        onClick={handleFirstPageButtonClick}
-        disabled={page === 0}
-        aria-label="first page"
-      >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-      </IconButton>
-      <IconButton
-        onClick={handleBackButtonClick}
-        disabled={page === 0}
-        aria-label="previous page"
-      >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-      </IconButton>
-      <IconButton
-        onClick={handleNextButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="next page"
-      >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-      </IconButton>
-      <IconButton
-        onClick={handleLastPageButtonClick}
-        disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-        aria-label="last page"
-      >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-      </IconButton>
-    </Box>
-  );
-}
-
+const TABLE_HEAD = [
+  { id: 'name', label: 'Category', align: 'left' },
+  { id: 'description', label: 'Description', align: 'center' },
+  { id: '' },
+];
 
 export default function RestaurantCategoryPage() {
   const [open, setOpen] = React.useState(false);
   const [actionType, setActionType] = React.useState("");
-  const [rowId, setrowId] = React.useState<number>();
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const {
+    dense,
+    page,
+    order,
+    orderBy,
+    rowsPerPage,
+    setPage,
+    //
+    selected,
+    setSelected,
+    onSelectRow,
+    onSelectAllRows,
+    //
+    onSort,
+    onChangePage,
+    onChangeRowsPerPage,
+  } = useTable();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const dispatch = useAppDispatch();
-  const getListRestaurantCategory = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo);
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - getListRestaurantCategory.length) : 0;
+  const RestaurantCategory_LIST = useAppSelector((state) => state.RestaurantCategoryReducer.restaurantCategoryInfo);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number,
-  ) => {
-    setPage(newPage);
-  };
+  // settings
+  const { themeStretch } = useSettings();
+  const [tableData, setTableData] = React.useState(new Array<any>());
+  const [filterName, setFilterName] = React.useState('');
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
+  
   useEffect(() => {
     dispatch<any>(
       listRestaurantCategoryAction(page, rowsPerPage)
     )
-  }, [page, rowsPerPage])
+  }, [dispatch, page, rowsPerPage])
+
+  useEffect(() => {
+    if (RestaurantCategory_LIST.length) {
+      setTableData(RestaurantCategory_LIST);
+    }
+  }, [RestaurantCategory_LIST]);
+
+  const handleFilterName = (filterName: string) => {
+    setFilterName(filterName);
+    setPage(0);
+  };
 
   // *** delete restaurant ***
-  const handleDeleteCategoryResto = (id: number) => {
-    dispatch<any>(deleteRestaurantCategoryAction(id))
-
+  const handleDeleteRow = (id: number) => {
+    const deleteRow = tableData.filter((row: any) => row.id !== id);
+    setSelected([]);
+    dispatch<any>(deleteRestaurantCategoryAction(id));
+    setTableData(deleteRow);
   };
+  const handleDeleteRows = (selected: number[] = []) => {
+    const deleteRows = tableData.filter((row: any) => !selected.includes(row.id));
+    setSelected([]);
+    setTableData(deleteRows);
+  };
+
   // *** edit restaurant ***
-  const handleEditCategoryResto = (id: any): any => {
-    console.log(("edit test"));
-
-  };
-  const handleCreateCategoryResto = (): any => {
-    console.log("create");
+  const handleEditRow = (id: number) => {
+    console.log('edit', id);
   };
 
-  const handleClick = (id: any) => {
-    if (actionType === "delete") { handleDeleteCategoryResto(id) }
-    else {
-      if (actionType === "edit") { handleEditCategoryResto(id) }
+  const dataFiltered = applySortFilter({
+    tableData,
+    comparator: getComparator(order, orderBy),
+    filterName,
+  });
 
-      else { handleCreateCategoryResto() }
-    }
-  }
+  const isNotFound = (!dataFiltered.length && !!filterName) || (!dataFiltered.length);
+  
   const handleBodyContent = (id: number) => {
     if (actionType === "delete") {
       return <GenericDeleteDialog />
@@ -159,6 +118,7 @@ export default function RestaurantCategoryPage() {
       else { return <CreateRestaurantCategoryDialog /> }
     }
   }
+  
   const handleTitle = () => {
     if (actionType === "delete") { return "Delete Confirmation " }
     else {
@@ -166,85 +126,139 @@ export default function RestaurantCategoryPage() {
       else { return "Create Restaurant " }
     }
   }
+  const denseHeight = dense ? 60 : 80;
 
   return (
-    <React.Fragment>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
-          <TableHead style={{ background: 'grey', color: 'white', }}>
-            <TableRow>
+    <Page title="Restaurant: Category">
+      <Container maxWidth={themeStretch ? false : 'lg'}>
+        <HeaderBreadcrumbs
+          heading="Restaurant Category"
+          links={[
+            { name: 'Dashboard', href: '/dashboard/app' },
+            { name: 'Restaurant Category' },
+          ]}
+          action={
+            <Button
+              variant="contained"
+              startIcon={<Iconify icon="eva:plus-fill" />}
+              onClick={() => { setOpen(true); setActionType("create"); }}
+            >
+              New Category
+            </Button>
+          }
+        />
 
-              <TableCell align="left">Restaurant Category</TableCell>
-              <TableCell align="left">Description</TableCell>
-              <TableCell align="left">Image</TableCell>
-              <TableCell align="left">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(
-              getListRestaurantCategory
-            ).map((row: any) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.description}
-                </TableCell>
-                <TableCell style={{ width: 160 }} align="left">
-                  {row.image}
-                </TableCell>
+        <Card>
+          <RestaurantCategoryTableToolbar filterName={filterName} onFilterName={handleFilterName} />
 
-                <TableCell align="left">
-                  <div className='button-container'>
-                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("edit"); }}> <Edit /></Button>
-                    <Button onClick={() => { setrowId(row.id); setOpen(true); setActionType("delete") }}> <Delete /></Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
+          <Scrollbar>
+            <TableContainer sx={{ minWidth: 800 }}>
+              {selected.length > 0 && (
+                <TableSelectedActions
+                  dense={dense}
+                  numSelected={selected.length}
+                  rowCount={tableData.length}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row: any) => row.id)
+                    )
+                  }
+                  actions={
+                    <Tooltip title="Delete">
+                      <IconButton color="primary" onClick={() => handleDeleteRows(selected)}>
+                        <Iconify icon={'eva:trash-2-outline'} />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                />
+              )}
 
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={6} />
-              </TableRow>
-            )}
-          </TableBody>
-          <TableFooter>
-            <TableRow>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                count={7}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                SelectProps={{
-                  inputProps: {
-                    'aria-label': 'rows per page',
-                  },
-                  native: true,
-                }}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                ActionsComponent={TablePaginationActions}
-              />
+              <Table size={dense ? 'small' : 'medium'}>
+                <TableHeadCustom
+                  order={order}
+                  orderBy={orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={tableData.length}
+                  numSelected={selected.length}
+                  onSort={onSort}
+                  onSelectAllRows={(checked) =>
+                    onSelectAllRows(
+                      checked,
+                      tableData.map((row: any) => row.id)
+                    )
+                  }
+                />
 
-            </TableRow>
-          </TableFooter>
-        </Table>
+                <TableBody>
+                  {dataFiltered
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row: any, index: number) =>
+                      row ? (
+                        <RestaurantCategoryTableRow
+                          key={row.id}
+                          row={row}
+                          selected={selected.includes(row.id)}
+                          onSelectRow={() => onSelectRow(row.id)}
+                          onDeleteRow={() => handleDeleteRow(row.id)}
+                          onEditRow={() => handleEditRow(row.id)}
+                        />
+                      ) : (
+                        !isNotFound && <TableSkeleton key={index} sx={{ height: denseHeight }} />
+                      )
+                    )}
 
-      </TableContainer>
-      <Button onClick={() => { setOpen(true); setActionType("create"); }}> <Add /></Button>
+                  <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData.length)} />
 
+                  <TableNoData isNotFound={isNotFound} />
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Scrollbar>
+
+          <Box sx={{ position: 'relative' }}>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={dataFiltered.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={onChangePage}
+              onRowsPerPageChange={onChangeRowsPerPage}
+            />
+          </Box>
+        </Card>
+      </Container>
       <GenericDialog
         title={handleTitle()}
         open={open}
-        action={() => handleClick(rowId ?? 0)}
         onClose={() => setOpen(false)}
-        body={handleBodyContent(rowId ?? 0)}
+        body={handleBodyContent(0)}
       />
-    </React.Fragment>
-
+    </Page>
   );
+}
+
+
+// ----------------------------------------------------------------------
+
+function applySortFilter(params: any) {
+  let { tableData, comparator, filterName } = params;
+  const stabilizedThis = tableData.map((el: any, index: number) => [el, index]);
+
+  stabilizedThis.sort((a: any, b: any) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  tableData = stabilizedThis.map((el: any) => el[0]);
+
+  if (filterName) {
+    tableData = tableData.filter((item: any) => item.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
+  }
+
+  return tableData;
 }
 
 

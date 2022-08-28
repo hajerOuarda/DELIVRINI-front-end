@@ -1,58 +1,80 @@
-import React, { useEffect, useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useEffect, useState } from "react";
 import * as Yup from "yup"
-import { useNavigate } from "react-router-dom";
-import { paths } from "../utils/enums/routes";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { sendRegisterAction } from "../store/actions";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { Alert } from "@mui/material";
+// @mui
+import { styled } from '@mui/material/styles';
+import { Card, Link, Container, Typography } from '@mui/material';
+// hooks
+import useResponsive from '../hooks/useResponsive';
+// components
+import Page from '../components/Page';
+import Logo from '../components/Logo';
+// sections
+import AuthSocial from "../modules/Auth/AuthSocial";
+import { RegisterForm } from "../modules/Auth/register";
+// consts
+import { paths } from "../utils/enums/routes";
 
 
+// ----------------------------------------------------------------------
 
-function Copyright(props: any) {
+const RootStyle = styled('div')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+  },
+}));
 
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+const HeaderStyle = styled('header')(({ theme }) => ({
+  top: 0,
+  zIndex: 9,
+  lineHeight: 0,
+  width: '100%',
+  display: 'flex',
+  alignItems: 'center',
+  position: 'absolute',
+  padding: theme.spacing(3),
+  justifyContent: 'space-between',
+  [theme.breakpoints.up('md')]: {
+    alignItems: 'flex-start',
+    padding: theme.spacing(7, 5, 0, 7),
+  },
+}));
 
-const theme = createTheme();
+const SectionStyle = styled(Card)(({ theme }) => ({
+  width: '100%',
+  maxWidth: 464,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  margin: theme.spacing(2, 0, 2, 2),
+}));
 
+const ContentStyle = styled('div')(({ theme }) => ({
+  maxWidth: 480,
+  margin: 'auto',
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  padding: theme.spacing(12, 0),
+}));
+
+// ----------------------------------------------------------------------
 
 export default function SignUpPage() {
+  // selector
+  const smUp = useResponsive('up', 'sm');
+  const mdUp = useResponsive('up', 'md');
+
   const navigate = useNavigate();
   const [role, setRole] = useState('Client');
   const isRegistered = useAppSelector((state) => state.authReducer.isRegistered);
-  const isMailUsed = useAppSelector((state) => state.authReducer.userInfo);
+  // const isMailUsed = useAppSelector((state) => state.authReducer.userInfo);
   const dispatch = useAppDispatch();
-  const roles = ["Client", "DeliveryMan", "Chef"];
-  const listRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
+  // const roles = ["Client", "DeliveryMan", "Chef"];
+  // const listRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
   const [restaurant, setRestaurant] = useState<any>("")
 
   const initialValues: {
@@ -118,235 +140,66 @@ export default function SignUpPage() {
   console.log("rest", restaurant);
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleRegister}
-    >
-      {({ errors, touched }) => (
-        <ThemeProvider theme={theme}>
-          <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Box
-              sx={{
-                marginTop: 8,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign up
+    <Page title="Register">
+      <RootStyle>
+        <HeaderStyle>
+          <Logo />
+          
+          {smUp && (
+            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
+              Already have an account? {''}
+              <Link variant="subtitle2" component={RouterLink} to={paths.signin}>
+                Login
+              </Link>
+            </Typography>
+          )}
+        </HeaderStyle>
+
+        {mdUp && (
+          <SectionStyle>
+            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+              Manage the job more effectively with Deliverini
+            </Typography>
+            <img alt="register" src="/static/illustrations/illustration_register.png" />
+          </SectionStyle>
+        )}
+
+        <Container>
+          <ContentStyle>
+            <Typography variant="h4" gutterBottom>
+              Get started absolutely free.
+            </Typography>
+
+            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Free forever. No credit card needed.</Typography>
+
+            <AuthSocial />
+
+            <RegisterForm />
+
+            <Typography variant="body2" align="center" sx={{ color: 'text.secondary', mt: 3 }}>
+              By registering, I agree to Minimal&nbsp;
+              <Link underline="always" color="text.primary" href="#">
+                Terms of Service
+              </Link>
+              {''}and{''}
+              <Link underline="always" color="text.primary" href="#">
+                Privacy Policy
+              </Link>
+              .
+            </Typography>
+
+            {!smUp && (
+              <Typography variant="body2" sx={{ mt: 3, textAlign: 'center' }}>
+                Already have an account?{' '}
+                <Link variant="subtitle2" to={paths.signin} component={RouterLink}>
+                  Login
+                </Link>
               </Typography>
-              <Form >
-                <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      autoComplete="given-name"
-                      name="firstName"
-                      required
-                      fullWidth
-                      id="firstName"
-                      label="First Name"
-                      autoFocus
-                      error={errors.firstName && touched.firstName}
-                    />
-                    <ErrorMessage
-                      name="firstName"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      required
-                      fullWidth
-                      id="lastName"
-                      label="Last Name"
-                      name="lastName"
-                      autoComplete="family-name"
-                      error={errors.lastName && touched.lastName}
-                    />
-                    <ErrorMessage
-                      name="lastName"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      required
-                      fullWidth
-                      id="phone"
-                      label="Phone"
-                      name="phone"
-                      autoComplete="phone"
-                      error={errors.phone && touched.phone}
-                    />
-                    <ErrorMessage
-                      name="phone"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      fullWidth
-                      id="zipCode"
-                      label="Zip Code"
-                      name="zipCode"
-                      autoComplete="zipCode"
-                      error={errors.zipCode && touched.zipCode}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      required
-                      fullWidth
-                      id="address"
-                      label="address"
-                      name="address"
-                      autoComplete="address"
-                      error={errors.address && touched.address}
-                    />
-                    <ErrorMessage
-                      name="address"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      as={TextField}
-                      fullWidth
-                      id="street"
-                      label="Street"
-                      name="street"
-                      autoComplete="street"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      required
-                      fullWidth
-                      id="email"
-                      label="Email"
-                      name="email"
-                      autoComplete="email"
-                      error={errors.email && touched.email}
-                    />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      as={TextField}
-                      required
-                      fullWidth
-                      name="password"
-                      label="Password"
-                      type="password"
-                      id="password"
-                      autoComplete="new-password"
-                      error={errors.password && touched.password}
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </Grid>
-                  <Grid container alignItems='center' spacing={2} padding={2} >
-                    <Grid item xs={6}>
-                      <InputLabel id="demo-simple-select-autowidth-label">Role</InputLabel>
-                      <Select
-                        labelId="demo-simple-select-autowidth-label"
-                        id="role"
-                        required
-                        name="role"
-                        label="Role"
-                        autoWidth
-                        displayEmpty
-                        onChange={handleChangeRole
-                        }
-                        value={role}
-                      >
-                        {roles.map((role, index) => (
-                          <MenuItem value={role} key={index}> {role}</MenuItem>
-                        ))}
-                      </Select>
-                    </Grid>
-                    {role === "Chef" &&
-                      <Grid item xs={6}>
-                        <InputLabel id="demo-simple-select-autowidth-label">Your Restaurant</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="restaurant"
-                          required
-                          name="restaurant"
-                          placeholder="Restaurant"
-                          autoWidth
-                          displayEmpty
-                          onChange={handleChangeRestaurant}
-                          renderValue={val => <MenuItem>{val?.name ?? 'choose restaurant'} </MenuItem>}
-                          value={restaurant}
-                        >
-                          {listRestaurants.map((restaurant: any, index: number) => (
-                            <MenuItem value={restaurant.name} key={index}> {restaurant.name}</MenuItem>
-                          ))}
-                        </Select>
-                      </Grid>}
-
-                  </Grid>
-
-
-
-                </Grid>
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                >
-                  Sign Up
-                </Button>
-                <Grid container justifyContent="flex-end">
-                  <Grid item>
-                    <Link href="#" variant="body2" onClick={
-                      () => { navigate(paths.signin) }
-                    }>
-                      Already have an account? Sign in
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Grid container>
-                  <Grid item xs>
-                    {isMailUsed === "409" ?
-                      <Alert severity="error" color="error">
-                        Email already used !
-                      </Alert> : false}
-                  </Grid>
-                </Grid>
-              </Form>
-            </Box>
-            <Copyright sx={{ mt: 5 }} />
-          </Container>
-
-        </ThemeProvider>
-      )}
-    </Formik>
+            )}
+          </ContentStyle>
+        </Container>
+      </RootStyle>
+    </Page>
   )
 }
 

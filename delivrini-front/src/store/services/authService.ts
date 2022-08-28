@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Api } from "../../utils/api";
 import { URLS } from "../../utils/enums/axiosAPI";
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web

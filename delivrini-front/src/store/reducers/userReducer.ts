@@ -1,4 +1,4 @@
-import { restaurantActions, userActions } from "../actions/types";
+import { userActions } from "../actions/types";
 
 
 interface UserInfo {

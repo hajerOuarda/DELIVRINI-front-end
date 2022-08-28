@@ -1,7 +1,7 @@
 import { setSnackbar } from "../reducers/customizedSnackBarReducer";
 import { elementService } from "../services/elementService";
 import { createExtrasAction } from "./extrasAction";
-import { createIngredientsAction, editIngredientsAction, listIngredientsAction } from "./ingredientsAction";
+import { createIngredientsAction } from "./ingredientsAction";
 import { elementActions } from "./types";
 
 

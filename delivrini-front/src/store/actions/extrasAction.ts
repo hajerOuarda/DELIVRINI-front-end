@@ -1,8 +1,6 @@
 import { extrasService } from "../services/extrasService";
 import { extrasActions } from "./types";
 
-
-
 const listExtrasAction =
     (element: any) =>
         (dispatch: any): Promise<void> => {
@@ -50,11 +48,12 @@ const createExtrasAction =
                         type: extrasActions.CREATE_EXTRAS_FAILED,
                         payload: message,
                     });
-                    
+
                     return;
                 });
         };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const editExtrasAction =
     (values: any[], id: any, element: string) =>
         (dispatch: any): Promise<void> => {
