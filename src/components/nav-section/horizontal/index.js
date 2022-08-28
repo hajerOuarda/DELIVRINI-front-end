@@ -4,6 +4,7 @@ import { memo } from 'react';
 import { Stack } from '@mui/material';
 //
 import { NavListRoot } from './NavList';
+import useAuth from '../../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -21,16 +22,40 @@ NavSectionHorizontal.propTypes = {
 };
 
 function NavSectionHorizontal({ navConfig }) {
+  const { user } = useAuth();
+
   return (
     <Stack direction="row" justifyContent="center" sx={{ bgcolor: 'background.neutral', borderRadius: 1, px: 0.5 }}>
       <Stack direction="row" sx={{ ...hideScrollbar, py: 1 }}>
-        {navConfig.map((group) => (
-          <Stack key={group.subheader} direction="row" flexShrink={0}>
-            {group.items.map((list) => (
-              <NavListRoot key={list.title} list={list} />
-            ))}
-          </Stack>
-        ))}
+        {navConfig
+          .filter(group => {
+            if (group.role) {
+              if (user.fk_role == group.role) {
+                return true;
+              }
+              return false;
+            }
+
+            return true;
+          })
+          .map((group) => (
+            <Stack key={group.subheader} direction="row" flexShrink={0}>
+              {group.items
+                .filter(item => {
+                  if (item.role) {
+                    if (user.fk_role == item.role) {
+                      return true;
+                    }
+                    return false;
+                  }
+
+                  return true;
+                })
+                .map((list) => (
+                  <NavListRoot key={list.title} list={list} />
+                ))}
+            </Stack>
+          ))}
       </Stack>
     </Stack>
   );

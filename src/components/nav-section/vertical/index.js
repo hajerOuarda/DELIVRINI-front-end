@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { List, Box, ListSubheader } from '@mui/material';
 //
 import { NavListRoot } from './NavList';
+import useAuth from '../../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -28,25 +29,48 @@ NavSectionVertical.propTypes = {
 };
 
 export default function NavSectionVertical({ navConfig, isCollapse = false, ...other }) {
+  const { user } = useAuth();
+
   return (
     <Box {...other}>
-      {navConfig.map((group) => (
-        <List key={group.subheader} disablePadding sx={{ px: 2 }}>
-          <ListSubheaderStyle
-            sx={{
-              ...(isCollapse && {
-                opacity: 0,
-              }),
-            }}
-          >
-            {group.subheader}
-          </ListSubheaderStyle>
+      {navConfig
+        .filter(group => {
+          if (group.role) {
+            if (user.fk_role == group.role) {
+              return true;
+            }
+            return false;
+          }
 
-          {group.items.map((list) => (
-            <NavListRoot key={list.title} list={list} isCollapse={isCollapse} />
-          ))}
-        </List>
-      ))}
+          return true;
+        }).map((group) => (
+          <List key={group.subheader} disablePadding sx={{ px: 2 }}>
+            <ListSubheaderStyle
+              sx={{
+                ...(isCollapse && {
+                  opacity: 0,
+                }),
+              }}
+            >
+              {group.subheader}
+            </ListSubheaderStyle>
+
+            {group.items
+              .filter(item => {
+                if (item.role) {
+                  if (user.fk_role == item.role) {
+                    return true;
+                  }
+                  return false;
+                }
+
+                return true;
+              })
+              .map((list) => (
+                <NavListRoot key={list.title} list={list} isCollapse={isCollapse} />
+              ))}
+          </List>
+        ))}
     </Box>
   );
 }

@@ -21,7 +21,9 @@ const ICONS = {
   analytics: getIcon('ic_analytics'),
   dashboard: getIcon('ic_dashboard'),
 
-  restaurant: <Iconify icon={'ic:baseline-table-restaurant'} color="#DF3E30" width={32} height={32} />
+  restaurant: <Iconify icon={'ic:baseline-table-restaurant'} color="#DF3E30" width={32} height={32} />,
+  element: <Iconify icon={'healthicons:hot-meal'} color="#DF3E30" width={32} height={32} />
+
 };
 
 const navConfig = [
@@ -44,6 +46,7 @@ const navConfig = [
         title: 'restaurant',
         path: '/dashboard/restaurant',
         icon: ICONS.restaurant,
+        role: 'admin',
         children: [
           { title: 'list', path: '/dashboard/restaurant' },
           { title: 'category', path: '/dashboard/restaurantCategory' },
@@ -51,9 +54,21 @@ const navConfig = [
       },
       // USER
       {
+        title: 'element',
+        path: '/dashboard/element',
+        icon: ICONS.element,
+        role: 'chef',
+        children: [
+          { title: 'list', path: '/dashboard/element' },
+          { title: 'category', path: '/dashboard/mealCategory' },
+        ],
+      },
+      // USER
+      {
         title: 'user',
         path: '/dashboard/user',
         icon: ICONS.user,
+        role: 'admin',
         children: [
           { title: 'profile', path: '/dashboard/profile' },
           { title: 'list', path: '/dashboard/user' }
