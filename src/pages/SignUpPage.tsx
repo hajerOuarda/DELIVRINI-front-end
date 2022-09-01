@@ -1,8 +1,4 @@
-import { useEffect, useState } from "react";
-import * as Yup from "yup"
-import { useNavigate, Link as RouterLink } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { sendRegisterAction } from "../store/actions";
+import { Link as RouterLink } from "react-router-dom";
 // @mui
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
@@ -68,83 +64,12 @@ export default function SignUpPage() {
   const smUp = useResponsive('up', 'sm');
   const mdUp = useResponsive('up', 'md');
 
-  const navigate = useNavigate();
-  const [role, setRole] = useState('Client');
-  const isRegistered = useAppSelector((state) => state.authReducer.isRegistered);
-  // const isMailUsed = useAppSelector((state) => state.authReducer.userInfo);
-  const dispatch = useAppDispatch();
-  // const roles = ["Client", "DeliveryMan", "Chef"];
-  // const listRestaurants = useAppSelector((state) => state.RestaurantReducer.restaurantInfo);
-  const [restaurant, setRestaurant] = useState<any>("")
-
-  const initialValues: {
-    firstName: "";
-    lastName: "";
-    address: "";
-    phone: "";
-    zipCode: "";
-    street: "";
-    email: "";
-    password: "";
-    // role: ""
-  } = {
-    firstName: "",
-    lastName: "",
-    address: "",
-    phone: "",
-    zipCode: "",
-    street: "",
-    email: "",
-    password: "",
-    // role: ""
-  }
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("invalid email")
-      .required("This field is required!"),
-    password: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required("This field is required!"),
-    firstName: Yup.string().required("This field is required!"),
-    lastName: Yup.string().required("This field is required!"),
-    address: Yup.string().required("This field is required!"),
-    phone: Yup.string().required("This field is required!"),
-  });
-
-  const handleChangeRole = (e: any) => {
-    const selectedRole = e.target.value;
-    setRole(selectedRole);
-  }
-  const handleChangeRestaurant = (e: any) => {
-    const selectedResto = e.target.value;
-    setRestaurant(selectedResto)
-  }
-
-  const handleRegister = (formValue: {
-    firstName: string;
-    lastName: string;
-    address: string;
-    phone: string;
-    zipCode: string;
-    street: string;
-    email: string;
-    password: string;
-  }) => {
-    dispatch<any>(sendRegisterAction({ ...formValue }, role, restaurant))
-  }
-
-  useEffect(() => {
-    if (isRegistered) {
-      navigate(paths.signin);
-    }
-  }, [isRegistered, navigate]);
-  console.log("rest", restaurant);
-
   return (
     <Page title="Register">
       <RootStyle>
         <HeaderStyle>
           <Logo />
-          
+
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Already have an account? {''}
@@ -181,7 +106,7 @@ export default function SignUpPage() {
               <Link underline="always" color="text.primary" href="#">
                 Terms of Service
               </Link>
-              {''}and{''}
+              {' '}and{' '}
               <Link underline="always" color="text.primary" href="#">
                 Privacy Policy
               </Link>

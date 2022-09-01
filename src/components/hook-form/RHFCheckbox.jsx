@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 // form
 import { useFormContext, Controller } from 'react-hook-form';
 // @mui
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { Checkbox, FormGroup, FormControlLabel } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
 RHFCheckbox.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 
 export function RHFCheckbox({ name, ...other }) {
@@ -30,8 +30,8 @@ export function RHFCheckbox({ name, ...other }) {
 // ----------------------------------------------------------------------
 
 RHFMultiCheckbox.propTypes = {
-  name: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
+  name: PropTypes.string,
+  options: PropTypes.arrayOf(PropTypes.string),
 };
 
 export function RHFMultiCheckbox({ name, options, ...other }) {
@@ -49,14 +49,14 @@ export function RHFMultiCheckbox({ name, options, ...other }) {
           <FormGroup>
             {options.map((option) => (
               <FormControlLabel
-                key={option.value}
+                key={option}
                 control={
                   <Checkbox
-                    checked={field.value.includes(option.value)}
-                    onChange={() => field.onChange(onSelected(option.value))}
+                    checked={field.value.includes(option)}
+                    onChange={() => field.onChange(onSelected(option))}
                   />
                 }
-                label={option.label}
+                label={option}
                 {...other}
               />
             ))}

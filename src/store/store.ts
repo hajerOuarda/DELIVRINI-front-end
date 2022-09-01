@@ -17,8 +17,9 @@ const store = createStore(
   persistedReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
-let persistor = persistStore(store)
-export { store, persistor };
+let persistor = persistStore(store);
+const { dispatch } = store;
+export { store, persistor, dispatch };
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

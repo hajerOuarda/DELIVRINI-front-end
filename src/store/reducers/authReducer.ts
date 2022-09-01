@@ -26,6 +26,7 @@ export default function authReducer(state = initialState, action: any) {
       return {
         ...state,
         isLoggedIn: false,
+        isRegistered: false,
         userInfo: payload
       };
     case authenticationActions.LOGIN_SUCCESS:

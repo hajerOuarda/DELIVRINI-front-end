@@ -11,7 +11,7 @@ const sendLogin = (email: string, password: string): Promise<any> => {
       })
       .then((response) => {
         if (response.data.accessToken) {
-          localStorage.setItem("user_role", response.data.user.fk_role);
+          localStorage.setItem("user_role", (response.data.user?.fk_role || 'client'));
           localStorage.setItem("user", JSON.stringify(response.data));
           localStorage.setItem("token", response.data.accessToken);
         }

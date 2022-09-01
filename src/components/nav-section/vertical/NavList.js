@@ -6,6 +6,7 @@ import { List, Collapse } from '@mui/material';
 //
 import { NavItemRoot, NavItemSub } from './NavItem';
 import { getActive } from '..';
+import useAuth from '../../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -16,6 +17,7 @@ NavListRoot.propTypes = {
 
 export function NavListRoot({ list, isCollapse }) {
   const { pathname } = useLocation();
+  const { user } = useAuth();
 
   const active = getActive(list.path, pathname);
 
@@ -31,7 +33,18 @@ export function NavListRoot({ list, isCollapse }) {
         {!isCollapse && (
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {(list.children || []).map((item) => (
+              {(list.children || [])
+              .filter(item => {
+                if (item.role) {
+                  if (user && user.fk_role == item.role) {
+                    return true;
+                  }
+                  return false;
+                }
+
+                return true;
+              })
+              .map((item) => (
                 <NavListSub key={item.title} list={item} />
               ))}
             </List>
@@ -52,6 +65,7 @@ NavListSub.propTypes = {
 
 function NavListSub({ list }) {
   const { pathname } = useLocation();
+  const { user } = useAuth();
 
   const active = getActive(list.path, pathname);
 
@@ -66,7 +80,18 @@ function NavListSub({ list }) {
 
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding sx={{ pl: 3 }}>
-            {(list.children || []).map((item) => (
+            {(list.children || [])
+            .filter(item => {
+              if (item.role) {
+                if (user && user.fk_role == item.role) {
+                  return true;
+                }
+                return false;
+              }
+
+              return true;
+            })
+            .map((item) => (
               <NavItemSub key={item.title} item={item} active={getActive(item.path, pathname)} />
             ))}
           </List>

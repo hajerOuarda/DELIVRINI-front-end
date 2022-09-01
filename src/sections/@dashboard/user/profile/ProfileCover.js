@@ -73,7 +73,7 @@ export default function ProfileCover({ myProfile }) {
           }}
         >
           <Typography variant="h4">{user?.name}</Typography>
-          <Typography sx={{ opacity: 0.72 }}>{sentenceCase(user?.fk_role)}</Typography>
+          <Typography sx={{ opacity: 0.72 }}>{sentenceCase(user?.fk_role || 'client')}</Typography>
         </Box>
       </InfoStyle>
       <Image alt="profile cover" src={cover} sx={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} />

@@ -52,7 +52,7 @@ const navConfig = [
           { title: 'category', path: '/dashboard/restaurantCategory' },
         ],
       },
-      // USER
+      // Element
       {
         title: 'element',
         path: '/dashboard/element',
@@ -61,6 +61,17 @@ const navConfig = [
         children: [
           { title: 'list', path: '/dashboard/element' },
           { title: 'category', path: '/dashboard/mealCategory' },
+        ],
+      },
+      // E-COMMERCE
+      {
+        title: 'e-commerce',
+        path: '/app/e-commerce',
+        icon: ICONS.cart,
+        children: [
+          { title: 'shop', path: '/app/e-commerce', role: 'client' },
+          { title: 'list', path: '/app/e-commerce/list-product', role: 'admin' },
+          { title: 'checkout', path: '/app/e-commerce/checkout', role: 'client' },
         ],
       },
       // USER

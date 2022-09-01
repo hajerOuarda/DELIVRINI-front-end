@@ -1,12 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { sentenceCase } from 'change-case';
 // @mui
-import { useTheme } from '@mui/material/styles';
 import { TableRow, Checkbox, TableCell, Typography, MenuItem } from '@mui/material';
 // components
-import Label from '../../../../components/Label';
-import Image from '../../../../components/Image';
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
 //
@@ -22,8 +18,6 @@ RestaurantCategoryTableRow.propTypes = {
 };
 
 export default function RestaurantCategoryTableRow({ row, selected, onEditRow, onSelectRow, onDeleteRow }) {
-  const theme = useTheme();
-
   const { name, description } = row;
 
   const [openMenu, setOpenMenuActions] = useState(null);

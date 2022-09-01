@@ -4,7 +4,7 @@ import CustomizedSnackbars from "../modules/Bar/CustomizedSnackBar";
 import ResetPasswordPage from "../pages/ResetPasswordPage";
 import SignInPage from "../pages/SigninPage";
 import SignUpPage from "../pages/SignUpPage";
-import { routes, paths } from "../utils/enums/routes";
+import { routes, paths, app_routes } from "../utils/enums/routes";
 import { AuthenticatedRoute } from "./protectedRoutes";
 // theme
 import ThemeProvider from '../theme';
@@ -19,6 +19,7 @@ import { ProgressBarStyle } from "../components/ProgressBar";
 import MotionLazyContainer from '../components/animate/MotionLazyContainer';
 import NotistackProvider from '../components/NotistackProvider';
 import { ChartStyle } from "../components/chart";
+import AppLayout from "../layouts/app";
 
 export default function App() {
   return (
@@ -35,6 +36,19 @@ export default function App() {
               element: <DashboardLayout />,
               children: [
                 ...routes.map(({ path, element }) => {
+                  return {
+                    path: path, element: <AuthenticatedRoute>
+                      <ReducerLayout> {element}</ReducerLayout>
+                    </AuthenticatedRoute>
+                  }
+                })
+              ],
+            },
+            {
+              path: '/app',
+              element: <AppLayout />,
+              children: [
+                ...app_routes.map(({ path, element }) => {
                   return {
                     path: path, element: <AuthenticatedRoute>
                       <ReducerLayout> {element}</ReducerLayout>

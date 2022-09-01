@@ -45,7 +45,12 @@ export default function LoginForm(props) {
 
   const onSubmit = async (data) => {
     // send data to service
-    await handleLogin(data);
+    const {user} = await handleLogin(data);
+
+    if (user && "client" === user.fk_role) {
+      navigate('/app', { replace: true });
+      return;
+    }
     navigate('/', { replace: true });
   };
 

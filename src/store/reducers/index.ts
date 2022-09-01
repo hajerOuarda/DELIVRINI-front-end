@@ -7,6 +7,7 @@ import MealCategoryReducer from "./mealCategoryReducer"
 import ElementReducer from './elementReducer'
 import UserReducer from './userReducer'
 import IngredientsReducer from './ingredientsReducer'
+import productReducer from '../slices/product';
 
 export default combineReducers({
     authReducer,
@@ -16,6 +17,7 @@ export default combineReducers({
     MealCategoryReducer,
     ElementReducer,
     IngredientsReducer,
-    snackbar: SnackBarReducer
+    snackbar: SnackBarReducer,
+    product: productReducer,
 });
 

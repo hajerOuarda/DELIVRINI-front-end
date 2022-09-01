@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import { NavItemRoot, NavItemSub } from './NavItem';
 import { PaperStyle } from './style';
 import { getActive } from '..';
+import useAuth from '../../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -17,6 +18,7 @@ NavListRoot.propTypes = {
 
 export function NavListRoot({ list }) {
   const menuRef = useRef(null);
+  const { user } = useAuth();
 
   const { pathname } = useLocation();
 
@@ -63,7 +65,18 @@ export function NavListRoot({ list }) {
             onMouseLeave: handleClose,
           }}
         >
-          {(list.children || []).map((item) => (
+          {(list.children || [])
+          .filter(item => {
+            if (item.role) {
+              if (user && user.fk_role == item.role) {
+                return true;
+              }
+              return false;
+            }
+
+            return true;
+          })
+          .map((item) => (
             <NavListSub key={item.title} list={item} />
           ))}
         </PaperStyle>
@@ -85,6 +98,7 @@ NavListSub.propTypes = {
 
 function NavListSub({ list }) {
   const menuRef = useRef(null);
+  const { user } = useAuth();
 
   const { pathname } = useLocation();
 
@@ -124,7 +138,18 @@ function NavListSub({ list }) {
             onMouseLeave: handleClose,
           }}
         >
-          {(list.children || []).map((item) => (
+          {(list.children || [])
+          .filter(item => {
+            if (item.role) {
+              if (user && user.fk_role == item.role) {
+                return true;
+              }
+              return false;
+            }
+
+            return true;
+          })
+          .map((item) => (
             <NavListSub key={item.title} list={item} />
           ))}
         </PaperStyle>

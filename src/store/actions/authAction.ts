@@ -23,9 +23,7 @@ const sendLoginAction =
           return data;
         })
         .catch((error) => {
-          const message =
-            error.message ||
-            error.toString();
+          const message = (error && error.message) || error || 'Auth errors';
           dispatch({
             type: authenticationActions.LOGIN_FAIL,
             payload: message,
@@ -54,9 +52,7 @@ const sendRegisterAction =
           return data;
         })
         .catch((error) => {
-          const message =
-            error.message ||
-            error.toString();
+          const message = (error && error.message) || error || 'Auth errors';
           dispatch({
             type: authenticationActions.REGISTER_FAIL,
             payload: message,
