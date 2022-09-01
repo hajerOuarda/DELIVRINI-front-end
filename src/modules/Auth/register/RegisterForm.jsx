@@ -71,8 +71,8 @@ export default function RegisterForm() {
     }
 
     try {
-      await dispatch(sendRegisterAction({ ...formValue }, role, restaurant));
-      if (isRegistered) {
+      const result = await dispatch(sendRegisterAction({ ...formValue }, role, restaurant));
+      if (isRegistered || result) {
         navigate('/', { replace: true });
       } else {
         if (isMountedRef.current) {
@@ -143,7 +143,7 @@ export default function RegisterForm() {
           name="restaurant"
           label="Restaurant"
           onChange={handleChangeRestaurant}>
-            <option></option>
+          <option></option>
           {RESTAURANT_LIST.map((restaurant) => (
             <option key={restaurant.id} value={restaurant.name}>
               {restaurant.name}
